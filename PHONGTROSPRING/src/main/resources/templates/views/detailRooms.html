@@ -43,15 +43,15 @@
 						<div id="show_image">
 							<img id="image_main" alt="" src="">
 						</div>
-						<div class="imageRoom" th:each="image : ${image}">
-							<img th:src="@{${image.imageUrl}}" alt="Room Image" />
-						</div>
-
+					<div class="imageRoom" th:each="item : ${image}">
+					    <img th:src="'data:image/png;base64,' + ${item}" alt="Image not found" />
+					</div>
 						<div class="wrapper_button">
 							<button id="next_image">
 								<i class="fa-solid fa-chevron-right"></i>
 							</button>
 						</div>
+						
 					</div>
 
 					<!-- Title star -->
