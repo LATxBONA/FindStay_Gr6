@@ -97,7 +97,6 @@ public class ListingsController {
 			phongtro.setObject(listings.get(i).getObject());
 			
 			
-			
 			listphongtrocoanh.add(phongtro);
 			
 		}

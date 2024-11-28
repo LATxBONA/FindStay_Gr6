@@ -166,23 +166,25 @@ public class ServicePostNew {
 	}
 
 	/*
-	 * public byte[] getanh(int id) { return
-	 * ImagesRepository.findById(id).orElseThrow(() -> new
+	 * public byte[] get1anh(int dunglamtcuoiid) { return
+	 * ImagesRepository.findById(dunglamtcuoiid).orElseThrow(() -> new
 	 * RuntimeException("Image not found")).getImageUrl(); }
 	 */
 	public List<byte[]> getanh(int id) {
-		Listings listting = ListingsRepository.findById(id).orElseThrow(()-> new RuntimeException("Tìm không có listting"));
+		Listings listting = ListingsRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Tìm không có listting"));
 		List<Images> listimage = ImagesRepository.findByListing(listting);
 		List<byte[]> listurl = new ArrayList<>();
-		for(Images img : listimage) {
+		for (Images img : listimage) {
 			listurl.add(img.getImageUrl());
 		}
+
 		return listurl;
 	}
 
 	public BigDecimal tinhtien(RequestThanhToan request) {
 		BigDecimal tien = BigDecimal.ZERO;
-		if(request.getLoaitin()!=0) {
+		if (request.getLoaitin() != 0) {
 			if (request.getGoitime().equals("ngay")) {
 				tien.valueOf(request.getLoaitin() * request.getSongay());
 			} else if (request.getGoitime().equals("tuan")) {
