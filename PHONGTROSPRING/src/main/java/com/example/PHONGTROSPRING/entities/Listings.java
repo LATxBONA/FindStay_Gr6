@@ -60,7 +60,7 @@ public class Listings {
 	@Column(nullable = true)
 	private LocalDateTime expiryDate;
 
-	@Column(nullable = true)
+	//@Column(nullable = true)
 	private LocalDateTime updatedAt;
 
 	@Column(name = "postType")

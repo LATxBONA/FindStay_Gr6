@@ -19,7 +19,6 @@ import com.example.PHONGTROSPRING.service.ListingsService;
 import com.example.PHONGTROSPRING.service.ServicePostNew;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 public class ListingsController {
 
@@ -28,7 +27,7 @@ public class ListingsController {
 
 	@Autowired
 	private ImagesService imageService;
-	
+
 	@Autowired
 	private ServicePostNew ServicePostNew;
 
@@ -41,10 +40,16 @@ public class ListingsController {
 	public String detailRoom(@PathVariable int roomId, Model model) {
 
 		// Tin chính
+
+		List<String> listanh = new ArrayList<>();
+		for (byte[] by : ServicePostNew.getanh(roomId)) {
+			listanh.add(Base64.getEncoder().encodeToString(by));
+		}
+		
 		model.addAttribute("listDescription",
 				listingsService.cutStringDescription(listingsService.getRoomById(roomId).getDescription()));
 		model.addAttribute("room", listingsService.getRoomById(roomId));
-		model.addAttribute("image", imageService.getImageById(roomId));
+		model.addAttribute("image", listanh);
 		model.addAttribute("time", listingsService.date(listingsService.getRoomById(roomId).getCreatedAt()));
 
 		// Tin nổi bật
@@ -65,19 +70,18 @@ public class ListingsController {
 
 	@GetMapping("/phongtro")
 	public String PhongtroInfo(Model model) {
-	
+
 		// Lấy danh sách phòng từ service
 		List<Listings> listings = listingsService.getAllListings();
 		List<phongtroresponse> listphongtrocoanh = new ArrayList<phongtroresponse>();
-		for(int i=0;i<listings.size();i++) {
+		for (int i = 0; i < listings.size(); i++) {
 			List<byte[]> imageBytes = ServicePostNew.getanh(listings.get(i).getItemId());
 
 			List<String> listurlimg = new ArrayList<String>();
-			for(byte[] img : imageBytes) {
-				listurlimg.add("data:image/jpg;base64,"+ Base64.getEncoder().encodeToString(img));
+			for (byte[] img : imageBytes) {
+				listurlimg.add("data:image/jpg;base64," + Base64.getEncoder().encodeToString(img));
 			}
-			
-			
+
 			phongtroresponse phongtro = new phongtroresponse();
 			phongtro.setListings(listurlimg);
 			phongtro.setItemId(listings.get(i).getItemId());
@@ -95,20 +99,20 @@ public class ListingsController {
 			phongtro.setPostType(listings.get(i).getPostType());
 			phongtro.setStatus(listings.get(i).getStatus());
 			phongtro.setObject(listings.get(i).getObject());
-			
-			
+
 			listphongtrocoanh.add(phongtro);
-			
+
 		}
-		
-		//String base64Image = "data:image/png;base64," + Base64.getEncoder().encodeToString(imageBytes);
+
+		// String base64Image = "data:image/png;base64," +
+		// Base64.getEncoder().encodeToString(imageBytes);
 		/*
 		 * model.addAttribute("urlimg", listurlimg);
 		 * System.out.println("anh ne "+listurlimg);
 		 */
 		// Đưa danh sách vào model để truyền qua HTML
 		model.addAttribute("listings", listphongtrocoanh);
-		//System.out.println("data co hoac khong " + listphongtrocoanh);
+		// System.out.println("data co hoac khong " + listphongtrocoanh);
 
 		return "views/phongtro";
 	}
@@ -174,7 +178,5 @@ public class ListingsController {
 	 * "data:image/png;base64," + Base64.getEncoder().encodeToString(imageBytes);
 	 * model.addAttribute("urlimg", listurlimg); return "views/phongtro"; }
 	 */
-	
-
 
 }
