@@ -113,6 +113,58 @@ public class ListingsController {
 
 		return "views/phongtro";
 	}
+	
+	
+	@GetMapping("/timnguoioghep")
+	public String TimNguoiOGhepInfo(Model model) {
+	
+		// Lấy danh sách phòng từ service
+		List<Listings> listings = listingsService.getAllListings();
+		List<phongtroresponse> listphongtrocoanh = new ArrayList<phongtroresponse>();
+		for(int i=0;i<listings.size();i++) {
+			List<byte[]> imageBytes = ServicePostNew.getanh(listings.get(i).getItemId());
+
+			List<String> listurlimg = new ArrayList<String>();
+			for(byte[] img : imageBytes) {
+				listurlimg.add("data:image/jpg;base64,"+ Base64.getEncoder().encodeToString(img));
+			}
+			
+			
+			phongtroresponse phongtro = new phongtroresponse();
+			phongtro.setListings(listurlimg);
+			phongtro.setItemId(listings.get(i).getItemId());
+			phongtro.setUser(listings.get(i).getUser());
+			phongtro.setTitle(listings.get(i).getTitle());
+			phongtro.setDescription(listings.get(i).getDescription());
+			phongtro.setPrice(listings.get(i).getPrice());
+			phongtro.setArea(listings.get(i).getArea());
+			phongtro.setLocation(listings.get(i).getLocation());
+			phongtro.setAddress(listings.get(i).getAddress());
+			phongtro.setRoomType(listings.get(i).getRoomType());
+			phongtro.setCreatedAt(listings.get(i).getCreatedAt());
+			phongtro.setExpiryDate(listings.get(i).getExpiryDate());
+			phongtro.setUpdatedAt(listings.get(i).getUpdatedAt());
+			phongtro.setPostType(listings.get(i).getPostType());
+			phongtro.setStatus(listings.get(i).getStatus());
+			phongtro.setObject(listings.get(i).getObject());
+			
+			
+			
+			listphongtrocoanh.add(phongtro);
+			
+		}
+		
+		//String base64Image = "data:image/png;base64," + Base64.getEncoder().encodeToString(imageBytes);
+		/*
+		 * model.addAttribute("urlimg", listurlimg);
+		 * System.out.println("anh ne "+listurlimg);
+		 */
+		// Đưa danh sách vào model để truyền qua HTML
+		model.addAttribute("listings", listphongtrocoanh);
+		//System.out.println("data co hoac khong " + listphongtrocoanh);
+
+		return "views/timnguoioghep";
+	}
 
 	/*
 	 * @GetMapping("/phongtro") public String getanh(@PathVariable int id, Model
