@@ -116,11 +116,11 @@ public class ServicePostNew {
 		Listings listing = new Listings();
 		LocalDateTime localdate = LocalDateTime.now();
 		if (requesttt.getGoitime().equals("ngay")) {
-			localdate.plusDays(requesttt.getSongay());
+			localdate=localdate.plusDays(requesttt.getSongay());
 		} else if (requesttt.getGoitime().equals("tuan")) {
-			localdate.plusDays(requesttt.getSongay() * 7);
+			localdate=localdate.plusDays(requesttt.getSongay() * 7);
 		} else if (requesttt.getGoitime().equals("thang")) {
-			localdate.plusDays(requesttt.getSongay() * 30);
+			localdate=localdate.plusDays(requesttt.getSongay() * 30);
 		}
 
 		User user = new User();
