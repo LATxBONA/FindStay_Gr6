@@ -152,12 +152,12 @@ strong {
 	width: 100%;
 	display: flex;
 	justify-content: center;
-	margin-bottom: 5rem;
+	margin-bottom: 2rem;
 }
 
 #hotrochunha>div {
-	width: 66%;
-	height: 45vh;
+	width: 80%;
+	height: 70vh;
 	display: flex;
 	align-items: center;
 	background-color: white;

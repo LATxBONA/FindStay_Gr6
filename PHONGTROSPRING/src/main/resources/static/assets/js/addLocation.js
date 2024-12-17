@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
-	let i = 1;
+	/*let i = 1;
 	let j = 1;
-	let k = 1;
+	let k = 1;*/
 	let sum_ward = 0;
 
 	// Lấy dữ liệu từ file JSON
@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", function() {
 					url: '/addlocationCity/' + encodeURIComponent(city.Name.trim()),
 					method: 'GET',
 					success: function(response) {
-						console.log(i + '. Lưu ' + city.Name + ':', response);
-						i++;
+						/*console.log(i + '. Lưu ' + city.Name + ':', response);
+						i++;*/
 
 						let districts = city.Districts;
 
@@ -37,8 +37,8 @@ document.addEventListener("DOMContentLoaded", function() {
 								url: '/saveDistricts/' + city.Name + '/' + district.Name,
 								method: 'GET',
 								success: function(response) {
-									console.log(j + '.	Lưu ' + district.Name + ' của ' + city.Name + ':', response);
-									j++;
+									/*console.log(j + '.	Lưu ' + district.Name + ' của ' + city.Name + ':', response);
+									j++;*/
 
 									let wards = district.Wards;
 
@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", function() {
 											url: '/saveWards/' + district.Name + '/' + ward.Name,
 											method: 'GET',
 											success: function(response) {
-												console.log(k + ".		Lưu " + ward.Name + ' của ' + district.Name + ':', response);
-												k++;
+												/*console.log(k + ".		Lưu " + ward.Name + ' của ' + district.Name + ':', response);
+												k++;*/
 											},
 											error: function(xhr, status, error) {
 												console.error('Lỗi khi gửi dữ liệu:', error);

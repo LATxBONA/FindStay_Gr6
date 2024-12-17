@@ -26,5 +26,11 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer> {
 	int getQuantityPost();
 	
 	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, l.postType, l.area) FROM Listings l WHERE l.roomType.roomTypeId = :roomtype_id AND l.location_city.city_id = :city_id AND l.status = 'Đã duyệt' ORDER BY l.postType DESC, l.createdAt DESC")
-	List<ListingsResponse> getListings(@Param("roomtype_id") int roomtype_id, @Param("city_id") int city_id);
+	Page<ListingsResponse> getListings(@Param("roomtype_id") int roomtype_id, @Param("city_id") int city_id, Pageable pageable);
+	
+	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, l.postType, l.area) FROM Listings l WHERE l.itemId = :item_id")
+	ListingsResponse getListingsByItemId(@Param("item_id")int item_id);
+	
+	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, l.postType, l.area) FROM Listings l WHERE l.roomType.roomTypeId = :roomtype_id AND l.status = 'Đã duyệt' ORDER BY l.postType DESC, l.createdAt DESC")
+	Page<ListingsResponse> getListingsNationWide(@Param("roomtype_id") int roomtype_id, Pageable pageable);
 }

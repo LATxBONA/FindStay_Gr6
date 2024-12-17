@@ -12,12 +12,12 @@
 	header>div>a>i {
 		font-size: 4vh !important;
 	}
-	header>div>a>ul {
+	/* header>div>a>ul {
 		margin-top: 13% !important;
-	}
-	.header-account:hover .header-account-menu {
+	} */
+	/* .header-account:hover .header-account-menu {
 		margin-top: 15% !important;
-	}
+	} */
 	header>div:nth-child(5)>a {
 		width: 65% !important;
 		padding: 8% 0 !important;
@@ -37,13 +37,10 @@
 	}
 	.footer-menu>ol>li:first-child, .footer-infor>ol>li:first-child,
 		.footer-company {
-		font-size: 2.3vh !important;
+		font-size: 2.5vh !important;
 	}
-	.footer-menu>ol>li>a, .footer-infor>ol>li>a {
-		font-size: 2vh !important;;
-	}
-	.footer-system>p {
-		font-size: 2vh !important;
+	.footer-menu>ol>li>a, .footer-infor>ol>li>a, .footer-system>p {
+		font-size: 2.2vh !important;;
 	}
 	.footer-infor-company>p:not(.footer-infor-company>p:first-child) {
 		font-size: 1.8vh !important

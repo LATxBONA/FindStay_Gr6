@@ -1,0 +1,53 @@
+@charset "UTF-8";
+
+
+.wrapper_fovorite_page {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding: 1rem 0;
+}
+
+.wrapper_fovorite_page>.wrapper {
+	width: 90%;
+	display: flex;
+}
+
+.wrapper_list_favorite {
+	width: 75%;
+}
+
+.wrapper_fovorite_page>.wrapper>.wrapper_search_part_2 {
+	width: 25%;
+}
+
+.wrapper_list_favorite>div {
+	padding: 1rem .5rem; 
+	margin-top : 1rem;
+	width: 99%;
+	background-color: white;
+	border-radius: 5px;
+	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+	margin-top: 1rem;
+}
+
+.img_heart {
+	width: 25vh;
+}
+
+.wrapper_heart {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-bottom: 29%;
+}
+
+.content_list_empty{
+	font-weight: 600;
+	font-size: 4vh;
+	color: #E94646;
+}
+
+.btn_favorite:active img{
+	transform: scale(0.8);
+}

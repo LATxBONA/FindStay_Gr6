@@ -82,7 +82,11 @@ public class ListingsService {
 		return listingRepository.getQuantityPost();
 	}
 
-	public List<ListingsResponse> getListings(int roomtype_id, int city_id) {
-		return listingRepository.getListings(roomtype_id, city_id);
+	public Page<ListingsResponse> getListings(int roomtype_id, int city_id, int page, int size) {
+		return listingRepository.getListings(roomtype_id, city_id, PageRequest.of(page, size));
+	}
+
+	public Page<ListingsResponse> getListingsNationWide(int roomtype_id, int page, int size) {
+		return listingRepository.getListingsNationWide(roomtype_id, PageRequest.of(page, size));
 	}
 }

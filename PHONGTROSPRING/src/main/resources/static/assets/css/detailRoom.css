@@ -42,7 +42,7 @@
 
 .wrapper_images {
 	width: 100%;
-	height: 30rem;
+	height: 20rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -115,7 +115,7 @@
 
 .wrapper_infor_title{
 	margin: .5rem 0;
-	font-size: 2.5vh;
+	font-size: 4.5vh;
 	font-weight: 600;
 }
 
@@ -140,7 +140,7 @@
 }
 
 .img-star{
-	width: 2vh;
+	width: 4vh;
 }
 
 .detail_price_area_id,

@@ -82,14 +82,6 @@ header>div>a>ul>li:last-child {
 	pointer-events: auto;
 }
 
-.margin_top_first {
-	margin-top: 7%;
-}
-
-.margin_top_second {
-	margin-top: 9.5%;
-}
-
 .header-posting-free>a {
 	width: 45%;
 	color: white;
@@ -187,4 +179,8 @@ header>div>a>ul>li:last-child {
 .show_header_popup {
 	opacity: 1 !important;
 	z-index: 100 !important;
+}
+
+.active_header{
+	margin-top: 15% !important;
 }

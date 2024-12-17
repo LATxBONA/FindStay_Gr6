@@ -53,4 +53,12 @@ document.addEventListener("DOMContentLoaded", function() {
 	popup.addEventListener("click", function(e) {
 		e.stopPropagation();
 	});
+
+	var headerAccountMenus = document.getElementById('header-account-menu');
+
+	console.log(header_fullname)
+	
+	if (header_fullname) {
+		headerAccountMenus.classList.add('active_header');
+	}
 })

@@ -58,7 +58,9 @@ public class ListingsController {
 		List<ListingsResponse> list = new ArrayList<>();
 		
 		for (ListingsResponse item : listingResponse) {
-			item.setImageUrl(listingsService.findImageByItemId(item.getItemId()).get(0));
+			if(listingsService.findImageByItemId(item.getItemId()).size() > 0) {
+				item.setImageUrl(listingsService.findImageByItemId(item.getItemId()).get(0));
+			}
 			list.add(item);
 		}
 		

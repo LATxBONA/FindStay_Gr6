@@ -2,18 +2,19 @@ package com.example.PHONGTROSPRING.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.example.PHONGTROSPRING.entities.LocationsDistrict;
+import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.response.ListingsResponse;
 import com.example.PHONGTROSPRING.service.*;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class FooterController {
@@ -29,6 +30,9 @@ public class FooterController {
 
 	@Autowired
 	private RoomTypesService roomTypesService;
+
+	@Autowired
+	private FavoritePageService favoriteService;
 
 	@GetMapping("/footer/{page}")
 	public String redirectPage(@PathVariable String page) {
@@ -65,9 +69,40 @@ public class FooterController {
 		}
 	}
 
+	private String convertRoomType(String typeroom) {
+		switch (typeroom) {
+		case "phongtro":
+			return "Phòng trọ";
+		case "thuenha":
+			return "Nhà nguyên căn";
+		case "thuecanho":
+			return "Căn hộ";
+		case "thuematbang":
+			return "Mặt bằng";
+		case "oghep":
+			return "Ở Ghép";
+		default:
+			return "Phòng trọ";
+		}
+	}
+
+	private String convertCityName(String city) {
+		switch (city) {
+		case "HCM":
+			return "Thành phố Hồ Chí Minh";
+		case "HN":
+			return "Hà Nội";
+		case "BD":
+			return "Tỉnh Bình Định";
+		default:
+			return "Toàn quốc";
+		}
+	}
+
 	@GetMapping("/{typeroom}/{city}")
 	public String danhSachPhongTro(@PathVariable String typeroom, @PathVariable String city,
-			@RequestParam(value = "orderby", defaultValue = "mac-dinh") String orderby, Model model) {
+			@RequestParam(value = "orderby", defaultValue = "mac-dinh") String orderby,
+			@RequestParam(value = "page", defaultValue = "0") int page, Model model, HttpSession session) {
 
 		String typeroom_default = typeroom;
 		String city_default = city;
@@ -75,27 +110,8 @@ public class FooterController {
 		model.addAttribute("city_default", city_default);
 		model.addAttribute("typeroom_default", typeroom_default);
 
-		if (typeroom.equals("phongtro")) {
-			typeroom = "Phòng trọ ";
-		} else if (typeroom.equals("thuenha")) {
-			typeroom = "Nhà nguyên căn ";
-		} else if (typeroom.equals("thuecanho")) {
-			typeroom = "Căn hộ ";
-		} else if (typeroom.equals("thuematbang")) {
-			typeroom = "Mặt bằng ";
-		} else if (typeroom.equals("oghep")) {
-			typeroom = "Ở Ghép ";
-		}
-
-		if (city.equals("HCM")) {
-			city = "Thành phố Hồ Chí Minh";
-		} else if (city.equals("HN")) {
-			city = "Hà Nội";
-		} else if (city.equals("BD")) {
-			city = "Tỉnh Bình Định";
-		}
-
-		int city_id = locationsCityService.findByCityName(city);
+		typeroom = convertRoomType(typeroom);
+		city = convertCityName(city);
 
 		// Tiêu đề page
 		model.addAttribute("title", "Cho thuê " + typeroom + city);
@@ -106,28 +122,73 @@ public class FooterController {
 		// Số lượng bài đăng
 		model.addAttribute("quantity_post", listingsService.getQuantityPost());
 
-		// District của city tương ứng
-		model.addAttribute("list_district",
-				UtitilyService.changeDistrictName(locationsDistrictService.getDistrict(city_id)));
-
 		int roomtype_id = roomTypesService.findRoomTypeByName(typeroom);
-		
-		System.out.println(listingsService.getListings(roomtype_id, city_id).size());
 
-		model.addAttribute("list_room", setImageForListingsResponse(listingsService.getListings(roomtype_id, city_id)));
+		if (page - 1 < 0) {
+			page = 0;
+		} else {
+			page -= 1;
+		}
+
+		// favorite heart
+		User user = (User) session.getAttribute("user");
+		if (user != null) {
+			model.addAttribute("list_favorite", favoriteService.findByUserId(user.getUserId()));
+		}
+
+		int totalPage = 0;
+		Page<ListingsResponse> listing = null;
+
+		if (city.equals("Toàn quốc")) {
+
+			listing = listingsService.getListingsNationWide(roomtype_id, page, 15);
+			totalPage = listing.getTotalPages();
+			
+		} else {
+			int city_id = locationsCityService.findByCityName(city);
+
+			// District của city tương ứng
+			model.addAttribute("list_district",
+					UtitilyService.changeDistrictName(locationsDistrictService.getDistrict(city_id)));
+
+			listing = listingsService.getListings(roomtype_id, city_id, page, 15);
+			totalPage = listing.getTotalPages();
+		}
+		
+		model.addAttribute("list_room", setImageForListingsResponse(listing));
+		model.addAttribute("page", page);
+		model.addAttribute("totalPage", totalPage);
+
+		int prePage = page - 1;
+		int nextPage = page + 1;
+
+		if (page < 1) {
+			prePage = 0;
+			nextPage = page + 2;
+		}
+
+		if (page == totalPage - 1) {
+			nextPage = totalPage - 1;
+			prePage = page - 2;
+		}
+
+		model.addAttribute("prePage", prePage);
+		model.addAttribute("nextPage", nextPage);
 
 		return "views/ListRoomsSearchFromFooter";
 	}
-	
-	//set ảnh cho từng đối tượng listingsResponse
-		public List<ListingsResponse> setImageForListingsResponse(List<ListingsResponse> listingResponse){
-			List<ListingsResponse> list = new ArrayList<>();
-			
-			for (ListingsResponse item : listingResponse) {
+
+	// set ảnh cho từng đối tượng listingsResponse
+	public List<ListingsResponse> setImageForListingsResponse(Page<ListingsResponse> listingResponse) {
+		List<ListingsResponse> list = new ArrayList<>();
+
+		for (ListingsResponse item : listingResponse) {
+			if (listingsService.findImageByItemId(item.getItemId()).size() > 0) {
 				item.setImageUrl(listingsService.findImageByItemId(item.getItemId()).get(0));
-				list.add(item);
 			}
-			
-			return list;
+			list.add(item);
 		}
+
+		return list;
+	}
 }

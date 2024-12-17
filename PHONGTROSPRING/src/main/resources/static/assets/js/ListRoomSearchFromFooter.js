@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 	listItems.forEach(function(item) {
 		if (item.classList.contains(lastSegment)) {
-			item.classList.add('active');
+			item.classList.add('active_menu');
 
 			var anchor = item.querySelector('a');
 			if (anchor) {
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 			// Kiểm tra loại nút được nhấn
 			if (button.classList.contains('btn-phone')) {
-				var phoneText = document.querySelector('.btn-phone').textContent;  
+				var phoneText = document.querySelector('.btn-phone').textContent;
 				window.location.href = "tel:+84" + phoneText.substring(1);
 			} else if (button.classList.contains('btn-zalo')) {
 				var phone = button.getAttribute('data-phone');
@@ -43,4 +43,19 @@ document.addEventListener("DOMContentLoaded", function() {
 		});
 	});
 
+	document.querySelectorAll('.item_room_favorite_1, .item_room_favorite_2').forEach(button => {
+		button.addEventListener('click', function(event) {
+			event.stopPropagation(); // Ngừng sự kiện lan truyền lên thẻ a
+			event.preventDefault();  // Ngừng hành động mặc định của thẻ a
+
+			// Kiểm tra loại nút được nhấn
+			if (button.classList.contains('btn-phone')) {
+				var phoneText = document.querySelector('.btn-phone').textContent;
+				window.location.href = "tel:+84" + phoneText.substring(1);
+			} else if (button.classList.contains('btn-zalo')) {
+				var phone = button.getAttribute('data-phone');
+				window.location.href = "http://zalo.me/" + phone;
+			}
+		});
+	});	
 });
