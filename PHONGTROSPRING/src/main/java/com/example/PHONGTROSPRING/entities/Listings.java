@@ -40,7 +40,7 @@ public class Listings {
 	@Column(nullable = false, precision = 10, scale = 0)
 	private BigDecimal price;
 
-	@Column(nullable = false, precision = 5, scale = 0)
+	@Column(nullable = false, precision = 10, scale = 0)
 	private BigDecimal area;
 
 	@ManyToOne

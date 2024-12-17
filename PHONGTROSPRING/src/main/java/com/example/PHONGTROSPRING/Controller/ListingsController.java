@@ -1,5 +1,6 @@
 package com.example.PHONGTROSPRING.Controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -180,5 +181,27 @@ public class ListingsController {
 	 * model.addAttribute("urlimg", listurlimg); return "views/phongtro"; }
 	 */
 	
+
+
+	//Tú làm tìm kiếm 
+	
+    @GetMapping("/searchne")
+    public String searchByPricetest() {
+        return "views/search"; // Tên file Thymeleaf để render danh sách
+    }
+	
+    @GetMapping("/search")
+    public String searchByPrice(
+            @RequestParam(value= "minPrice", required = false, defaultValue = "0") BigDecimal minPrice,
+            @RequestParam(value= "maxPrice", required = false, defaultValue = "999999999") BigDecimal maxPrice,
+            @RequestParam(value="minArea", required = false, defaultValue = "0") BigDecimal minArea,
+            @RequestParam(value="maxArea", required = false, defaultValue = "999999999") BigDecimal maxArea,
+            @RequestParam(value = "roomType", required = false, defaultValue = "") String roomType,
+            Model model) {
+        List<Listings> listings = listingsService.getListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType);
+        model.addAttribute("listings", listings);
+        return "views/kq_search"; // Tên file Thymeleaf để render danh sách
+    }
+
 
 }

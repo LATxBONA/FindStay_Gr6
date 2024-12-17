@@ -173,4 +173,15 @@ public class ListingsService {
 	 * (now.isAfter(listing.getExpiryDate())) { listing.setStatus("Hết hạn"); } } }
 	 */
 
+
+	//Tú làm tiềm kiếm nè 
+    public List<Listings> getListingsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+        return listingRepository.findListingsByPriceRange(minPrice, maxPrice);
+    }
+	
+    public List<Listings> getListingsByLAT(BigDecimal minPrice, BigDecimal maxPrice, BigDecimal minArea, BigDecimal maxArea, String roomType ){
+    	return listingRepository.findListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType);
+    }
+	
+
 }
