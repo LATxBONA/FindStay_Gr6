@@ -193,7 +193,7 @@ public class ListingsController {
             @RequestParam(value= "maxPrice", required = false, defaultValue = "999999999") BigDecimal maxPrice,
             @RequestParam(value="minArea", required = false, defaultValue = "0") BigDecimal minArea,
             @RequestParam(value="maxArea", required = false, defaultValue = "999999999") BigDecimal maxArea,
-            @RequestParam(value = "roomType", required = false, defaultValue = " ") String roomType,
+            @RequestParam(value = "roomType", required = false, defaultValue = "") String roomType,
             Model model) {
         List<Listings> listings = listingsService.getListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType);
         model.addAttribute("listings", listings);

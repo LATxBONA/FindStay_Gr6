@@ -141,11 +141,7 @@ public class ListingsService {
     }
 	
     public List<Listings> getListingsByLAT(BigDecimal minPrice, BigDecimal maxPrice, BigDecimal minArea, BigDecimal maxArea, String roomType ){
-        if (roomType == null || roomType.isEmpty()) {
-            return listingRepository.findListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType);
-        } else {
-            return listingRepository.findListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType);
-        }
+    	return listingRepository.findListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType);
     }
 	
 	
