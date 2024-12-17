@@ -41,7 +41,7 @@ public class Listings {
 	@Column(nullable = false, precision = 10, scale = 0)
 	private BigDecimal price;
 
-	@Column(nullable = false, precision = 5, scale = 0)
+	@Column(nullable = false, precision = 10, scale = 0)
 	private BigDecimal area;
 
 	@ManyToOne
@@ -289,7 +289,7 @@ public class Listings {
 	public void setCreatedAt() {
 		this.createdAt = LocalDateTime.now();
 	}
-
+	
 	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
@@ -311,6 +311,8 @@ public class Listings {
 			statusTemp = "Chờ duyệt";
 		} else if (status.equals("Ẩn tin")) {
 			statusTemp = "Ẩn tin";
+		} else if (status.equals("Hết hạn")) {
+			statusTemp = "Hết hạn";
 		}
 
 		this.status = statusTemp;

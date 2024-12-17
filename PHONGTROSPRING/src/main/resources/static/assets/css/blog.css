@@ -29,10 +29,17 @@ body {
     color: #333;
     margin-left: 60px;
 }
+.main-content {
+    display: flex; /* Đặt flexbox để các phần tử con nằm ngang */
+    justify-content: space-between; /* Khoảng cách giữa các phần */
+    gap: 20px; /* Khoảng cách giữa news-container và right-banner */
+    width: 80%; /* Giới hạn chiều rộng cho container cha */
+    margin: 20px auto; /* Căn giữa container */
+}
+
 
 .news-container {
-    width: 44%;
-    margin: 20px auto;
+    flex: 2; /* Chiếm 2 phần (có thể điều chỉnh) */
     background-color: #fff;
     padding: 20px;
     border-radius: 12px;
@@ -86,4 +93,128 @@ body {
     font-size: 13px;
     color: #666;
     margin: 0;
+}
+
+
+
+
+.right-banner {
+    flex: 1; /* Chiếm 1 phần */
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Sidebar bên phải */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+
+}
+
+/* Danh mục cho thuê và tin mới đăng */
+.category-section, .recent-posts-section {
+    background-color: #f7f7f7;
+    padding: 15px; /* Tạo khoảng cách bên trong phần */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 15px 20px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: bold;
+/*     color: #3a3a3a; */
+    margin-bottom: 10px;
+}
+
+.category-list, .recent-posts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-list li, .recent-posts-list li {
+    margin: 8px 0;
+/*     border-bottom: 2px solid white; */
+    border-bottom: 1px solid #eee;
+}
+
+.category-list li a, .recent-posts-list li a {
+    text-decoration: none;
+    font-size: 14px;
+    color: #3a3a3a;
+    transition: color 0.3s ease;
+}
+
+.category-list li a:hover, .recent-posts-list li a:hover {
+    color: #00499E;
+}
+
+/* phần tin mới đăng */
+
+.recent-posts-section {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f7f7f7;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #00499E;
+    margin-bottom: 10px;
+}
+
+.recent-posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.recent-post-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+.recent-post-item:last-child {
+    border-bottom: none; /* Bỏ gạch dưới mục cuối */
+}
+
+.recent-post-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.recent-post-content {
+    flex: 1; /* Chiếm không gian còn lại */
+}
+
+.recent-post-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #00499E;
+    margin-bottom: 5px;
+}
+
+.recent-post-price {
+    font-size: 14px;
+    color: #59d659;
+    font-weight: 500;
+}
+
+.recent-post-time {
+    font-size: 12px;
+    color: #888;
+    float: right;
 }

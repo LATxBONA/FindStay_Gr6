@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quản lý tin</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/assets/css/quanlytin.css">
+
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+</head>
+<body>
+	<div th:replace="views/header-footer/header"></div>
+	<div>
+		<h1>Quản lý tin đăng</h1>
+		<div class="boder"></div>
+	</div>
+	<form th:action="@{/quanlytin}" method="get" class="search_form">
+		<div>
+			<input type="text" placeholder="Tìm theo mã hoặc tiêu đề"
+				class="search" name="valuesearch" id="searchtext"
+				onchange="this.form.submit()">
+		</div>
+		<div>
+			<select class="search" name="valueloaitin" id="searchloaitin"
+				onchange="this.form.submit()">
+				<option value="">Lọc theo loại tin</option>
+				<option value="0">Tin miễn phí</option>
+				<option value="2000">Tin thường</option>
+				<option value="10000">Tin VIP 3</option>
+				<option value="20000">Tin VIP 2</option>
+				<option value="30000">Tin VIP 1</option>
+				<option value="50000">Tin VIP nổi bật</option>
+			</select>
+		</div>
+		<div>
+			<select class="search" name="valuetrangthai" id="searchtrangthai"
+				onchange="this.form.submit()">
+				<option value="">Lọc theo trạng thái</option>
+				<option value="Đã duyệt">Đã duyệt</option>
+				<option value="Chờ duyệt">Chờ duyệt</option>
+				<option value="Ẩn tin">Tin ẩn</option>
+			</select>
+		</div>
+	</form>
+	<div class="main-content">
+		<table>
+			<tr>
+				<th>Mã tin</th>
+				<th>Ảnh đại diện</th>
+				<th>Tiêu đề</th>
+				<th>Giá</th>
+				<th>Ngày bắt đầu</th>
+				<th>Ngày hết hạn</th>
+				<th>Trạng thái</th>
+				<th>Actions</th>
+			</tr>
+			<tr th:each="listing : ${listtingsss}">
+				<td th:text="${listing.itemId}"></td>
+				<td></td>
+				<td th:text="${listing.title}"></td>
+				<td th:text="${listing.price}"></td>
+				<td th:text="${listing.createdAt}"></td>
+				<td th:text="${listing.expiryDate}"></td>
+				<td th:text="${listing.status}"></td>
+				<td>
+					<div
+						th:if="${listing.status} == 'Ẩn tin'">
+						<div class="btn">
+							<a th:href="@{/quanlytin/danglai/{id}(id=${listing.itemId})}"
+								th:onclick="'return confirm(\'Bạn có chắc chắn muốn đăng lại tin?\')'"><button>Đăng
+									lại</button></a>
+						</div>
+					</div>
+					<div th:if="${listing.status} != 'Ẩn tin'">
+						<div class="btn">
+							<a><button>Sửa tin</button></a>
+						</div>
+						<div class="btn">
+							<a href="#"><button>Gia hạn</button></a>
+						</div>
+						<div class="btn">
+							<a th:href="@{/quanlytin/hide/{id}(id=${listing.itemId})}"
+								th:onclick="'return confirm(\'Bạn có chắc chắn muốn ẩn tin?\')'"><button>Ẩn
+									tin</button></a>
+						</div>
+					</div>
+
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="pagination">
+		<a th:if="${listtingsss.hasPrevious()}"
+			th:href="@{/quanlytin(page=${listtingsss.number - 1},valuesearch=${valuesearch}, valueloaitin=${valueloaitin}, valuetrangthai=${valuetrangthai})}">«
+			Previous</a> <span>Page <span th:text="${listtingsss.number + 1}">1</span>
+			of <span th:text="${listtingsss.totalPages}">1</span>
+		</span> <a th:if="${listtingsss.hasNext()}"
+			th:href="@{/quanlytin(page=${listtingsss.number + 1},valuesearch=${valuesearch}, valueloaitin=${valueloaitin}, valuetrangthai=${valuetrangthai})}">Next
+			»</a>
+	</div>
+
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+/* Style cho modal */
+.modal {
+    display: none; /* Ẩn mặc định */
+    position: fixed; /* Gắn cố định ở giữa màn hình */
+    z-index: 1; /* Chắc chắn rằng modal nằm trên các phần tử khác */
+    left: 0;
+    top: 0;
+    width: 100%; /* Chiều rộng toàn màn hình */
+    height: 100%; /* Chiều cao toàn màn hình */
+    background-color: rgba(0, 0, 0, 0.4); /* Nền mờ */
+}
+
+/* Style cho nội dung của modal */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Chiều rộng của modal */
+    max-width: 400px; /* Chiều rộng tối đa */
+}
+
+/* Style cho nút đóng (X) */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

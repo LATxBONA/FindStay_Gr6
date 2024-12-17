@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tìm kiếm Phòng Trọ</title>
+
+<!-- Link CSS -->
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/search.css">
+</head>
+<body>
+    <!-- Header -->
+    <div th:replace="views/header-footer/header"></div>
+
+    <!-- Thanh tìm kiếm -->
+    <div class="filter-section">
+        <h3>Tìm kiếm</h3>
+        
+        <!-- Tìm kiếm theo giá -->
+        <div class="filter-item">
+            <h4>Tìm kiếm theo giá</h4>
+            <button id="openPriceModalButton">Chọn khoảng giá</button>
+            <span id="selectedPriceRange">Chưa chọn</span>
+        </div>
+
+        <!-- Tìm kiếm theo diện tích -->
+        <div class="filter-item">
+            <h4>Tìm kiếm theo diện tích</h4>
+            <button id="openAreaModalButton">Chọn khoảng diện tích</button>
+            <span id="selectedAreaRange">Chưa chọn</span>
+        </div>
+        
+		        <!-- Tìm kiếm theo loại phòng -->
+		<div class="filter-item">
+		    <h4>Chọn loại phòng</h4>
+		    <select id="roomTypeSelect">
+		        <option value="" disabled  selected>Chọn loại phòng</option>
+		        <option value="1">Phòng trọ</option>
+		        <option value="2">Căn hộ</option>
+		        <option value="3">Nhà nguyên căn</option>
+		    </select>
+		</div>
+        
+
+        <!-- Nút Tìm kiếm -->
+        <div>
+            <button id="searchButton">Tìm kiếm</button>
+        </div>
+    </div>
+
+    <!-- Modal chọn giá -->
+    <div id="priceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closePriceModalButton">&times;</span>
+            <h3>Chọn khoảng giá</h3>
+            <form id="priceForm">
+                <label><input type="radio" name="priceRange" value="0-500000"> Dưới 500k </label><br>
+                <label><input type="radio" name="priceRange" value="500000-1000000"> 500k - 1 triệu</label><br>
+                <label><input type="radio" name="priceRange" value="1000000-2500000"> 1 - 2.5 triệu</label><br>
+                <label><input type="radio" name="priceRange" value="2500000-5000000"> 2.5 - 5 triệu</label><br>
+                <label><input type="radio" name="priceRange" value="5000000-10000000"> 5 - 10 triệu</label><br>
+                <label><input type="radio" name="priceRange" value="10000000-30000000000000"> Trên 10 triệu</label><br>
+                <br>
+                <button type="button" id="applyPrice">Áp dụng</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal chọn diện tích -->
+    <div id="areaModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeAreaModalButton">&times;</span>
+            <h3>Chọn khoảng diện tích</h3>
+            <form id="areaForm">
+                <label><input type="radio" name="areaRange" value="0-10"> Dưới 10m²</label><br>
+                <label><input type="radio" name="areaRange" value="10-20"> 10 - 20m²</label><br>
+                <label><input type="radio" name="areaRange" value="20-30"> 20 - 30m²</label><br>
+                <label><input type="radio" name="areaRange" value="30-300000"> Trên 30m²</label><br>
+                <br>
+                <button type="button" id="applyArea">Áp dụng</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="views/header-footer/footer"></div>
+
+    <!-- JavaScript -->
+    <script type="text/javascript">
+    let minPrice = null, maxPrice = null;
+    let minArea = null, maxArea = null;
+    let roomType = null;
+
+    // Modal xử lý
+    const priceModal = document.getElementById("priceModal");
+    const areaModal = document.getElementById("areaModal");
+
+    document.getElementById("openPriceModalButton").onclick = () => priceModal.style.display = "block";
+    document.getElementById("closePriceModalButton").onclick = () => priceModal.style.display = "none";
+
+    document.getElementById("openAreaModalButton").onclick = () => areaModal.style.display = "block";
+    document.getElementById("closeAreaModalButton").onclick = () => areaModal.style.display = "none";
+
+    // Chọn giá
+    document.getElementById("applyPrice").onclick = function() {
+        const selected = document.querySelector('input[name="priceRange"]:checked');
+        if (selected) {
+            [minPrice, maxPrice] = selected.value.split('-').map(Number);
+            document.getElementById("selectedPriceRange").innerText = selected.nextSibling.textContent;
+        }
+        priceModal.style.display = "none";
+    };
+
+    // Chọn diện tích
+    document.getElementById("applyArea").onclick = function() {
+        const selected = document.querySelector('input[name="areaRange"]:checked');
+        if (selected) {
+            [minArea, maxArea] = selected.value.split('-').map(Number);
+            document.getElementById("selectedAreaRange").innerText = selected.nextSibling.textContent;
+        }
+        areaModal.style.display = "none";
+    };
+	 // Xử lý khi chọn loại phòng
+	    document.getElementById("roomTypeSelect").onchange = function() {
+	        roomType = this.value; // Lấy giá trị đã chọn
+	    };
+    // Nút Tìm kiếm
+    document.getElementById("searchButton").onclick = function() {
+        const url = new URL(window.location.origin + '/search');
+        if (minPrice !== null) url.searchParams.set('minPrice', minPrice);
+        if (maxPrice !== null) url.searchParams.set('maxPrice', maxPrice);
+        if (minArea !== null) url.searchParams.set('minArea', minArea);
+        if (maxArea !== null) url.searchParams.set('maxArea', maxArea);
+        if (roomType) url.searchParams.set('roomType', roomType);
+
+        // Chuyển hướng đến URL
+        window.location.href = url.toString();
+    };
+    </script>
+</body>
+</html>

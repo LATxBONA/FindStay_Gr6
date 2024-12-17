@@ -43,6 +43,9 @@ public class RechargeController {
 		return "views/recharge2";
 	}
 
+
+
+	
 	@PostMapping("/recharge3")
 	public String recharge(@Valid @ModelAttribute RechargeRequest rechargeRequest, BindingResult result, Model model,
 			HttpSession session) {
@@ -52,12 +55,13 @@ public class RechargeController {
 		}
 
 		if (result.hasErrors()) {
-			model.addAttribute("error", "Dữ liệu không hợp lệ");
-			return "redirect:/recharge2";  // Trả về trang nạp tiền kèm lỗi
+			model.addAttribute("rechargefail", "Số tiền không hợp lệ");
+			return "views/recharge2";  // Trả về trang nạp tiền kèm lỗi
 		}
 
 		// Thành công: truyền số tiền vào model để hiển thị
 		BigDecimal amount = rechargeRequest.getAmount();
+
 		model.addAttribute("amount", amount);
 
 		return "views/recharge3"; // Điều hướng sang trang xác nhận
@@ -88,5 +92,6 @@ public class RechargeController {
 		rechargeService.recharge(rechargeRequest, session);
 		return "redirect:/recharge4";
 	}
+
 
 }

@@ -1,6 +1,7 @@
 package com.example.PHONGTROSPRING.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +13,11 @@ import com.example.PHONGTROSPRING.entities.Images;
 import com.example.PHONGTROSPRING.entities.Listings;
 
 @Repository
+
 public interface ImagesRepository extends JpaRepository<Images, Integer> {
+
+public interface ImagesRepository extends JpaRepository<Images, Integer>{
+
 
 	List<Images> findByListingItemId(int itemId);
 

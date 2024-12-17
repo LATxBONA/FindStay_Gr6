@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Quản lý giao dịch</title>
-<link rel="stylesheet" type="text/css" href="/assets/css/admin.css">
-<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/admin.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
 <script src="/assets/js/header.js"></script>
 </head>
 <body>
@@ -13,9 +15,6 @@
 		<h1>Quản lý giao dịch</h1>
 				
 		<form th:action="@{/admin/transactions/search}" method="get" class="search-form" th:object="${transactionsRequest}">
-			<input type="text" name="userFullName" placeholder="Tên Người Dùng" th:value="${userFullName}">
-			<input type="number" name="amount" placeholder="Số tiền" th:value="${amount}">
-			<input type="date" name="transactionDate" placeholder="Ngày nạp tiền" th:value="${transactionDate}">
 			<select name="status">
 				<option value="Thành công" th:selected="${status == 'Thành công'}">Thành công</option>
 				<option value="Thất bại" th:selected="${status == 'Thất bại'}">Thất bại</option>
@@ -65,5 +64,6 @@
 			</tbody>
 		</table>
 	</div>
+	
 </body>
 </html>
