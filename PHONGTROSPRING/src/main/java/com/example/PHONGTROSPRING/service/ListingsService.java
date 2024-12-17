@@ -134,4 +134,19 @@ public class ListingsService {
 		
 		return listDate;
 	}
+	
+	//Tú làm tiềm kiếm nè 
+    public List<Listings> getListingsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+        return listingRepository.findListingsByPriceRange(minPrice, maxPrice);
+    }
+	
+    public List<Listings> getListingsByLAT(BigDecimal minPrice, BigDecimal maxPrice, BigDecimal minArea, BigDecimal maxArea, String roomType ){
+        if (roomType == null || roomType.isEmpty()) {
+            return listingRepository.findListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType);
+        } else {
+            return listingRepository.findListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType);
+        }
+    }
+	
+	
 }
