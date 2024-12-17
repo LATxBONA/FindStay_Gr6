@@ -8,10 +8,13 @@
 <link rel="stylesheet" type="text/css" href="/assets/css/detailRoom.css">
 <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
 <link rel="stylesheet" type="text/css" href="/assets/css/media.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet"
+	href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="/assets/js/detailRoom.js"></script>
 <script src="/assets/js/map.js"></script>
@@ -21,13 +24,10 @@
 
 	<div id="wrapper_infor_detail_room">
 		<div>
-			<span th:text="'Cho thuê ' + ${room.roomType.roomTypeName}"></span> 
-			>
-			<span th:text="${room.location.city}"></span> 
-			> 
-			<span th:text="${room.location.district}"></span> 
-			> 
-			<span th:text="${room.title}"></span>
+			<span th:text="'Cho thuê ' + ${room.roomType.roomTypeName}"></span> >
+			<span th:text="${room.location_city.city}"></span> > <span
+				th:text="${room.location_district.district}"></span> > <span
+				th:text="${room.title}"></span>
 		</div>
 
 		<div class="wrapper">
@@ -43,15 +43,17 @@
 						<div id="show_image">
 							<img id="image_main" alt="" src="">
 						</div>
-					<div class="imageRoom" th:each="item : ${image}">
-					    <img th:src="'data:image/png;base64,' + ${item}" alt="Image not found" />
-					</div>
+						<div class="imageRoom" th:each="item : ${listImages}">
+							<!-- Hiển thị ảnh từ chuỗi base64 -->
+							<img th:src="'data:image/*;base64,' + ${item}"
+								alt="Image not found" />
+						</div>
 						<div class="wrapper_button">
 							<button id="next_image">
 								<i class="fa-solid fa-chevron-right"></i>
 							</button>
 						</div>
-						
+
 					</div>
 
 					<!-- Title star -->
@@ -62,22 +64,22 @@
 
 					<!-- Title word -->
 					<span th:class="'wrapper_infor_title vip'+${room.postType}"
-						class="wrapper_infor_title" th:text="${room.title}"></span>
+						class="wrapper_infor_title"
+						th:text="${room.title +' '+ room.location_district.district + ', '+ room.location_city.city}"></span>
 
 					<!-- Location -->
 					<p class="location_first">
 						<i class="fa-solid fa-location-dot"></i><span
-							th:text="' Địa chỉ: '+ ${room.address} + ' - ' + ${room.location.district} + ' - ' + ${room.location.city}"></span>
+							th:text="' Địa chỉ: '+ ${room.addressCurrent()}"></span>
 					</p>
 
 					<ul class="detail_price_area_id">
 						<li><i class="fa-solid fa-money-check-dollar"></i> <span
-							class="price"
-							th:text="${room.price > 1000000 ? room.price / 1000000 + ' triệu/tháng' : room.price + ' đồng/tháng'}"></span>
-						</li>
+							class="price" th:text="${room.changePrice()}"></span></li>
 						<li><i class="fa-solid fa-ruler-combined"></i><span
 							th:text="${room.area}+'m&sup2;'"></span></li>
-						<li><i class="fa-solid fa-clock"></i><span th:text="${time}"></span></li>
+						<li><i class="fa-solid fa-clock"></i><span
+							th:text="${room.changeDate()}"></span></li>
 						<li>#<span th:text="${room.itemId}"></span></li>
 					</ul>
 
@@ -97,11 +99,12 @@
 							<tr>
 								<td>Chuyên mục:</td>
 								<td class="color"
-									th:text="'Cho thuê nhà ' + ${room.location.district}"></td>
+									th:text="'Cho thuê '+ ${room.roomType.roomTypeName}+ ' ' + ${room.location_district.district}"></td>
 							</tr>
 							<tr>
 								<td class="color">Khu vực:</td>
-								<td th:text="'Cho thuê nhà ' + ${room.location.city}"></td>
+								<td
+									th:text="'Cho thuê '+ ${room.roomType.roomTypeName}+ ' ' + ${room.location_city.city}"></td>
 							</tr>
 							<tr>
 								<td>Loại rao tin:</td>
@@ -113,20 +116,18 @@
 							</tr>
 							<tr>
 								<td>Gói tin:</td>
-								<td class="color" th:switch="${room.postType}">
-									<span th:case="1" th:text="'Tin thường'"></span> 
-									<span th:case="5" th:text="'Tin VIP nổi bật'"></span> 
-									<span th:case="*" th:if="${room.postType > 1 and room.postType <= 4}" th:text="'Tin VIP ' + ${5 - room.postType}"></span>
-								</td>
+								<td class="color" th:switch="${room.postType}"><span
+									th:text="${room.changePostType()}"></span></td>
 							</tr>
 							<tr>
 								<td class="color">Ngày đăng:</td>
 								<td
-									th:text="${#temporals.format(room.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+									th:text="${#temporals.format(room.createdAt, 'EEEE, HH:mm dd/MM/yyyy')}"></td>
 							</tr>
 							<tr>
 								<td>Ngày hết hạn:</td>
-								<td class="color" th:text="Null"></td>
+								<td class="color"
+									th:text="${#temporals.format(room.expiryDate, 'EEEE, HH:mm dd/MM/yyyy')}"></td>
 							</tr>
 						</table>
 					</div>
@@ -141,61 +142,69 @@
 					<div>
 						<p class="detail_title_category">Bản đồ</p>
 						<span>Địa chỉ: </span><span id="location_map"
-							th:text="${room.address} + ' - ' + ${room.location.district} + ' - ' + ${room.location.city}"></span>
+							th:text="${room.addressCurrent()}"></span>
 						<div id="map"></div>
 					</div>
 				</div>
 			</div>
-			
+
 			<div class="wrapper_infor_user">
 				<div class="wrapper_detail_user">
-					<img src="/assets/images/default-user.svg">
-					<span class="wrapper_infor_userName" th:text="${room.user.fullName}"></span>
-					<a class="wrapper_infor_contact phone" th:href="'tel:+84' + ${#strings.substring(room.user.phoneNumber, 1)}"><i class="fa-solid fa-phone"></i><span th:text="${room.user.phoneNumber}"></span></a>
-					<a class="wrapper_infor_contact zalo" th:href="'http://zalo.me/'+${room.user.phoneNumber}"><img src="/assets/images/bi-zalo.svg">Nhắn Zalo</a>
+					<img src="/assets/images/default-user.svg"> <span
+						class="wrapper_infor_userName" th:text="${room.user.fullName}"></span>
+					<a class="wrapper_infor_contact phone"
+						th:href="'tel:+84' + ${#strings.substring(room.user.phoneNumber, 1)}"><i
+						class="fa-solid fa-phone"></i><span
+						th:text="${room.user.phoneNumber}"></span></a> <a
+						class="wrapper_infor_contact zalo"
+						th:href="'http://zalo.me/'+${room.user.phoneNumber}"><img
+						src="/assets/images/bi-zalo.svg">Nhắn Zalo</a>
 				</div>
-				
+
 				<div class="other_post">
 					<p>Tin nổi bật</p>
-					<div th:each="item, i : ${FeaturedNew}" th:if="${FeaturedNew.size() > 0 && item.itemId != room.itemId && i.index <= 5}">
-						<a th:href="'/detailRoom/id=' + ${item.itemId}" class="post_img_price_time" th:each="itemImg, j : ${imgFeaturedNew}" th:if="${itemImg.listing.itemId == item.itemId}">
-							<span>
-								<img class="img_featurednew" th:src="${itemImg.imageUrl}" th:alt="'Ảnh của '+${item.itemId}">
+
+					<div th:each="item : ${featuredNew}">
+						<a th:href="'/detailRoom/id=' + ${item.itemId}"
+							class="post_img_price_time"> <span> <img
+								class="img_featurednew"
+								th:src="'data:image/*;base64,' + ${item.imageUrl}"
+								th:alt="'Ảnh của '+${item.itemId}">
+						</span> <span style="width: 100%"> <span class="post_title"
+								th:text="'Cho thuê ' + ${item.roomType} + ' ở ' + ${item.addressCurrent().substring(0,20) + '...'}"></span>
+								<span class="post_price_time"> <span class="post_price"
+									th:text="${item.changePrice()}"></span> <span class="post_time"
+									th:text="${item.changeDate()}"></span>
 							</span>
-							<span style="width: 100%">
-								<span th:if="${item.address.length <= 20}" class="post_title" th:text="'Cho thuê ' + ${item.roomType.roomTypeName} + ' ở ' + ${item.address}"></span>
-								<span th:if="${item.address.length > 20}" class="post_title" th:text="'Cho thuê ' + ${item.roomType.roomTypeName} + ' ở ' + ${#strings.substring(item.address, 0, 20)+'...'}"></span>
-								<span class="post_price_time">
-									<span class="post_price" th:text="${item.price > 1000000 ? item.price / 1000000 + ' triệu/tháng' : item.price + ' đồng/tháng'}"></span>
-									<span class="post_time" th:text="${timeFeaturedNew[i.index]}"></span>
-								</span> 
-							</span>
+						</span>
 						</a>
-						</div>
 					</div>
-					
-					<div class="other_post">
+				</div>
+
+				<div class="other_post">
 					<p>Tin mới đăng</p>
-					<div th:each="item, i : ${newRooms}" th:if="${newRooms.size() > 0 && item.itemId != room.itemId && i.index < 5}">
-						<a th:href="'/detailRoom/id=' + ${item.itemId}" class="post_img_price_time" th:each="itemImg, j : ${imgFeaturedNew}" th:if="${itemImg.listing.itemId == item.itemId}">
-							<span>
-								<img class="img_featurednew" th:src="${itemImg.imageUrl}" th:alt="'Ảnh của '+${item.itemId}">
+					<div th:each="item, i : ${newRooms}">
+						<a th:href="'/detailRoom/id=' + ${item.itemId}"
+							class="post_img_price_time"> <span> <img
+								class="img_featurednew"
+								th:src="'data:image/*;base64,' + ${item.imageUrl}"
+								th:alt="'Ảnh của '+${item.itemId}">
+						</span> <span style="width: 100%"> <span class="post_title"
+								th:text="'Cho thuê ' + ${item.roomType} + ' ở ' + ${item.addressCurrent().substring(0,20) + '...'}"></span>
+								<span class="post_price_time"> <span class="post_price"
+									th:text="${item.changePrice()}"></span> <span class="post_time"
+									th:text="${item.changeDate()}"></span>
 							</span>
-							<span style="width: 100%">
-								<span th:if="${item.address.length <= 20}" class="post_title" th:text="'Cho thuê ' + ${item.roomType.roomTypeName} + ' ở ' + ${item.address}"></span>
-								<span th:if="${item.address.length > 20}" class="post_title" th:text="'Cho thuê ' + ${item.roomType.roomTypeName} + ' ở ' + ${#strings.substring(item.address, 0, 20)+'...'}"></span>
-								<span class="post_price_time">
-									<span class="post_price" th:text="${item.price > 1000000 ? item.price / 1000000 + ' triệu/tháng' : item.price + ' đồng/tháng'}"></span>
-									<span class="post_time" th:text="${timeNewRooms[i.index]}"></span>
-								</span> 
-							</span>
+						</span>
 						</a>
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	
+	<div th:replace="views/hotrochunhadangtin"></div>
+	
 	<div th:replace="views/header-footer/footer"></div>
 </body>
 </html>

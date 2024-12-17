@@ -29,7 +29,7 @@ public class RoomTypes {
 	public String getRoomTypeName() {
 		return roomTypeName;
 	}
-
+	
 	public void setRoomTypeName(String roomTypeName) {
 		String roomTypeTemp = "Phòng trọ";
 

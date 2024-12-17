@@ -29,4 +29,8 @@ public class RoomTypesService {
     public List<RoomTypes> getAllRoomTypes(){
     	return roomTypesRepository.findAll();
     }
+    
+    public int findRoomTypeByName(String roomName) {
+    	return roomTypesRepository.findRoomTypeByName(roomName);
+    }
 }

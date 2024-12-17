@@ -9,13 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.PHONGTROSPRING.entities.Listings;
 import com.example.PHONGTROSPRING.service.ListingsService;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
 
 
-	
+//	@Autowired
+//	private ListingsService listingsService;
 
 
 	@GetMapping({ "", "/" })
@@ -23,10 +25,9 @@ public class HomeController {
 		// model.addAttribute("list", listingsService.getAllListings());
 		return "views/home";
 	}
-
 	@GetMapping("banggiadichvu")
 	public String banggiadichvu() {
-		return "views\\footer-infor-about-website\\danhchokhachhang\\banggiadichvu.html";
+		return "views/footer-infor-about-website/danhchokhachhang/banggiadichvu";
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.example.PHONGTROSPRING.entities;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -44,8 +45,16 @@ public class Listings {
 	private BigDecimal area;
 
 	@ManyToOne
-	@JoinColumn(nullable = false, name = "locationId", referencedColumnName = "locationId")
-	private Locations location;
+	@JoinColumn(nullable = false, name = "city_id", referencedColumnName = "city_id")
+	private LocationsCity location_city;
+
+	@ManyToOne
+	@JoinColumn(nullable = false, name = "district_id", referencedColumnName = "district_id")
+	private LocationsDistrict location_district;
+
+	@ManyToOne
+	@JoinColumn(nullable = false, name = "ward_id", referencedColumnName = "ward_id")
+	private LocationsWard location_ward;
 
 	@Column(nullable = false, columnDefinition = "varchar(255)")
 	private String address;
@@ -60,7 +69,7 @@ public class Listings {
 	@Column(nullable = true)
 	private LocalDateTime expiryDate;
 
-	//@Column(nullable = true)
+	// @Column(nullable = true)
 	private LocalDateTime updatedAt;
 
 	@Column(name = "postType")
@@ -83,12 +92,46 @@ public class Listings {
 		return expiryDate;
 	}
 
+	public LocationsCity getLocation_city() {
+		return location_city;
+	}
+
+	public void setLocation_city(LocationsCity location_city) {
+		this.location_city = location_city;
+	}
+
+	public LocationsDistrict getLocation_district() {
+		return location_district;
+	}
+
+	public void setLocation_district(LocationsDistrict location_district) {
+		this.location_district = location_district;
+	}
+
+	public LocationsWard getLocation_ward() {
+		return location_ward;
+	}
+
+	public void setLocation_ward(LocationsWard location_ward) {
+		this.location_ward = location_ward;
+	}
+
 	public void setExpiryDate(LocalDateTime expiryDate) {
 		this.expiryDate = expiryDate;
 	}
 
 	public int getPostType() {
 		return postType;
+	}
+
+	public String changePostType() {
+		if (postType == 1) {
+			return "Tin thường";
+		} else if (postType == 5) {
+			return "Tin VIP nổi bật";
+		} else {
+			return "Tin VIP " + (5 - postType);
+		}
 	}
 
 	public void setPostType(int postType) {
@@ -98,19 +141,19 @@ public class Listings {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
-	
-	public String getRelativeTime() {
-	    LocalDateTime now = LocalDateTime.now();
-	    Duration duration = Duration.between(this.createdAt, now);
 
-	    if (duration.toHours() < 24) {
-	        return duration.toHours() + " giờ trước";
-	    } else if (duration.toDays() <= 30) {
-	        return duration.toDays() + " ngày trước";
-	    } else {
-	        long months = ChronoUnit.MONTHS.between(this.createdAt.toLocalDate(), now.toLocalDate());
-	        return months + " tháng trước";
-	    }
+	public String getRelativeTime() {
+		LocalDateTime now = LocalDateTime.now();
+		Duration duration = Duration.between(this.createdAt, now);
+
+		if (duration.toHours() < 24) {
+			return duration.toHours() + " giờ trước";
+		} else if (duration.toDays() <= 30) {
+			return duration.toDays() + " ngày trước";
+		} else {
+			long months = ChronoUnit.MONTHS.between(this.createdAt.toLocalDate(), now.toLocalDate());
+			return months + " tháng trước";
+		}
 	}
 
 	public void setUpdatedAt(LocalDateTime updatedAt) {
@@ -153,23 +196,53 @@ public class Listings {
 		return price;
 	}
 
-	public String getFormattedPrice() {
-	    DecimalFormat decimalFormat = new DecimalFormat("#.##");
-
-	    if (this.price.compareTo(BigDecimal.valueOf(1_000_000)) >= 0) {
-	        // Nếu giá >= 1 triệu
-	        BigDecimal million = this.price.divide(BigDecimal.valueOf(1_000_000));
-	        return decimalFormat.format(million) + " triệu";
-	    } else if (this.price.compareTo(BigDecimal.valueOf(1_000)) >= 0) {
-	        // Nếu giá >= 1 nghìn
-	        BigDecimal thousand = this.price.divide(BigDecimal.valueOf(1_000));
-	        return decimalFormat.format(thousand) + "k";
-	    } else {
-	        // Giá nhỏ hơn 1 nghìn
-	        return this.price + " VND";
-	    }
+	public String changePrice() {
+		if (price.compareTo(new BigDecimal("1000000")) > 0) {
+			BigDecimal priceInMillions = price.divide(new BigDecimal("1000000"), 2, RoundingMode.HALF_UP);
+			return priceInMillions + " triệu/tháng";
+		} else {
+			return price + " đồng/tháng";
+		}
 	}
-	
+
+	public String getFormattedPrice() {
+		DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+		if (this.price.compareTo(BigDecimal.valueOf(1_000_000)) >= 0) {
+			// Nếu giá >= 1 triệu
+			BigDecimal million = this.price.divide(BigDecimal.valueOf(1_000_000));
+			return decimalFormat.format(million) + " triệu";
+		} else if (this.price.compareTo(BigDecimal.valueOf(1_000)) >= 0) {
+			// Nếu giá >= 1 nghìn
+			BigDecimal thousand = this.price.divide(BigDecimal.valueOf(1_000));
+			return decimalFormat.format(thousand) + "k";
+		} else {
+			// Giá nhỏ hơn 1 nghìn
+			return this.price + " VND";
+		}
+	}
+
+	public String date(LocalDateTime date) {
+		LocalDateTime now = LocalDateTime.now();
+		long timeSeconds = ChronoUnit.SECONDS.between(date, now);
+		long timeMinutes = ChronoUnit.MINUTES.between(date, now);
+		long timeHours = ChronoUnit.HOURS.between(date, now);
+		long timeDays = ChronoUnit.DAYS.between(date, now);
+
+		String dateTime = "";
+		if (timeSeconds <= 60) {
+			dateTime = timeSeconds + " giây trước";
+		} else if (timeMinutes <= 60) {
+			dateTime = timeMinutes + " phút trước";
+		} else if (timeHours <= 24) {
+			dateTime = timeHours + " giờ trước";
+		} else {
+			dateTime = timeDays + " ngày trước";
+		}
+
+		return dateTime;
+	}
+
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
@@ -180,14 +253,6 @@ public class Listings {
 
 	public void setArea(BigDecimal area) {
 		this.area = area;
-	}
-
-	public Locations getLocation() {
-		return location;
-	}
-
-	public void setLocation(Locations location) {
-		this.location = location;
 	}
 
 	public String getAddress() {
@@ -201,12 +266,12 @@ public class Listings {
 	public RoomTypes getRoomType() {
 		return roomType;
 	}
-	
+
 	// Phương thức getter để lấy tên loại phòng
 	public String getRoomTypeName() {
-	    return roomType != null ? roomType.getRoomTypeName() : "Không xác định";  // Trả về "Không xác định" nếu roomType là null
+		return roomType != null ? roomType.getRoomTypeName() : "Không xác định"; // Trả về "Không xác định" nếu roomType
+																					// là null
 	}
-
 
 	public void setRoomType(RoomTypes roomType) {
 		this.roomType = roomType;
@@ -216,11 +281,11 @@ public class Listings {
 		return createdAt;
 	}
 
-    public String getFormattedCreatedAt() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy -  HH:mm");
-        return this.createdAt.format(formatter);
-    }
-	
+	public String getFormattedCreatedAt() {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy -  HH:mm");
+		return this.createdAt.format(formatter);
+	}
+
 	public void setCreatedAt() {
 		this.createdAt = LocalDateTime.now();
 	}
@@ -267,5 +332,31 @@ public class Listings {
 		}
 
 		this.object = objectTemp;
+	}
+
+	public String changeDate() {
+		LocalDateTime now = LocalDateTime.now();
+		long timeSeconds = ChronoUnit.SECONDS.between(createdAt, now);
+		long timeMinutes = ChronoUnit.MINUTES.between(createdAt, now);
+		long timeHours = ChronoUnit.HOURS.between(createdAt, now);
+		long timeDays = ChronoUnit.DAYS.between(createdAt, now);
+
+		String dateTime = "";
+		if (timeSeconds <= 60) {
+			dateTime = timeSeconds + " giây trước";
+		} else if (timeMinutes <= 60) {
+			dateTime = timeMinutes + " phút trước";
+		} else if (timeHours <= 24) {
+			dateTime = timeHours + " giờ trước";
+		} else {
+			dateTime = timeDays + " ngày trước";
+		}
+
+		return dateTime;
+	}
+
+	public String addressCurrent() {
+		return address + ", " + location_ward.getWard() + ", " + location_district.getDistrict() + ", "
+				+ location_city.getCity();
 	}
 }

@@ -7,13 +7,13 @@
 	<!-- Thông tin người dùng sẽ hiển thị khi login/register thành công -->
 	<div class="header-infor" th:if="${session.user != null}">
 		<div style="margin-right: 2%;">
-			<i style="font-size: 3vh;" class="fa-solid fa-circle-user"></i>
+			<i style="font-size: 5vh;" class="fa-solid fa-circle-user"></i>
 		</div>
 		<div>
 			<span th:if="${session.user.fullName.length() >= 13}" >Xin chào, <span id="header_fullname" style="font-weight: 600" th:text="${#strings.substring(session.user.fullName, 0, 13) + '...'}"></span></span>
 			<span th:if="${session.user.fullName.length()< 13}" >Xin chào, <span style="font-weight: 600" th:text="${session.user.fullName}"></span></span>
 			<br>
-			<span>Mã tài khoản: <span style="font-weight: 600" th:text="${#strings.substring(session.user.userId, 0, 9) + '...'}"></span></span>
+			<span>Mã tài khoản: <span id="header_username" style="font-weight: 600" th:text="${#strings.substring(session.user.userId, 0, 9) + '...'}"></span></span>
 			<br>
 			<span>Tài khoản chính: <span style="font-weight: 600" th:text="${session.user.balance + 'VNĐ'}"></span></span>
 		</div>
@@ -28,7 +28,7 @@
 	<!-- Quản lý tài khoản -->
 	<div class="header-manage-account" th:if="${session.user == null}" >
 		<a class="header-account"><i class="fa-solid fa-circle-user"></i>Tài khoản
-			<ul class="header-account-menu margin_top_first">
+			<ul id="header-account-menu" class="header-account-menu">
 				<li id="register">Tạo tài khoản mới</li>
 				<li id="login">Đăng nhập</li>
 			</ul> 
@@ -37,11 +37,11 @@
 	
 	<div class="header-manage-account" th:if="${session.user != null}" >
 		<a class="header-account"><i class="fa-solid fa-bars-progress"></i>Quản lý tài khoản
-			<ul class="header-account-menu margin_top_second">
+			<ul id="header-account-menu" class="header-account-menu">
 				<li id="infor_detail_user">Thông tin tài khoản</li>
 				<li id="change_password">Đổi mật khẩu</li>
-				<li id="logout">Đăng xuất</li>
 				<li id="recharge"> Nạp tiền</li>
+				<li id="logout">Đăng xuất</li>
 			</ul> 
 		</a>
 	</div>
@@ -54,6 +54,14 @@
 
 <!-- Thanh menu chứa các option dùng redirect sang các page tương ứng -->
 <ul class="menu-option">
+
+	<li><a href="/">Trang chủ</a></li>
+	<li><a href="/phongtro/toanquoc">Cho thuê phòng trọ</a></li>
+	<li><a href="/thuenha/toanquoc">Nhà cho thuê</a></li>
+	<li><a href="/thuecanho/toanquoc">Cho thuê căn hộ</a></li>
+	<li><a href="/thuematbang/toanquoc">Cho thuê mặt bằng</a></li>
+	<li><a href="/oghep/toanquoc">Tìm người ở ghép</a></li>
+
 	<li><a href="#">Trang chủ</a></li>
 	<li><a href="phongtro">Cho thuê phòng trọ</a></li>
 	<li><a href="#">Nhà cho thuê</a></li>

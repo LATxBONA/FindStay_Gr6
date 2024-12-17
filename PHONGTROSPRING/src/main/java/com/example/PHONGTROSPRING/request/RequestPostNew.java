@@ -7,9 +7,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.PHONGTROSPRING.entities.Locations;
-import com.example.PHONGTROSPRING.entities.RoomTypes;
-import com.example.PHONGTROSPRING.entities.User;
+import com.example.PHONGTROSPRING.entities.*;
 
 public class RequestPostNew {
 

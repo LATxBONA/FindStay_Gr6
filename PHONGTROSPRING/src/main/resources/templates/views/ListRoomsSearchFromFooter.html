@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${title}"></title>
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/ListRoomSearchFromFooter.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/MenuRight.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/assets/js/header.js"></script>
+<script src="/assets/js/ListRoomSearchFromFooter.js"></script>
+</head>
+<body>
+	<div th:replace="views/header-footer/header"></div>
+
+	<div class="warpper_search_from_footer">
+		<div class="wrapper_search_context">
+			<div class="wrapper_search_part_1">
+				<span th:text="'Cho Thuê ' + ${typeroom} + '/ ' + ${city} + ' / trang ' + ${page + 1}"></span>
+			
+				<h2 style="font-weight: 600; margin: .5rem 0;" th:text="'Cho Thuê ' + ${typeroom} + '/ ' + ${city} + ', Giá Rẻ, Tiện Nghi, Mới nhất ' + ${#dates.format(#dates.createNow(), 'yyyy')}" ></h2>
+				<span style="color: gray;" th:text="'Có '+ ${quantity_post} +' tin đăng cho thuê'"></span>
+		
+				<ol class="list_menu">
+					<li class="toanquoc"><a href="toanquoc">Toàn quốc</a></li>
+					<li class="HCM"><a href="HCM">Hồ Chí Minh</a></li>
+					<li class="HN"><a href="HN">Hà Nội</a></li>
+					<li class="BD"><a href="BD">Bình Định</a></li>
+				</ol>
+				<div class="list_district">
+					<div class="menu_district" th:each="district : ${list_district}">
+						<a class="district" th:href="'/'+${city}+'/'+${district.district}" th:text="${district.district}"></a>
+					</div>
+				</div>
+		
+				<ol class="menu_dexuat_moidang">
+					<li><a id="mac-dinh" th:href="'/'+${typeroom_default}+'/'+${city_default}+'?orderby=mac-dinh'">Đề xuất</a></li>
+					<li><a id="moi-dang" th:href="'/'+${typeroom_default}+'/'+${city_default}+'?orderby=moi-dang'">Mới đăng</a></li>
+				</ol>
+				
+				<div class="wrapper_list_search">
+					<a class="item_room" th:each="item : ${list_room}" th:href="@{/detailRoom/id={id}(id=${item.itemId})}">
+						<span class="item_room_image">
+							<img th:src="'data:image/*;base64,' + ${item.imageUrl}"	th:alt="'Ảnh của '+${item.itemId}">
+							<span th:each="favorite : ${list_favorite}">
+								<span th:if="${item.itemId == favorite}">
+									<img class="item_room_favorite_2" alt="" src="https://phongtro123.com/images/bi-heart-fill.svg">
+								</span>
+								<img class="item_room_favorite_1" alt="" src="https://phongtro123.com/images/bi-heart.svg">
+							</span>
+						</span>
+						<span class="item_room_infor">
+							<span>
+								<span th:if="${item.postType > 1}" th:each="i : ${#numbers.sequence(1, item.postType)}"> 
+								<img class="img-star" src="/assets/images/bi-star-fill-yellow.svg">
+								</span>
+								<span style="font-weight: 600; font-size: 3vh;" th:class="'wrapper_infor_title vip' + ${item.postType}" th:text="${item.title + ' ' + item.location_district + ', ' + item.location_city}"></span>								
+							</span>
+							<span class="item_room_price_area_location">
+								<span style="font-weight: 600; color: #22C785;" th:text="${item.changePrice()}"></span>
+								<span th:text="${item.area}+'m&sup2;'"></span>
+								<span th:text="${item.location_district +','+ item.location_city}"></span>
+							</span>
+							<span class="item_room_time">
+								<span th:text="${item.changeDate()}"></span>
+							</span>
+							<span class="item_room_text">
+								<span th:text="${item.title +' '+ item.location_district + ', '+ item.location_city + '. Diện tích ' + item.area +'m&sup2;.' + ' Giá ' + item.changePrice() + '...'}"></span>
+							</span>
+							<span class="item_room_name_phone">
+								<span>
+									<i style="font-size: 5vh;" class="fa-solid fa-circle-user"></i>
+									<span th:text="${item.user_name}"></span>
+								</span>
+								<span>
+									<button class="btn-phone" th:text="'Gọi: '+${item.phone}"></button>
+									<button class="btn-zalo" th:attr="data-phone=${item.phone}">Nhắn Zalo</button>									
+								</span>
+							</span>
+						</span>
+					</a>
+				</div>
+				<div class="wrapper_btnPage">
+					<span th:if="${page > 0}">
+						<a class="btn_page" th:href="'?page=' + ${page}">Trang trước</a>	
+					</span>
+					
+					<span th:if="${totalPage > 1}">
+						<span th:each="i : ${#numbers.sequence(prePage, nextPage)}">
+							<a th:class="${i == page} ? 'btn_page active_btnPage' : 'btn_page'"  th:href="'?page=' + ${i + 1}" th:text="${i + 1}"></a>
+						</span>
+					</span>
+					
+					<span th:if="${page < totalPage - 1}">
+						<a class="btn_page" th:href="'?page=' + ${page + 2}">Trang sau</a>	
+					</span> 
+				</div>
+			</div>
+			<div class="wrapper_search_part_2">
+				<div th:replace="views/MenuRight"></div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="views/hotrochunhadangtin"></div>
+	<div th:replace="views/header-footer/footer"></div>
+</body>
+</html>

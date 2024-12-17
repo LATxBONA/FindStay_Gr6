@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import com.example.PHONGTROSPRING.entities.Locations;
+//import com.example.PHONGTROSPRING.entities.Locations;
 import com.example.PHONGTROSPRING.entities.RoomTypes;
 import com.example.PHONGTROSPRING.entities.User;
 
@@ -18,7 +18,7 @@ public class phongtroresponse {
 	private String description;
 	private BigDecimal price;
 	private BigDecimal area;
-	private Locations location;
+//	private Locations location;
 	private String address;
 	private RoomTypes roomType;
 	private LocalDateTime createdAt;
@@ -64,12 +64,12 @@ public class phongtroresponse {
 	public void setArea(BigDecimal area) {
 		this.area = area;
 	}
-	public Locations getLocation() {
-		return location;
-	}
-	public void setLocation(Locations location) {
-		this.location = location;
-	}
+//	public Locations getLocation() {
+//		return location;
+//	}
+//	public void setLocation(Locations location) {
+//		this.location = location;
+//	}
 	public String getAddress() {
 		return address;
 	}

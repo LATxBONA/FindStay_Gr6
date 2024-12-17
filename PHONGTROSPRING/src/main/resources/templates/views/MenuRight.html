@@ -1,0 +1,62 @@
+<div class="menuright_wrapper">
+	<div>
+		<div class="menuright_menu_1">
+			<p class="menuright_p">Xem theo khoảng cách</p>
+			<div class="menuright_list">
+				<div class="menuright_list_into">
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Dưới 1 triệu</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Từ 2 - 3 triệu</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Từ 5 - 7 triệu</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Từ 10 - 15 triệu</a>
+				</div>
+				<div class="menuright_list_into">
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Từ 1 - 2 triệu</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Từ 3 - 5 triệu</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Từ 7 - 9 triệu</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Trên 15 triệu</a>
+				</div>
+			</div>
+			
+			<p class="menuright_p">Xem theo diện tích</p>
+			<div class="menuright_list">
+				<div class="menuright_list_into">
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Dưới 20m&#178;</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Từ 30 -50m&#178;</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Từ 70 - 90m&#178;</a>
+				</div>
+				<div class="menuright_list_into">
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Từ 20 - 30m&#178;</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Từ 50 - 70m&#178;</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Trên 90m&#178;</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="menuright_menu_2">
+		<div th:if="${city != null}" >
+			<p class="menuright_p" th:text="'Danh mục cho thuê tại ' + ${city}"></p>
+			<div class="menuright_list">
+				<div class="menuright_list_into">
+					<a href="#"><i class="fa-solid fa-chevron-right"></i><span th:text="'Phòng trọ ' + ${city}"></span></a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i><span th:text="'Nhà nguyên căn ' + ${city}"></span></a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i><span th:text="'Căn hộ ' + ${city}"></span></a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i><span th:text="'Mặt bằng ' + ${city}"></span></a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i><span th:text="'Ở ghép ' + ${city}"></span></a>
+				</div>
+			</div>
+		</div>
+		
+		<div th:if="${city == null}" >
+			<p class="menuright_p">Danh mục</p>
+			<div class="menuright_list">
+				<div class="menuright_list_into">
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Phòng trọ</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Nhà nguyên căn</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Căn hộ</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Mặt bằng</a>
+					<a href="#"><i class="fa-solid fa-chevron-right"></i>Ở ghép</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
