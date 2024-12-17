@@ -1,20 +1,28 @@
 package com.example.PHONGTROSPRING.Controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.PHONGTROSPRING.entities.Listings;
 import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.request.RequestPostNew;
 import com.example.PHONGTROSPRING.request.RequestThanhToan;
+import com.example.PHONGTROSPRING.service.ListingsService;
 import com.example.PHONGTROSPRING.service.LocationService;
 import com.example.PHONGTROSPRING.service.RoomTypesService;
 import com.example.PHONGTROSPRING.service.ServicePostNew;
@@ -31,6 +39,8 @@ public class dangTinController {
 	private RoomTypesService RoomTypesService;
 	@Autowired
 	private ServicePostNew ServicePostNew;
+	@Autowired
+	private ListingsService ListingsService;
 
 	@GetMapping("/dangtin")
 	public String dangtin(Model model) {
@@ -111,4 +121,64 @@ public class dangTinController {
 	 * return "views/dangtin"; }
 	 */
 
+	@GetMapping("/quanlytin")
+	public String quanlytin(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(value = "valuesearch", required = false, defaultValue = "") String valuesearch,
+			@RequestParam(value = "valueloaitin", required = false, defaultValue = "999999") int valueloaitin,
+			@RequestParam(value = "valuetrangthai", required = false, defaultValue = "") String valuetrangthai,
+			Model model, HttpSession session) {
+
+		User user = (User) session.getAttribute("user");
+		Pageable pageable = PageRequest.of(page, 10);
+
+		// Xử lý khi không có giá trị tìm kiếm
+		Page<Listings> listings;
+		if (valuesearch.isEmpty() && valueloaitin == 999999 && valuetrangthai.isEmpty()) {
+			listings = ListingsService.getListingByUser(user, pageable);
+		} else {
+			listings = ListingsService.searchTin(valuetrangthai, valueloaitin, valuesearch, user, pageable);
+		}
+
+		model.addAttribute("listtingsss", listings);
+		model.addAttribute("valuesearch", valuesearch);
+		model.addAttribute("valueloaitin", valueloaitin);
+		model.addAttribute("valuetrangthai", valuetrangthai);
+
+		return "views/quanlytin"; // Trả về view quanlytin.html
+	}
+
+	/*
+	 * @PostMapping("/quanlytin") public String search(@RequestParam(value =
+	 * "valueloaitin", required = false, defaultValue = "999999") int postType,
+	 * 
+	 * @RequestParam("valuetrangthai") String status,
+	 * 
+	 * @RequestParam("valuesearch") String titleorid, Model model, HttpSession
+	 * session,
+	 * 
+	 * @RequestParam(defaultValue = "0") int page ) { User user = (User)
+	 * session.getAttribute("user"); Pageable pageable = PageRequest.of(page, 10);
+	 * Page<Listings> result = ListingsService.searchTin(status, postType,
+	 * titleorid, user, pageable); System.out.println(result.getTotalElements());
+	 * 
+	 * if (result != null && !result.isEmpty()) { model.addAttribute("listtingsss",
+	 * result); } else { model.addAttribute("listtingsss", new
+	 * ArrayList<Listings>()); } model.addAttribute("valuesearch", titleorid);
+	 * model.addAttribute("valueloaitin", postType);
+	 * model.addAttribute("valuetrangthai", status); return "views/quanlytin"; }
+	 */
+
+	@GetMapping("/quanlytin/hide/{id}")
+	public String antin(@PathVariable int id) {
+		ListingsService.antin(id);
+
+		return "redirect:/quanlytin";
+	}
+
+	@GetMapping("/quanlytin/danglai/{id}")
+	public String danglai(@PathVariable int id) {
+		
+		ListingsService.danglai(id);
+		return "redirect:/quanlytin";
+	}
 }

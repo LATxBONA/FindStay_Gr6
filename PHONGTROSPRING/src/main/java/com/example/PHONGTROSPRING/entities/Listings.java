@@ -224,7 +224,7 @@ public class Listings {
 	public void setCreatedAt() {
 		this.createdAt = LocalDateTime.now();
 	}
-
+	
 	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
@@ -246,6 +246,8 @@ public class Listings {
 			statusTemp = "Chờ duyệt";
 		} else if (status.equals("Ẩn tin")) {
 			statusTemp = "Ẩn tin";
+		} else if (status.equals("Hết hạn")) {
+			statusTemp = "Hết hạn";
 		}
 
 		this.status = statusTemp;

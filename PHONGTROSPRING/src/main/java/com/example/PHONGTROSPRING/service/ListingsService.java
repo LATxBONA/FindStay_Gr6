@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.example.PHONGTROSPRING.entities.Images;
@@ -16,6 +19,7 @@ import com.example.PHONGTROSPRING.entities.Locations;
 import com.example.PHONGTROSPRING.entities.RoomTypes;
 import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.repository.ListingsRepository;
+import com.example.PHONGTROSPRING.repository.UserRepository;
 
 @Service
 public class ListingsService {
@@ -30,6 +34,10 @@ public class ListingsService {
 		list = listingRepository.findAll();
 
 		return list;
+	}
+
+	public Page<Listings> getListingByUser(User user, Pageable pageable) {
+		return listingRepository.findByUser(user, pageable);
 	}
 
 	/*
@@ -60,51 +68,51 @@ public class ListingsService {
 	public Listings getRoomById(int roomId) {
 		return listingRepository.findById(roomId).orElse(null);
 	}
-	
-	public List<Listings> getRoomFeatured(int locationId) {	
+
+	public List<Listings> getRoomFeatured(int locationId) {
 		return listingRepository.findAllListingsOrderByPostTypeAndCreatedAt(locationId);
 	}
-	
-	public List<Listings> getNewRoom(int locationId) {	
+
+	public List<Listings> getNewRoom(int locationId) {
 		return listingRepository.findAllListingsFollowLocationAndCreatedAt(locationId);
 	}
-	
-	public List<Images> getImageFollowRoomFeatured(List<Images> list){
+
+	public List<Images> getImageFollowRoomFeatured(List<Images> list) {
 		List<Images> imgFeaturedNew = new ArrayList<>();
-		
+
 		int temp = -1;
-		
-		for(Images itemCurrent : list) {
-			if(itemCurrent.getListing().getItemId() != temp) {
+
+		for (Images itemCurrent : list) {
+			if (itemCurrent.getListing().getItemId() != temp) {
 				imgFeaturedNew.add(itemCurrent);
 				temp = itemCurrent.getListing().getItemId();
 			}
 		}
-		
+
 		return imgFeaturedNew;
 	}
-	
-	public List<Images> getImageFollowNewRoom(List<Images> list){
+
+	public List<Images> getImageFollowNewRoom(List<Images> list) {
 		List<Images> imgFeaturedNew = new ArrayList<>();
-		
+
 		int temp = -1;
-		
-		for(Images itemCurrent : list) {
-			if(itemCurrent.getListing().getItemId() != temp) {
+
+		for (Images itemCurrent : list) {
+			if (itemCurrent.getListing().getItemId() != temp) {
 				imgFeaturedNew.add(itemCurrent);
 				temp = itemCurrent.getListing().getItemId();
 			}
 		}
-		
+
 		return imgFeaturedNew;
 	}
-	
+
 	public String[] cutStringDescription(String substr) {
 		String[] words = substr.split("\\.");
-		
+
 		return words;
 	}
-	
+
 	public String date(LocalDateTime date) {
 		LocalDateTime now = LocalDateTime.now();
 		long timeSeconds = ChronoUnit.SECONDS.between(date, now);
@@ -125,16 +133,47 @@ public class ListingsService {
 
 		return dateTime;
 	}
-	
-	public List<String> dateArray(List<Listings> listing){
+
+	public List<String> dateArray(List<Listings> listing) {
 		List<String> listDate = new ArrayList<>();
-		for(Listings item : listing) {
+		for (Listings item : listing) {
 			listDate.add(date(item.getCreatedAt()));
 		}
-		
+
 		return listDate;
 	}
-	
+
+	public Listings getListingById(int id) {
+		return listingRepository.getById(id);
+	}
+
+	public Page<Listings> searchTin(String status, int postType, String title, User user, Pageable pageable) {
+		return listingRepository.findByStatusOrPostTypeOrTitleAndUser(status, postType, title, user, pageable);
+	}
+
+	public void antin(int id) {
+		Listings listting = listingRepository.findById(id).orElseThrow(() -> new RuntimeException("error"));
+		listting.setStatus("Ẩn tin");
+
+		listingRepository.save(listting);
+
+	}
+
+	public void danglai(int id) {
+		Listings listting = listingRepository.findById(id).orElseThrow(() -> new RuntimeException("error"));
+		listting.setStatus("Đã duyệt");
+
+		listingRepository.save(listting);
+
+	}
+
+	/*
+	 * @Scheduled(fixedRate = 30000) public void checkhethan() { LocalDateTime now =
+	 * LocalDateTime.now(); for (Listings listing : getAllListings()) { if
+	 * (now.isAfter(listing.getExpiryDate())) { listing.setStatus("Hết hạn"); } } }
+	 */
+
+
 	//Tú làm tiềm kiếm nè 
     public List<Listings> getListingsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
         return listingRepository.findListingsByPriceRange(minPrice, maxPrice);
@@ -144,5 +183,5 @@ public class ListingsService {
     	return listingRepository.findListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType);
     }
 	
-	
+
 }

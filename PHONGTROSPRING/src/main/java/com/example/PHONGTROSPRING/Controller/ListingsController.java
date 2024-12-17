@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.PHONGTROSPRING.entities.Images;
@@ -180,6 +181,8 @@ public class ListingsController {
 	 * model.addAttribute("urlimg", listurlimg); return "views/phongtro"; }
 	 */
 	
+
+
 	//Tú làm tìm kiếm 
 	
     @GetMapping("/searchne")
@@ -199,5 +202,6 @@ public class ListingsController {
         model.addAttribute("listings", listings);
         return "views/kq_search"; // Tên file Thymeleaf để render danh sách
     }
+
 
 }

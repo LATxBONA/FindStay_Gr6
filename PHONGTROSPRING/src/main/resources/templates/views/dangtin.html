@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 
 			<div class="btn">
-				<button type="submit" class="btn-submit">Tiếp tục</button>
+				<button type="submit" th:onclick="'return confirm(\'Bạn có chắc chắn đã xác nhận đúng thông tin rồi chứ?\')'" class="btn-submit">Tiếp tục</button>
 			</div>
 		</form>
 	</div>
