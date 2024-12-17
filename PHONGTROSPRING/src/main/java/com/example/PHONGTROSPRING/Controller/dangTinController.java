@@ -134,14 +134,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.PHONGTROSPRING.entities.Listings;
-import com.example.PHONGTROSPRING.entities.User;
-import com.example.PHONGTROSPRING.request.RequestPostNew;
-import com.example.PHONGTROSPRING.request.RequestThanhToan;
-import com.example.PHONGTROSPRING.service.ListingsService;
-import com.example.PHONGTROSPRING.service.LocationService;
-import com.example.PHONGTROSPRING.service.RoomTypesService;
-import com.example.PHONGTROSPRING.service.ServicePostNew;
+import com.example.PHONGTROSPRING.entities.*;
+import com.example.PHONGTROSPRING.request.*;
+import com.example.PHONGTROSPRING.service.*;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.Session;
@@ -149,8 +144,9 @@ import jakarta.websocket.Session;
 @Controller
 public class dangTinController {
 
-	@Autowired
-	private LocationService LocationService;
+	/*
+	 * @Autowired private LocationService LocationService;
+	 */
 	@Autowired
 	private RoomTypesService RoomTypesService;
 	@Autowired
@@ -160,7 +156,7 @@ public class dangTinController {
 
 	@GetMapping("/dangtin")
 	public String dangtin(Model model) {
-		model.addAttribute("locations", LocationService.getAllLocation());
+		/* model.addAttribute("locations", LocationService.getAllLocation()); */
 		model.addAttribute("roomtypes", RoomTypesService.getAllRoomTypes());
 		return "views/dangtin";
 	}
@@ -168,8 +164,10 @@ public class dangTinController {
 	@GetMapping("/city")
 	public String city(@RequestParam("selectedOption") String request, Model model) {
 
-		model.addAttribute("locations", LocationService.getAllLocation());
-		model.addAttribute("locationlist", LocationService.getAllLocations(request));
+		/*
+		 * model.addAttribute("locations", LocationService.getAllLocation());
+		 * model.addAttribute("locationlist", LocationService.getAllLocations(request));
+		 */
 		model.addAttribute("roomtypes", RoomTypesService.getAllRoomTypes());
 		model.addAttribute("selectedcity", request);
 
@@ -184,7 +182,7 @@ public class dangTinController {
 
 		User user = (User) session.getAttribute("user");
 		request.setUserid(user.getUserId());
-		ServicePostNew.postNew(request, requesttt);
+		/* ServicePostNew.postNew(request, requesttt); */
 		// session.setAttribute("requestpost", request);
 		// redirectAttributes.addFlashAttribute("requestpost", request);
 		// model.addAttribute("requestthanhtoan", request);

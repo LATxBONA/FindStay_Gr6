@@ -52,7 +52,7 @@ public class BlogPostController {
 			phongtro.setDescription(listings.get(i).getDescription());
 			phongtro.setPrice(listings.get(i).getPrice());
 			phongtro.setArea(listings.get(i).getArea());
-			phongtro.setLocation(listings.get(i).getLocation());
+			/* phongtro.setLocation(listings.get(i).getLocation()); */
 			phongtro.setAddress(listings.get(i).getAddress());
 			phongtro.setRoomType(listings.get(i).getRoomType());
 			phongtro.setCreatedAt(listings.get(i).getCreatedAt());

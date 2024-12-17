@@ -13,13 +13,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
+import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.entities.Listings;
 import com.example.PHONGTROSPRING.response.ListingsResponse;
 
-@Repository
-public interface ListingsRepository extends JpaRepository<Listings, Integer> {
-import com.example.PHONGTROSPRING.entities.User;
 
 @Repository
 public interface ListingsRepository extends JpaRepository<Listings, Integer>, JpaSpecificationExecutor<Listings>{
@@ -44,10 +41,6 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer>, Jp
 	
 	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, l.postType, l.area) FROM Listings l WHERE l.roomType.roomTypeId = :roomtype_id AND l.status = 'Đã duyệt' ORDER BY l.postType DESC, l.createdAt DESC")
 	Page<ListingsResponse> getListingsNationWide(@Param("roomtype_id") int roomtype_id, Pageable pageable);
-
-	@Query("SELECT l FROM Listings l WHERE l.location.locationId = :locationId ORDER BY l.createdAt DESC")
-	List<Listings> findAllListingsFollowLocationAndCreatedAt(@Param("locationId") int locationId);
-
 
 	Page<Listings> findByStatusOrPostTypeOrTitleAndUser(String status, int postType, String title, User user, Pageable pageable);
 	

@@ -13,9 +13,6 @@ import com.example.PHONGTROSPRING.entities.Images;
 import com.example.PHONGTROSPRING.entities.Listings;
 
 @Repository
-
-public interface ImagesRepository extends JpaRepository<Images, Integer> {
-
 public interface ImagesRepository extends JpaRepository<Images, Integer>{
 
 

@@ -2,6 +2,9 @@ package com.example.PHONGTROSPRING.service;
 
 import org.springframework.data.domain.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +18,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.example.PHONGTROSPRING.entities.Images;
 import com.example.PHONGTROSPRING.entities.Listings;
 import com.example.PHONGTROSPRING.entities.LocationsDistrict;
+import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.repository.ImagesRepository;
 import com.example.PHONGTROSPRING.repository.ListingsRepository;
 
@@ -24,7 +29,6 @@ import com.example.PHONGTROSPRING.repository.LocationsDistrictRepository;
 import com.example.PHONGTROSPRING.response.ListingsResponse;
 
 import com.example.PHONGTROSPRING.repository.UserRepository;
-
 
 @Service
 public class ListingsService {
@@ -46,7 +50,6 @@ public class ListingsService {
 
 		return list;
 	}
-
 
 	public Listings findById(int roomId) {
 		return listingRepository.findById(roomId).orElse(null);
@@ -85,6 +88,9 @@ public class ListingsService {
 		List<String> base64Images = new ArrayList<>();
 		for (byte[] imageBytes : imageBytesList) {
 			base64Images.add(Base64.getEncoder().encodeToString(imageBytes));
+		}
+		return base64Images;
+	}
 
 	public Page<Listings> getListingByUser(User user, Pageable pageable) {
 		return listingRepository.findByUser(user, pageable);
@@ -119,14 +125,6 @@ public class ListingsService {
 		return listingRepository.findById(roomId).orElse(null);
 	}
 
-	public List<Listings> getRoomFeatured(int locationId) {
-		return listingRepository.findAllListingsOrderByPostTypeAndCreatedAt(locationId);
-	}
-
-	public List<Listings> getNewRoom(int locationId) {
-		return listingRepository.findAllListingsFollowLocationAndCreatedAt(locationId);
-	}
-
 	public List<Images> getImageFollowRoomFeatured(List<Images> list) {
 		List<Images> imgFeaturedNew = new ArrayList<>();
 
@@ -157,37 +155,24 @@ public class ListingsService {
 		return imgFeaturedNew;
 	}
 
-	public String[] cutStringDescription(String substr) {
-		String[] words = substr.split("\\.");
-
-		return words;
-	}
-
-	public String date(LocalDateTime date) {
-		LocalDateTime now = LocalDateTime.now();
-		long timeSeconds = ChronoUnit.SECONDS.between(date, now);
-		long timeMinutes = ChronoUnit.MINUTES.between(date, now);
-		long timeHours = ChronoUnit.HOURS.between(date, now);
-		long timeDays = ChronoUnit.DAYS.between(date, now);
-
-		String dateTime = "";
-		if (timeSeconds <= 60) {
-			dateTime = timeSeconds + " giây trước";
-		} else if (timeMinutes <= 60) {
-			dateTime = timeMinutes + " phút trước";
-		} else if (timeHours <= 24) {
-			dateTime = timeHours + " giờ trước";
-		} else {
-			dateTime = timeDays + " ngày trước";
-
-		}
-		return base64Images;
-	}
+	/*
+	 * public String date(LocalDateTime date) { LocalDateTime now =
+	 * LocalDateTime.now(); long timeSeconds = ChronoUnit.SECONDS.between(date,
+	 * now); long timeMinutes = ChronoUnit.MINUTES.between(date, now); long
+	 * timeHours = ChronoUnit.HOURS.between(date, now); long timeDays =
+	 * ChronoUnit.DAYS.between(date, now);
+	 * 
+	 * String dateTime = ""; if (timeSeconds <= 60) { dateTime = timeSeconds +
+	 * " giây trước"; } else if (timeMinutes <= 60) { dateTime = timeMinutes +
+	 * " phút trước"; } else if (timeHours <= 24) { dateTime = timeHours +
+	 * " giờ trước"; } else { dateTime = timeDays + " ngày trước";
+	 * 
+	 * } return base64Images; }
+	 */
 
 	public int getQuantityPost() {
 		return listingRepository.getQuantityPost();
 	}
-
 
 	public Page<ListingsResponse> getListings(int roomtype_id, int city_id, int page, int size) {
 		return listingRepository.getListings(roomtype_id, city_id, PageRequest.of(page, size));
@@ -195,20 +180,12 @@ public class ListingsService {
 
 	public Page<ListingsResponse> getListingsNationWide(int roomtype_id, int page, int size) {
 		return listingRepository.getListingsNationWide(roomtype_id, PageRequest.of(page, size));
-=======
-	public List<String> dateArray(List<Listings> listing) {
-		List<String> listDate = new ArrayList<>();
-		for (Listings item : listing) {
-			listDate.add(date(item.getCreatedAt()));
-		}
-
-		return listDate;
-
 	}
 
-	public Listings getListingById(int id) {
-		return listingRepository.getById(id);
-	}
+	/*
+	 * public Listings getListingById(int id) { return
+	 * listingRepository.getById(id); }
+	 */
 
 	public Page<Listings> searchTin(String status, int postType, String title, User user, Pageable pageable) {
 		return listingRepository.findByStatusOrPostTypeOrTitleAndUser(status, postType, title, user, pageable);
@@ -236,15 +213,14 @@ public class ListingsService {
 	 * (now.isAfter(listing.getExpiryDate())) { listing.setStatus("Hết hạn"); } } }
 	 */
 
+	// Tú làm tiềm kiếm nè
+	public List<Listings> getListingsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+		return listingRepository.findListingsByPriceRange(minPrice, maxPrice);
+	}
 
-	//Tú làm tiềm kiếm nè 
-    public List<Listings> getListingsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
-        return listingRepository.findListingsByPriceRange(minPrice, maxPrice);
-    }
-	
-    public List<Listings> getListingsByLAT(BigDecimal minPrice, BigDecimal maxPrice, BigDecimal minArea, BigDecimal maxArea, String roomType ){
-    	return listingRepository.findListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType);
-    }
-	
+	public List<Listings> getListingsByLAT(BigDecimal minPrice, BigDecimal maxPrice, BigDecimal minArea,
+			BigDecimal maxArea, String roomType) {
+		return listingRepository.findListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType);
+	}
 
 }
