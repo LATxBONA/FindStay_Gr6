@@ -16,4 +16,5 @@ public interface LocationsDistrictRepository extends JpaRepository<LocationsDist
 
 	@Query("SELECT d FROM LocationsDistrict d WHERE d.location_city.city_id = :city_id")
 	List<LocationsDistrict> getDistrict(@Param("city_id") int city_id);
+	
 }

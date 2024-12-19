@@ -13,11 +13,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.PHONGTROSPRING.entities.Images;
 import com.example.PHONGTROSPRING.entities.Listings;
+import com.example.PHONGTROSPRING.entities.ListingsFeatures;
+import com.example.PHONGTROSPRING.entities.LocationsCity;
+import com.example.PHONGTROSPRING.entities.LocationsDistrict;
+import com.example.PHONGTROSPRING.entities.LocationsWard;
 //import com.example.PHONGTROSPRING.entities.Locations;
 import com.example.PHONGTROSPRING.entities.RoomTypes;
 import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.repository.ImagesRepository;
+import com.example.PHONGTROSPRING.repository.ListingsFeaturesRepository;
 import com.example.PHONGTROSPRING.repository.ListingsRepository;
+import com.example.PHONGTROSPRING.repository.LocationsCityRepository;
+import com.example.PHONGTROSPRING.repository.LocationsDistrictRepository;
+import com.example.PHONGTROSPRING.repository.LocationsWardRepository;
 //import com.example.PHONGTROSPRING.repository.LocationRepository;
 import com.example.PHONGTROSPRING.repository.RoomTypesRepository;
 import com.example.PHONGTROSPRING.repository.UserRepository;
@@ -58,7 +66,6 @@ public class ServicePostNew {
 
 	@Autowired
 	private UserRepository UserRepository;
-
 
 //	@Autowired
 //	private LocationRepository LocationRepository;
@@ -187,6 +194,18 @@ public class ServicePostNew {
 	@Autowired
 	private ImagesRepository ImagesRepository;
 
+	@Autowired
+	private LocationsCityRepository locationsCityRepository;
+
+	@Autowired
+	private LocationsDistrictRepository locationsDistrictRepository;
+
+	@Autowired
+	private LocationsWardRepository locationsWardRepository;
+
+	@Autowired
+	private ListingsFeaturesRepository ListingsFeaturesRepository;
+	
 	/*
 	 * public List<Locations> getLocation() {
 	 * 
@@ -229,48 +248,54 @@ public class ServicePostNew {
 	 * return location; }
 	 */
 
-	/*
-	 * public void postNew(RequestPostNew request, RequestThanhToan requesttt) {
-	 * 
-	 * Listings listing = new Listings(); LocalDateTime localdate =
-	 * LocalDateTime.now(); if (requesttt.getGoitime().equals("ngay")) {
-	 * localdate=localdate.plusDays(requesttt.getSongay()); } else if
-	 * (requesttt.getGoitime().equals("tuan")) {
-	 * localdate=localdate.plusDays(requesttt.getSongay() * 7); } else if
-	 * (requesttt.getGoitime().equals("thang")) {
-	 * localdate=localdate.plusDays(requesttt.getSongay() * 30); }
-	 * 
-	 * User user = new User();
-	 * 
-	 * user = UserRepository.findById(request.getUserid()) .orElseThrow(() -> new
-	 * RuntimeException("Không có user này"));
-	 * 
-	 * Locations location = new Locations(); location =
-	 * LocationRepository.findById(request.getLocationid()) .orElseThrow(() -> new
-	 * RuntimeException("Không có location"));
-	 * 
-	 * RoomTypes roomtypes = new RoomTypes(); roomtypes =
-	 * RoomTypesRepository.findById(request.getRoomTypeid()) .orElseThrow(() -> new
-	 * RuntimeException("Không có kiểu phòng"));
-	 * 
-	 * listing.setUser(user); listing.setTitle(request.getTitle());
-	 * listing.setDescription(request.getDescription());
-	 * listing.setPrice(request.getPrice()); listing.setArea(request.getArea());
-	 * listing.setLocation(location); listing.setAddress(request.getAddress());
-	 * listing.setRoomType(roomtypes); listing.setStatus("Chờ duyệt");
-	 * listing.setCreatedAt(); listing.setObject(request.getObject());
-	 * listing.setExpiryDate(localdate);
-	 * listing.setPostType(requesttt.getLoaitin());
-	 * ListingsRepository.save(listing); for (MultipartFile file :
-	 * request.getUrlAnh()) { Images images = new Images(); try {
-	 * images.setListing(listing); images.setImageUrl(file.getBytes());
-	 * ImagesRepository.save(images);
-	 * 
-	 * } catch (IOException e) { e.printStackTrace(); } }
-	 * user.getBalance().subtract(tinhtien(requesttt));
-	 * 
-	 * }
-	 */
+	public void postNew(RequestPostNew request, RequestThanhToan requesttt, ListingsFeatures listingsFeatures) {
+
+		Listings listing = new Listings();
+		LocalDateTime localdate = UtitilyService.plusday(requesttt);
+
+		request.getUser().getBalance().subtract(UtitilyService.tinhtien(requesttt));
+		RoomTypes roomtypes = new RoomTypes();
+		roomtypes = RoomTypesRepository.findById(request.getRoomTypeid())
+				.orElseThrow(() -> new RuntimeException("Không có kiểu phòng"));
+
+		LocationsCity city = locationsCityRepository.findById(request.getCity_id())
+				.orElseThrow(() -> new RuntimeException("Không có city"));
+		LocationsDistrict district = locationsDistrictRepository.findById(request.getDistrict_id())
+				.orElseThrow(() -> new RuntimeException("Không có district"));
+
+		LocationsWard ward = locationsWardRepository.findById(request.getWard_id())
+				.orElseThrow(() -> new RuntimeException("Không có city"));
+		listing.setUser(request.getUser());
+		listing.setTitle(request.getTitle());
+		listing.setDescription(request.getDescription());
+		listing.setPrice(request.getPrice());
+		listing.setArea(request.getArea());
+		listing.setLocation_city(city);
+		listing.setLocation_district(district);
+		listing.setLocation_ward(ward);
+		listing.setAddress(request.getAddress());
+		listing.setRoomType(roomtypes);
+		listing.setStatus("Chờ duyệt");
+		listing.setCreatedAt();
+		listing.setObject(request.getObject());
+		listing.setExpiryDate(localdate);
+		listing.setPostType(requesttt.getLoaitin());
+		ListingsRepository.save(listing);
+		listingsFeatures.setListings(listing);
+		ListingsFeaturesRepository.save(listingsFeatures);
+		for (MultipartFile file : request.getUrlAnh()) {
+			Images images = new Images();
+			try {
+				images.setListing(listing);
+				images.setImageUrl(file.getBytes());
+				ImagesRepository.save(images);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
 
 	/*
 	 * public byte[] get1anh(int dunglamtcuoiid) { return
@@ -290,17 +315,4 @@ public class ServicePostNew {
 	}
 
 
-	public BigDecimal tinhtien(RequestThanhToan request) {
-		BigDecimal tien = BigDecimal.ZERO;
-		if (request.getLoaitin() != 0) {
-			if (request.getGoitime().equals("ngay")) {
-				tien.valueOf(request.getLoaitin() * request.getSongay());
-			} else if (request.getGoitime().equals("tuan")) {
-				tien.valueOf((request.getLoaitin() * request.getSongay() * 7) * 0.95);
-			} else if (request.getGoitime().equals("thang")) {
-				tien.valueOf((request.getLoaitin() * request.getSongay() * 30) * 0.9);
-			}
-		}
-		return tien;
-	}
 }

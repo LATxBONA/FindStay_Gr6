@@ -61,3 +61,23 @@
 		margin: 2rem 13.5rem !important;
 	}
 }
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .froup-item {
+        flex: 1 1 100%;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    button {
+        width: 100%;
+    }
+}
