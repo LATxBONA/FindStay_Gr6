@@ -1,0 +1,114 @@
+/* Container chính bao gồm danh sách kết quả và bộ lọc */
+.search-results-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Phần bên trái: Danh sách phòng */
+.results-list {
+    width: 75%;
+}
+
+/* Phần bên phải: Bộ lọc */
+.filters {
+    width: 20%;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.filters h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.filters ul {
+    list-style: none;
+    padding: 0;
+}
+
+.filters ul li {
+    margin-bottom: 8px;
+}
+
+.filters ul li a {
+    text-decoration: none;
+    color: #007BFF;
+    font-size: 14px;
+}
+
+.filters ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Bộ lọc địa phương ở trên */
+.location-filter {
+    margin-bottom: 20px;
+}
+
+.location-filter h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.location-filter ul {
+    list-style: none;
+    padding: 0;
+}
+
+.location-filter ul li {
+    margin-bottom: 10px;
+}
+
+.location-filter ul li a {
+    text-decoration: none;
+    color: #007BFF;
+    font-size: 16px;
+}
+
+.location-filter ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Container danh sách kết quả */
+.listing-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.listing-item {
+    width: 100%;
+    height: 33vh;
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #FFF5EE;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.listing-image {
+    width: 45%;
+    overflow: hidden;
+}
+
+.listing-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.listing-details {
+    margin-left: 30px;
+    padding: 15px;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}

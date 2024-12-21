@@ -21,9 +21,16 @@ import com.example.PHONGTROSPRING.response.ListingsResponse;
 @Repository
 public interface ListingsRepository extends JpaRepository<Listings, Integer>, JpaSpecificationExecutor<Listings>{
 
-	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address) FROM Listings l WHERE l.itemId != :item_id AND l.roomType.roomTypeId = :roomType_id AND l.location_district.district_id = :district_id AND l.status = 'Đã duyệt' ORDER BY l.postType DESC, l.createdAt DESC")
-	List<ListingsResponse> findAllListingsFeatured(@Param("item_id") int item_id, @Param("roomType_id") int roomType_id,
-			@Param("district_id") int district_id, Pageable pageable);
+	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address) "
+			+ "FROM Listings l WHERE l.itemId != :item_id "
+			+ "AND l.roomType.roomTypeId = :roomType_id "
+			+ "AND l.location_district.district_id = :district_id "
+			+ "AND l.status = 'Đã duyệt' "
+			+ "ORDER BY l.postType DESC, l.createdAt DESC")
+	List<ListingsResponse> findAllListingsFeatured(@Param("item_id") int item_id, 
+			@Param("roomType_id") int roomType_id,
+			@Param("district_id") int district_id, 
+			Pageable pageable);
 	
 
 	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address) FROM Listings l WHERE l.itemId != :item_id AND l.roomType.roomTypeId = :roomType_id AND l.location_district.district_id = :district_id AND l.status = 'Đã duyệt' ORDER BY l.createdAt DESC")
@@ -61,13 +68,22 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer>, Jp
 													// ánh xạ minPrice của câu truy vấn vào tham số của hàm java
 	*/
 	
+	@Query("SELECT l FROM Listings l WHERE l.price BETWEEN :minPrice AND :maxPrice AND l.area BETWEEN :minArea AND :maxArea")
+	List<Listings> findListingsByPriceAndAreaLAT(
+	        @Param("minPrice") BigDecimal minPrice,
+	        @Param("maxPrice") BigDecimal maxPrice,
+	        @Param("minArea") BigDecimal minArea,
+	        @Param("maxArea") BigDecimal maxArea);
 
 	
 	@Query(
 		    value = "SELECT * FROM Listings WHERE price BETWEEN :minPrice AND :maxPrice"
-		    		+ " AND area BETWEEN :minArea AND :maxArea "
-		    		+ " AND room_type_id LIKE :roomType "
-		    		+ "ORDER BY price ASC",
+		            + " AND area BETWEEN :minArea AND :maxArea "
+		            + " AND (:roomType IS NULL OR room_type_id LIKE :roomType) "
+		            + " AND (:city_id IS NULL OR city_id LIKE :city_id) "
+		            + " AND (:district_id IS NULL OR district_id LIKE :district_id) "
+		            + " AND (:ward_id IS NULL OR ward_id LIKE :ward_id) "
+		            + " ORDER BY price ASC",
 		    nativeQuery = true
 		)
 		List<Listings> findListingsByLAT(
@@ -75,9 +91,11 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer>, Jp
 		    @Param("maxPrice") BigDecimal maxPrice,
 		    @Param("minArea") BigDecimal minArea,
 		    @Param("maxArea") BigDecimal maxArea,
-		    @Param("roomType") String roomType
+		    @Param("roomType") String roomType,
+		    @Param("city_id") String city_id,
+		    @Param("district_id") String district_id,
+		    @Param("ward_id") String ward_id
 		);
-
 
 }
 
