@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cập nhật tin</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/assets/css/dangtin.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<script th:inline="javascript">
+async function loadDistricts() {
+    const idselected = parseInt("[[${listings.getLocation_district().getDistrict_id()}]]");
+
+    const cityId = document.getElementById("citySelect").value;
+    const locationSelect = document.getElementById("districtSelect");
+    locationSelect.innerHTML = '<option value="">-- Chọn quận/huyện --</option>'; // Xóa các tùy chọn cũ
+    if (cityId) {
+        try {
+            const response = await fetch(`/dangtin/${cityId}`); // Gửi GET request
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            const data = await response.json(); // Parse JSON
+            data.forEach(district => {
+                const option = document.createElement("option");
+                option.value = district.district_id; // Đặt value là districtId
+                option.text = district.district; // Hiển thị tên quận/huyện
+                if (district.district_id === idselected) {
+                    option.selected = true; // Đặt thuộc tính selected
+                }
+                locationSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    } else {
+        locationSelect.innerHTML = '<option value="">-- Chọn quận/huyện --</option>'; // Reset nếu không chọn thành phố
+    }
+}
+
+async function loadWard() {
+    const idselected = parseInt("[[${listings.getLocation_ward().getWard_id()}]]");
+
+    const districtId = document.getElementById("districtSelect").value;
+    const wardSelect = document.getElementById("locationward");
+    wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>'; // Reset nếu không có quận/huyện
+    if (districtId) {
+        try {
+            const response = await fetch(`/dangtin/city/${districtId}`); // Gửi GET request
+            if (!response.ok) {
+                console.log(response.body);
+                //throw new Error("Network response was not ok");
+            }
+            const data = await response.json(); // Parse JSON
+            data.forEach(wards => {
+                const options = document.createElement("option");
+                options.value = wards.ward_id; // Đặt value là districtId
+                options.text = wards.ward; // Hiển thị tên phường/xã
+                if (wards.ward_id === idselected) {
+                    options.selected = true;
+                }
+                wardSelect.appendChild(options);
+            });
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    } else {
+        wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>'; // Reset nếu không chọn quận/huyện
+    }
+}
+
+document.addEventListener("DOMContentLoaded", async function () {
+    await loadDistricts(); // Gọi hàm loadDistricts() trước
+    loadWard(); // Sau khi loadDistricts() hoàn tất, gọi loadWard()
+});
+</script>
+
+</head>
+<body>
+	<div th:replace="views/header-footer/header"></div>
+
+	<div>
+		<h1>Sửa tin</h1>
+		<div class="boder"></div>
+		<form th:action="@{http://localhost:8080/quanlytin/update/{id}(id=${listings.itemId})}"
+			enctype="multipart/form-data" method="post">
+			<div class="big">
+				<h2>Địa chỉ cho thuê</h2>
+				<div class="group-form">
+					<div class="froup-item">
+						<label>Tỉnh/Thành phố</label> <select name="city_id"
+							id="citySelect" onchange="loadDistricts()">
+							<option value="">Chọn thành phố</option>
+							<option th:each="city : ${locationscity}"
+								th:value="${city.city_id}" th:text="${city.city}"
+								th:selected="${city.city_id == listings.getLocation_city().getCity_id()}"></option>
+						</select>
+					</div>
+
+					<div class="froup-item">
+						<label>Quận/Huyện</label> <select name="district_id"
+							id="districtSelect" onchange="loadWard()">
+							<option value="">-- Chọn quận/huyện --</option>
+						</select>
+					</div>
+
+					<div class="froup-item">
+						<label>Phường/Xã</label> <select name="ward_id" id="locationward">
+							<option value="">-- Chọn phường/xã --</option>
+							<!-- Option sẽ được cập nhật từ controller -->
+						</select>
+					</div>
+
+				</div>
+				<div class="froup-item">
+					<label>Địa chỉ chính xác</label> <input type="text" name="address"
+						th:value="${listings.getAddress()}">
+				</div>
+			</div>
+			<div class="big">
+				<h2>Thông tin mô tả</h2>
+				<div class="group-form2">
+					<div class="froup-item">
+						<label>Loại phòng</label> <select class="select" name="roomTypeid">
+							<option>Chọn loại phòng</option>
+							<option th:each="roomtype : ${roomtypes}"
+								th:value="${roomtype.roomTypeId}"
+								th:text="${roomtype.roomTypeName}"
+								th:selected="${listings.getRoomType().getRoomTypeId()}"></option>
+						</select>
+					</div>
+					<div class="froup-item">
+						<label>Tiêu đề</label> <input type="text" name="title"
+							th:value="${listings.getTitle()}">
+					</div>
+					<div class="froup-item">
+						<label>Nội dung miêu tả</label>
+						<textarea rows="5" cols="" name="description"
+							th:text="${listings.getDescription()}"></textarea>
+					</div>
+					<div class="group-form">
+						<div class="froup-item">
+							<label>Giá cho thuê</label><input type="text" name="price"
+								th:value="${listings.getPrice()}">
+						</div>
+						<div class="froup-item">
+							<label>Diện tích</label><input type="text" name="area"
+								th:value="${listings.getArea()}">
+						</div>
+						<div class="froup-item">
+							<label>Đối tượng cho thuê</label> <select name="object">
+								<option th:value="'Tất cả'" th:text="'Tất cả'"
+									th:selected="${listings.getObject()}"></option>
+								<option th:value="'Nam'" th:text="'Nam'"
+									th:selected="${listings.getObject()}"></option>
+								<option th:value="'Nữ'" th:text="'Nữ'"
+									th:selected="${listings.getObject()}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="group-form">
+						<div class="froup-item">
+							<label>Hình ảnh</label> <input type="file" name="urlAnh" multiple>
+						</div>
+						<!-- <div class="froup-item">
+						<label>Video</label><input type="file" name="urlVideo">
+					</div> -->
+					</div>
+				</div>
+			</div>
+			<div class="big">
+				<h2>Đặc điểm</h2>
+				<div class="group-form">
+					<div class="checkbox-item">
+						<input type="checkbox" id=fullFurniture name="fullFurniture"
+							value="true" th:checked="${listingsfeatures.getFullFurniture()}">
+						<label for="fullFurniture">Đầy đủ nội thất</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=washingMachine name="washingMachine"
+							value="true" th:checked="${listingsfeatures.getWashingMachine()}">
+						<label for="washingMachine">Máy giặc</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=freeTime name="freeTime" value="true"
+							th:checked="${listingsfeatures.getFreeTime()}"> <label
+							for="freeTime">Giờ giấc tự do</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=attic name="attic" value="true"
+							th:checked="${listingsfeatures.getAttic()}"> <label
+							for="attic">Gác</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=refrigerator name="refrigerator"
+							value="true" th:checked="${listingsfeatures.getRefrigerator()}">
+						<label for="refrigerator">Tủ lạnh</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=protection name="protection"
+							value="true" th:checked="${listingsfeatures.getProtection()}">
+						<label for="protection">Bảo vệ 24/24</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=kitchenShelves name="kitchenShelves"
+							value="true" th:checked="${listingsfeatures.getKitchenShelves()}">
+						<label for="kitchenShelves">Kệ bếp</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=elevator name="elevator" value="true"
+							th:checked="${listingsfeatures.getElevator()}"> <label
+							for="elevator">Thang máy</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=parkingBasement name="parkingBasement"
+							value="true"
+							th:checked="${listingsfeatures.getParkingBasement()}"> <label
+							for="parkingBasement">Hầm để xe</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=airConditioning name="airConditioning"
+							value="true"
+							th:checked="${listingsfeatures.getAirConditioning()}"> <label
+							for="airConditioning">Điều hòa</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=commonOwner name="commonOwner"
+							value="true" th:checked="${listingsfeatures.getCommonOwner()}">
+						<label for="commonOwner">Chung chủ</label>
+					</div>
+				</div>
+			</div>
+			<!-- <div class="big">
+				<h2>Thanh toán tin</h2>
+				<div class="group-form">
+					<div class="froup-item">
+
+						<label>Loại tin</label> <select name="loaitin">
+							<option value="" disabled selected>Chọn loại tin</option>
+							<option value="0">Tin miễn phí</option>
+							<option value="1">Tin thường</option>
+							<option value="2">Tin VIP 3</option>
+							<option value="3">Tin VIP 2</option>
+							<option value="4">Tin VIP 1</option>
+							<option value="5">Tin VIP nổi bật</option>
+						</select>
+					</div>
+					<div class="froup-item">
+						<label>Gói thời gian</label> <select name="goitime" id="goitime"
+							onchange="loadTime()">
+							<option>Chọn gói thời gian</option>
+							<option value="ngay">Đăng theo ngày</option>
+							<option value="tuan">Đăng theo tuần</option>
+							<option value="thang">Đăng theo tháng</option>
+						</select>
+					</div>
+					<div class="froup-item">
+						<label>Thời gian</label> <select name="songay" id="songay">
+							<option>Thời gian</option>
+						</select>
+					</div>
+				</div>
+			</div> -->
+
+			<div class="btn">
+				<button type="submit"
+					th:onclick="'return confirm(\'Bạn có chắc chắn đã xác nhận đúng thông tin rồi chứ?\')'"
+					class="btn-submit">Cập nhật</button>
+			</div>
+		</form>
+	</div>
+	<div th:replace="views/header-footer/footer"></div>
+
+</body>
+</html>
+

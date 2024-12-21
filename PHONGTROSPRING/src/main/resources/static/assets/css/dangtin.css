@@ -1,41 +1,115 @@
-.group-form {
-	display: flex;
+/* Đặt phong cách chung */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
 }
 
-.boder {
-	margin-left: 10px;
-	height: 3px;
-	background: black;
+/* Tiêu đề chính */
+h1 {
+    text-align: center;
+    color: #007BFF;
+    margin-bottom: 20px;
 }
 
-.froup-item {
-	display: flex;
-	flex-direction: column;
-	margin-left: 20px;
-	margin-top: 10px;
-}
-
+/* Khung tổng thể */
 .big {
-	margin-left: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 800px;
 }
 
+/* Tiêu đề phụ */
+h2 {
+    font-size: 20px;
+    color: #555;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #007BFF;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Form nhóm */
+.group-form, .group-form2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Form item */
+.froup-item {
+    flex: 1 1 48%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Nhãn và input */
 label {
-	margin-bottom: 10px;
-	font-weight: bold;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
 }
 
-.select {
-	width: 30%;
+input[type="text"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
 }
 
+input[type="text"]:focus, textarea:focus, select:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+/* Button */
 .btn {
-	margin-top:20px;
-	display: flex; /* Enables CSS flexbox */
-	justify-content: center; /* Centers horizontally */
-	align-items: center; /* Centers vertically */
+    text-align: center;
+    margin-top: 20px;
 }
 
-.btn-submit {
-	font-size:20px;
-	background-color: #33CCFF;
+button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Hình ảnh */
+input[type="file"] {
+    padding: 5px;
+}
+
+/* Border dưới tiêu đề */
+.boder {
+    height: 3px;
+    background: #007BFF;
+    width: 50px;
+    margin: 10px auto;
+}
+
+
+.checkbox-item {
+  display: flex;
+  align-items: center; /* Căn giữa checkbox và label theo chiều dọc */
+  width: calc(25% - 20px); /* Mỗi item chiếm 1/4 hàng trừ khoảng cách */
+  margin-bottom: 10px;
 }

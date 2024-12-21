@@ -11,70 +11,87 @@
 <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
 <link rel="stylesheet" type="text/css" href="/assets/css/media.css">
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    // Lắng nghe sự kiện thay đổi của #mySelect
-    document.getElementById("mySelect").addEventListener("change", function () {
-        const selectedCity = this.value; // Lấy giá trị của thành phố được chọn
-
-        // Kiểm tra nếu chưa chọn thành phố, thì xóa sạch danh sách quận/huyện
-        if (!selectedCity) {
-            document.getElementById("locationSelect").innerHTML = '<option value="">Chọn quận/huyện</option>';
-            return;
-        }
-
-        // Gửi yêu cầu đến API
-        fetch(`/getcity?selectedvalue=${selectedCity}`)
-            .then(response => response.json()) // Chuyển phản hồi thành JSON
-            .then(data => {
-                const locationSelect = document.getElementById("locationSelect");
-
-                // Xóa các option cũ
-                locationSelect.innerHTML = '<option value="">Chọn quận/huyện</option>';
-
-                // Duyệt qua danh sách và thêm từng option
-                data.forEach(location => {
+function loadDistricts() {
+    const cityId = document.getElementById("citySelect").value;
+    const locationSelect = document.getElementById("districtSelect");
+    locationSelect.innerHTML = '<option value="">-- Chọn quận/huyện --</option>'; // Xóa các tùy chọn cũ
+    if (cityId) {
+        fetch(`/dangtin/${cityId}`) // Gửi GET request
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json(); // Parse JSON
+            })
+            .then(data => {                
+                data.forEach(district => {
                     const option = document.createElement("option");
-                    option.value = location.locationId; // Gán locationId vào value
-                    option.textContent = location.district; // Hiển thị district
+                    option.value = district.district_id; // Đặt value là districtId
+                    option.text = district.district; // Hiển thị tên quận/huyện
                     locationSelect.appendChild(option);
                 });
             })
-            .catch(error => console.error('Error:', error)); // Xử lý lỗi nếu có
-    });
-});
+            .catch(error => console.error("Error:", error));
+    } else {
+        locationSelect.innerHTML = '<option value="">-- Chọn quận/huyện --</option>'; // Reset nếu không chọn thành phố
+    }
+}
 
-document.addEventListener("DOMContentLoaded", function () {
-    // Lắng nghe sự kiện thay đổi của #mySelect
-    document.getElementById("goitime").addEventListener("change", function () {
-        const selected = this.value; // Lấy giá trị của thành phố được chọn
-
-        // Kiểm tra nếu chưa chọn thành phố, thì xóa sạch danh sách quận/huyện
-        if (!selected) {
-            document.getElementById("songay").innerHTML = '<option value="">Thời gian</option>';
-            return;
-        }
-
-        // Gửi yêu cầu đến API
-        fetch(`/getdataday?goithoigian=${selected}`)
-            .then(response => response.json()) // Chuyển phản hồi thành JSON
-            .then(data => {
-                const locationSelect = document.getElementById("songay");
-				let i = 1;
-                // Xóa các option cũ
-                locationSelect.innerHTML = '<option value="">Thời gian</option>';
-
-                // Duyệt qua danh sách và thêm từng option
+function loadWard() {
+    const districtId = document.getElementById("districtSelect").value;
+    const wardSelect = document.getElementById("locationward");
+    
+    wardSelect.innerHTML='<option value="">-- Chọn Phường/Xã --</option>'
+    if (districtId) {
+        fetch(`/dangtin/city/${districtId}`) // Gửi GET request
+            .then(response => {
+                if (!response.ok) {
+                	
+                	console.log(response.body)
+                    //throw new Error("Network response was not ok");
+                    
+                }
+                return response.json(); // Parse JSON
+            })
+            .then(data => {                
+                data.forEach(wards => {
+                    const options = document.createElement("option");
+                    options.value = wards.ward_id; // Đặt value là districtId
+                    options.text = wards.ward; // Hiển thị tên quận/huyện
+                    wardSelect.appendChild(options);
+                });
+            })
+            .catch(error => console.error("Error:", error));
+    } else {
+    	wardSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>'; // Reset nếu không chọn thành phố
+    }
+}
+	
+function loadTime() {
+    const goithoigian = document.getElementById("goitime").value;
+    const soNgay = document.getElementById("songay");
+    soNgay.innerHTML='<option value="">-- Chọn thời gian --</option>'
+    if (goithoigian) {
+        fetch(`/dataget/${goithoigian}`) // Gửi GET request
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json(); // Parse JSON
+            })
+            .then(data => {                
                 data.forEach(time => {
-                    const option = document.createElement("option");
-                    option.value = i; // Gán locationId vào value
-                    option.textContent = i+ ' ' +time; // Hiển thị district
-                    locationSelect.appendChild(option);
-                    i++;
+                    const optionss = document.createElement("option");
+                    optionss.value = time.time; // Đặt value là districtId
+                    optionss.text = time.time +" "+time.bientime; // Hiển thị tên quận/huyện
+                    soNgay.appendChild(optionss);
                 });
             })
-            .catch(error => console.error('Error:', error)); // Xử lý lỗi nếu có
-    });
-});
+            .catch(error => console.error("Error:", error));
+    } else {
+    	soNgay.innerHTML = '<option value="">-- Chọn thời gian --</option>'; // Reset nếu không chọn thành phố
+    }
+}
 </script>
 </head>
 <body>
@@ -89,20 +106,27 @@ document.addEventListener("DOMContentLoaded", function () {
 				<h2>Địa chỉ cho thuê</h2>
 				<div class="group-form">
 					<div class="froup-item">
-						<label>Tỉnh/Thành phố</label> <select name="city" id="mySelect">
-							<option>Chọn thành phố</option>
-							<option th:each="city : ${locations}" th:value="${city}"
-								th:text="${city}"></option>
+						<label>Tỉnh/Thành phố</label> <select name="city_id"
+							id="citySelect" onchange="loadDistricts()">
+							<option value="">Chọn thành phố</option>
+							<option th:each="city : ${locationscity}"
+								th:value="${city.city_id}" th:text="${city.city}"></option>
 						</select>
-						<p id="result"></p>
 					</div>
-					<div class="froup-item">
-						<label>Quận/Huyện</label> <select name="locationid"
-							id="locationSelect">
-							<option th:each="location : ${locationlist}"
-								th:value="${location.locationId}" th:text="${location.district}"></option>
-						</select>
 
+					<div class="froup-item">
+						<label>Quận/Huyện</label> <select name="district_id"
+							id="districtSelect" onchange="loadWard()">
+							<option value="">-- Chọn quận/huyện --</option>
+							<!-- Option sẽ được cập nhật từ controller -->
+						</select>
+					</div>
+
+					<div class="froup-item">
+						<label>Phường/Xã</label> <select name="ward_id" id="locationward">
+							<option value="">-- Chọn phường/xã --</option>
+							<!-- Option sẽ được cập nhật từ controller -->
+						</select>
 					</div>
 
 				</div>
@@ -137,9 +161,9 @@ document.addEventListener("DOMContentLoaded", function () {
 						</div>
 						<div class="froup-item">
 							<label>Đối tượng cho thuê</label> <select name="object">
-								<option th:value="hrgaehg">Tất cả</option>
-								<option th:value="Nam" th:text="Nam"></option>
-								<option th:value="Nữ" th:text="Nữ"></option>
+								<option th:value="'Tất cả'">Tất cả</option>
+								<option th:value="'Nam'" th:text="'Nam'"></option>
+								<option th:value="'Nữ'" th:text="'Nữ'"></option>
 							</select>
 						</div>
 					</div>
@@ -154,6 +178,55 @@ document.addEventListener("DOMContentLoaded", function () {
 				</div>
 			</div>
 			<div class="big">
+				<h2>Đặc điểm</h2>
+				<div class="group-form">
+					<div class="checkbox-item">
+						<input type="checkbox" id=fullFurniture name = "fullFurniture" value="true"> 
+						<label for="fullFurniture">Đầy đủ nội thất</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=washingMachine name = "washingMachine" value="true"> 
+						<label for="washingMachine">Máy giặc</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=freeTime name = "freeTime" value="true"> 
+						<label for="freeTime">Giờ giấc tự do</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=attic name = "attic" value="true"> 
+						<label for="attic">Gác</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=refrigerator name = "refrigerator" value="true"> 
+						<label for="refrigerator">Tủ lạnh</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=protection name = "protection" value="true"> 
+						<label for="protection">Bảo vệ 24/24</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=kitchenShelves name = "kitchenShelves" value="true"> 
+						<label for="kitchenShelves">Kệ bếp</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=elevator name = "elevator" value="true"> 
+						<label for="elevator">Thang máy</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=parkingBasement name = "parkingBasement" value="true"> 
+						<label for="parkingBasement">Hầm để xe</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=airConditioning name = "airConditioning" value="true"> 
+						<label for="airConditioning">Điều hòa</label>
+					</div>
+					<div class="checkbox-item">
+						<input type="checkbox" id=commonOwner name = "commonOwner" value="true"> 
+						<label for="commonOwner">Chung chủ</label>
+					</div>
+				</div>
+			</div>
+			<div class="big">
 				<h2>Thanh toán tin</h2>
 				<div class="group-form">
 					<div class="froup-item">
@@ -161,15 +234,16 @@ document.addEventListener("DOMContentLoaded", function () {
 						<label>Loại tin</label> <select name="loaitin">
 							<option value="" disabled selected>Chọn loại tin</option>
 							<option value="0">Tin miễn phí</option>
-							<option value="2000">Tin thường</option>
-							<option value="10000">Tin VIP 3</option>
-							<option value="20000">Tin VIP 2</option>
-							<option value="30000">Tin VIP 1</option>
-							<option value="50000">Tin VIP nổi bật</option>
+							<option value="1">Tin thường</option>
+							<option value="2">Tin VIP 3</option>
+							<option value="3">Tin VIP 2</option>
+							<option value="4">Tin VIP 1</option>
+							<option value="5">Tin VIP nổi bật</option>
 						</select>
 					</div>
 					<div class="froup-item">
-						<label>Gói thời gian</label> <select name="goitime" id="goitime">
+						<label>Gói thời gian</label> <select name="goitime" id="goitime"
+							onchange="loadTime()">
 							<option>Chọn gói thời gian</option>
 							<option value="ngay">Đăng theo ngày</option>
 							<option value="tuan">Đăng theo tuần</option>
@@ -185,7 +259,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			</div>
 
 			<div class="btn">
-				<button type="submit" th:onclick="'return confirm(\'Bạn có chắc chắn đã xác nhận đúng thông tin rồi chứ?\')'" class="btn-submit">Tiếp tục</button>
+				<button type="submit"
+					th:onclick="'return confirm(\'Bạn có chắc chắn đã xác nhận đúng thông tin rồi chứ?\')'"
+					class="btn-submit">Tiếp tục</button>
 			</div>
 		</form>
 	</div>

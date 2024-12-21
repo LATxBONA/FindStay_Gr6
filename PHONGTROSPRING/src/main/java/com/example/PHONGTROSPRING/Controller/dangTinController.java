@@ -132,6 +132,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.PHONGTROSPRING.entities.*;
@@ -153,39 +154,48 @@ public class dangTinController {
 	private ServicePostNew ServicePostNew;
 	@Autowired
 	private ListingsService ListingsService;
+	@Autowired
+	private LocationsCityService locationsCityService;
+	@Autowired
+	private LocationsDistrictService locationsDistrictService;
+	@Autowired
+	private LocationsWardService LocationsWardService;
 
 	@GetMapping("/dangtin")
 	public String dangtin(Model model) {
-		/* model.addAttribute("locations", LocationService.getAllLocation()); */
+		model.addAttribute("locationscity", locationsCityService.getAllCity());
 		model.addAttribute("roomtypes", RoomTypesService.getAllRoomTypes());
 		return "views/dangtin";
 	}
 
-	@GetMapping("/city")
-	public String city(@RequestParam("selectedOption") String request, Model model) {
+	@GetMapping("/dangtin/{city_id}")
+	@ResponseBody
+	public List<LocationsDistrict> city(@PathVariable("city_id") int city_id) {
+		return locationsDistrictService.getDistrict(city_id);
+	}
 
-		/*
-		 * model.addAttribute("locations", LocationService.getAllLocation());
-		 * model.addAttribute("locationlist", LocationService.getAllLocations(request));
-		 */
-		model.addAttribute("roomtypes", RoomTypesService.getAllRoomTypes());
-		model.addAttribute("selectedcity", request);
+	@GetMapping("/dangtin/city/{districtId}")
+	@ResponseBody
+	public List<LocationsWard> ward(@PathVariable("districtId") int districtId) {
 
-		return "views/dangtin";
+		LocationsDistrict district = locationsDistrictService.get1District(districtId); // Tìm đối tượng district từ ID
+		return LocationsWardService.getAllWard(district);
 	}
 
 	@PostMapping("/dangtin")
-	public String dtbdangtin(@ModelAttribute RequestPostNew request, @ModelAttribute RequestThanhToan requesttt,
+	public String dtbdangtin(@ModelAttribute RequestPostNew request, @ModelAttribute RequestThanhToan requesttt, @ModelAttribute ListingsFeatures listingsfeatures,
 			Model model, HttpSession session) {
 		// ServicePostNew.postNew(request);
 		// System.out.println(request.getUrlAnh());
 
 		User user = (User) session.getAttribute("user");
-		request.setUserid(user.getUserId());
-		/* ServicePostNew.postNew(request, requesttt); */
-		// session.setAttribute("requestpost", request);
-		// redirectAttributes.addFlashAttribute("requestpost", request);
-		// model.addAttribute("requestthanhtoan", request);
+		request.setUser(user);
+		ServicePostNew.postNew(request, requesttt, listingsfeatures);
+		/*
+		 * session.setAttribute("requestpost", request);
+		 * redirectAttributes.addFlashAttribute("requestpost", request);
+		 * model.addAttribute("requestthanhtoan", request);
+		 */
 
 		return "views/dangtin";
 	}
@@ -216,84 +226,35 @@ public class dangTinController {
 	 * return "views/dangtin"; }
 	 */
 
-	/*
-	 * @GetMapping("/dataget") public String
-	 * getthoigian(@RequestParam("goithoigian") String goithoigian, Model model) {
-	 * List<Integer> time = new ArrayList<>();
-	 * 
-	 * String bientime = "";
-	 * 
-	 * if (goithoigian.equals("ngay")) { for (int i = 1; i <= 60; i++) {
-	 * time.add(i); } bientime = "ngày"; } else if (goithoigian.equals("tuan")) {
-	 * for (int i = 1; i <= 30; i++) { time.add(i); } bientime = "tuần"; } else if
-	 * (goithoigian.equals("thang")) { for (int i = 1; i <= 12; i++) { time.add(i);
-	 * } bientime = "tháng"; }
-	 * 
-	 * model.addAttribute("thoigian", time); model.addAttribute("bientime",
-	 * bientime);
-	 * 
-	 * return "views/dangtin"; }
-	 */
+	@GetMapping("/dataget/{goithoigian}")
+	@ResponseBody
+	public List<RequestTime> getthoigian(@PathVariable("goithoigian") String goithoigian) {
+		List<RequestTime> time = new ArrayList<>();
 
-	@GetMapping("/quanlytin")
-	public String quanlytin(@RequestParam(defaultValue = "0") int page,
-			@RequestParam(value = "valuesearch", required = false, defaultValue = "") String valuesearch,
-			@RequestParam(value = "valueloaitin", required = false, defaultValue = "999999") int valueloaitin,
-			@RequestParam(value = "valuetrangthai", required = false, defaultValue = "") String valuetrangthai,
-			Model model, HttpSession session) {
+		String bientime = "";
 
-		User user = (User) session.getAttribute("user");
-		Pageable pageable = PageRequest.of(page, 10);
-
-		// Xử lý khi không có giá trị tìm kiếm
-		Page<Listings> listings;
-		if (valuesearch.isEmpty() && valueloaitin == 999999 && valuetrangthai.isEmpty()) {
-			listings = ListingsService.getListingByUser(user, pageable);
-		} else {
-			listings = ListingsService.searchTin(valuetrangthai, valueloaitin, valuesearch, user, pageable);
+		if (goithoigian.equals("ngay")) {
+			for (int i = 1; i <= 60; i++) {
+				RequestTime rqtime = new RequestTime("Ngày", i);
+				time.add(rqtime);
+			}
+			bientime = "ngày";
+		} else if (goithoigian.equals("tuan")) {
+			for (int i = 1; i <= 30; i++) {
+				RequestTime rqtime = new RequestTime("Tuần", i);
+				time.add(rqtime);
+			}
+			bientime = "tuần";
+		} else if (goithoigian.equals("thang")) {
+			for (int i = 1; i <= 12; i++) {
+				RequestTime rqtime = new RequestTime("Tháng", i);
+				time.add(rqtime);
+			}
+			bientime = "tháng";
 		}
+		return time;
 
-		model.addAttribute("listtingsss", listings);
-		model.addAttribute("valuesearch", valuesearch);
-		model.addAttribute("valueloaitin", valueloaitin);
-		model.addAttribute("valuetrangthai", valuetrangthai);
-
-		return "views/quanlytin"; // Trả về view quanlytin.html
 	}
 
-	/*
-	 * @PostMapping("/quanlytin") public String search(@RequestParam(value =
-	 * "valueloaitin", required = false, defaultValue = "999999") int postType,
-	 * 
-	 * @RequestParam("valuetrangthai") String status,
-	 * 
-	 * @RequestParam("valuesearch") String titleorid, Model model, HttpSession
-	 * session,
-	 * 
-	 * @RequestParam(defaultValue = "0") int page ) { User user = (User)
-	 * session.getAttribute("user"); Pageable pageable = PageRequest.of(page, 10);
-	 * Page<Listings> result = ListingsService.searchTin(status, postType,
-	 * titleorid, user, pageable); System.out.println(result.getTotalElements());
-	 * 
-	 * if (result != null && !result.isEmpty()) { model.addAttribute("listtingsss",
-	 * result); } else { model.addAttribute("listtingsss", new
-	 * ArrayList<Listings>()); } model.addAttribute("valuesearch", titleorid);
-	 * model.addAttribute("valueloaitin", postType);
-	 * model.addAttribute("valuetrangthai", status); return "views/quanlytin"; }
-	 */
 
-	@GetMapping("/quanlytin/hide/{id}")
-	public String antin(@PathVariable int id) {
-		ListingsService.antin(id);
-
-		return "redirect:/quanlytin";
-	}
-
-	@GetMapping("/quanlytin/danglai/{id}")
-	public String danglai(@PathVariable int id) {
-		
-		ListingsService.danglai(id);
-		return "redirect:/quanlytin";
-	}
 }
-

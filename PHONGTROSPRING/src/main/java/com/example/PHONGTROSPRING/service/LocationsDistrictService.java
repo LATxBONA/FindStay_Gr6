@@ -17,5 +17,7 @@ public class LocationsDistrictService {
 	public List<LocationsDistrict> getDistrict(int city_id) {
 		return locationsDistrictRepository.getDistrict(city_id);
 	}
-	
+	public LocationsDistrict get1District(int district_id) {
+		return locationsDistrictRepository.findById(district_id).orElseThrow(() -> new RuntimeException("District not found"));
+	}
 }

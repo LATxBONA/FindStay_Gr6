@@ -14,7 +14,11 @@ public class RoomTypesController {
 	
 	@GetMapping("/add-rooms")
     public String addMultipleRoomTypes() {
+
+       // roomTypesService.addMultipleRoomTypes(); 
+
 		/* roomTypesService.addMultipleRoomTypes(); */ 
+
         return "Multiple Room Types added successfully!";
     }
 }

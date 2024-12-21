@@ -46,6 +46,19 @@ public class ListingsFeatures {
 	@Column(nullable = true)
 	private Boolean commonOwner;	//chung chủ
 
+	public ListingsFeatures() {
+	        this.fullFurniture = false;
+	        this.washingMachine = false;
+	        this.freeTime = false;
+	        this.attic = false;
+	        this.refrigerator = false;
+	        this.protection = false;
+	        this.kitchenShelves = false;
+	        this.elevator = false;
+	        this.parkingBasement = false;
+	        this.airConditioning = false;
+	        this.commonOwner = false;
+	    }
 	public int getId() {
 		return id;
 	}

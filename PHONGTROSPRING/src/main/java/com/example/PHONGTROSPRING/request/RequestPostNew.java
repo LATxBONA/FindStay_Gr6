@@ -9,14 +9,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.PHONGTROSPRING.entities.*;
 
-public class RequestPostNew {
+public class RequestPostNew{
 
-	private String userid;
+	private User User;
 	private String title;
 	private String description;
 	private BigDecimal price;
 	private BigDecimal area;
-	private int locationid;
+	private int city_id;
+	private int district_id;
+	private int ward_id;
 	private String address;
 	private int roomTypeid;
 	private LocalDateTime createdAt;
@@ -24,14 +26,13 @@ public class RequestPostNew {
 	private String status;
 	private String object;
 	private List<MultipartFile> urlAnh;
-	private MultipartFile urlVideo;
 
-	public String getUserid() {
-		return userid;
+	public User getUser() {
+		return User;
 	}
 
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public void setUser(User User) {
+		this.User = User;
 	}
 
 	public String getTitle() {
@@ -66,12 +67,28 @@ public class RequestPostNew {
 		this.area = area;
 	}
 
-	public int getLocationid() {
-		return locationid;
+	public int getCity_id() {
+		return city_id;
 	}
 
-	public void setLocationid(int locationid) {
-		this.locationid = locationid;
+	public void setCity_id(int city_id) {
+		this.city_id = city_id;
+	}
+
+	public int getDistrict_id() {
+		return district_id;
+	}
+
+	public void setDistrict_id(int district_id) {
+		this.district_id = district_id;
+	}
+
+	public int getWard_id() {
+		return ward_id;
+	}
+
+	public void setWard_id(int ward_id) {
+		this.ward_id = ward_id;
 	}
 
 	public String getAddress() {

@@ -14,6 +14,7 @@ public class RoomTypesService {
 	@Autowired
 	private RoomTypesRepository roomTypesRepository;
 	
+
 	/*
 	 * public void addRoomType(String roomTypeName) { RoomTypes roomType = new
 	 * RoomTypes(); roomType.setRoomTypeName(roomTypeName);
@@ -23,6 +24,7 @@ public class RoomTypesService {
 	 * addRoomType("Nhà nguyên căn"); addRoomType("Căn hộ");
 	 * addRoomType("Mặt bằng"); }
 	 */
+
     public List<RoomTypes> getAllRoomTypes(){
     	return roomTypesRepository.findAll();
     }
