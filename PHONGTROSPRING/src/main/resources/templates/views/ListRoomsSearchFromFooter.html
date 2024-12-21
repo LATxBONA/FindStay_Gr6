@@ -59,7 +59,7 @@
 								<span th:if="${item.postType > 1}" th:each="i : ${#numbers.sequence(1, item.postType)}"> 
 								<img class="img-star" src="/assets/images/bi-star-fill-yellow.svg">
 								</span>
-								<span style="font-weight: 600; font-size: 3vh;" th:class="'wrapper_infor_title vip' + ${item.postType}" th:text="${item.title + ' ' + item.location_district + ', ' + item.location_city}"></span>								
+								<span style="font-weight: 600; font-size: 3vh;" th:class="'wrapper_infor_title vip' + ${item.postType}" th:text="${item.title}"></span>								
 							</span>
 							<span class="item_room_price_area_location">
 								<span style="font-weight: 600; color: #22C785;" th:text="${item.changePrice()}"></span>

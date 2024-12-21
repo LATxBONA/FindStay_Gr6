@@ -1,26 +1,94 @@
-/* Style cho modal */
-.modal {
-    display: none; /* Ẩn mặc định */
-    position: fixed; /* Gắn cố định ở giữa màn hình */
-    z-index: 1; /* Chắc chắn rằng modal nằm trên các phần tử khác */
-    left: 0;
-    top: 0;
-    width: 100%; /* Chiều rộng toàn màn hình */
-    height: 100%; /* Chiều cao toàn màn hình */
-    background-color: rgba(0, 0, 0, 0.4); /* Nền mờ */
+/* Style cho phần tìm kiếm */
+.filter-section {
+    width: 100%;
+    max-width: 1450px;
+    margin: 10px auto;
+    padding: 10px 20px;
+    background-color: #FFA800;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap; /* Cho phép các phần tử cuộn xuống dòng mới nếu không đủ không gian */
 }
 
-/* Style cho nội dung của modal */
+/* Các phần tử trong tìm kiếm */
+.filter-item {
+    display: inline-block;
+    width: 20%;
+    margin-right: 15px;
+    vertical-align: top;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+/* .filter-item h4 {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+} */
+
+.filter-item select,
+.filter-item input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+/* Căn chỉnh phần tìm kiếm ngang */
+.filter-section h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    width: 100%;
+}
+
+.filter-section .filter-item:last-child {
+    margin-right: 0;
+}
+
+/* Nút tìm kiếm */
+#searchButton {
+    background-color: #1A6CCC;
+    color: white;
+    padding: 9px 50px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+	margin-left: 10px;
+    width: auto; /* Điều chỉnh lại width để nút có thể nằm chung với các phần tử tìm kiếm */
+}
+
+/* Khi hover lên nút */
+#searchButton:hover {
+    background-color: #45a049;
+}
+
+
+
+/* Style cho modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Chiều rộng của modal */
-    max-width: 400px; /* Chiều rộng tối đa */
+    width: 80%;
+    max-width: 400px;
 }
 
-/* Style cho nút đóng (X) */
 .close {
     color: #aaa;
     float: right;
@@ -33,4 +101,34 @@
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .filter-item {
+        width: 48%;
+        margin-right: 4%;
+    }
+
+    .filter-item:last-child {
+        margin-right: 0;
+    }
+
+    #searchButton {
+        width: auto; /* Nút tìm kiếm không cần chiếm toàn bộ chiều rộng */
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .filter-item {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    #searchButton {
+        width: 100%; /* Nút tìm kiếm sẽ chiếm toàn bộ chiều rộng trên màn hình nhỏ */
+        margin-top: 20px;
+    }
 }

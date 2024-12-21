@@ -1,5 +1,6 @@
 package com.example.PHONGTROSPRING.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,4 +123,16 @@ public class addLocationService {
 			roomRepo.save(room4);
 		}
 	}
+	
+	public List<LocationsDistrict> getDistrictsByCity(int cityId) {
+	    return districtRepo.getDistrict(cityId);
+	}
+
+	public List<LocationsWard> getWardsByDistrict(int districtId) {
+	    return wardRepo.findAll().stream()
+	            .filter(w -> w.getLocation_district().getDistrict_id() == districtId)
+	            .toList();
+	}
+
+	
 }

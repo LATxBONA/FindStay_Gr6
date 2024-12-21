@@ -14,18 +14,15 @@ public class RoomTypesService {
 	@Autowired
 	private RoomTypesRepository roomTypesRepository;
 	
-    public void addRoomType(String roomTypeName) {
-        RoomTypes roomType = new RoomTypes();
-        roomType.setRoomTypeName(roomTypeName); 
-        roomTypesRepository.save(roomType); 
-    }
-
-    public void addMultipleRoomTypes() {
-        addRoomType("Phòng trọ");
-        addRoomType("Nhà nguyên căn");
-        addRoomType("Căn hộ");
-        addRoomType("Mặt bằng");
-    }
+	/*
+	 * public void addRoomType(String roomTypeName) { RoomTypes roomType = new
+	 * RoomTypes(); roomType.setRoomTypeName(roomTypeName);
+	 * roomTypesRepository.save(roomType); }
+	 * 
+	 * public void addMultipleRoomTypes() { addRoomType("Phòng trọ");
+	 * addRoomType("Nhà nguyên căn"); addRoomType("Căn hộ");
+	 * addRoomType("Mặt bằng"); }
+	 */
     public List<RoomTypes> getAllRoomTypes(){
     	return roomTypesRepository.findAll();
     }

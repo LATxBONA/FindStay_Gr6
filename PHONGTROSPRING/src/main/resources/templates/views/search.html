@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
 <link rel="stylesheet" type="text/css" href="/assets/css/media.css">
 <link rel="stylesheet" type="text/css" href="/assets/css/search.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
@@ -20,25 +21,11 @@
 
     <!-- Thanh tìm kiếm -->
     <div class="filter-section">
-        <h3>Tìm kiếm</h3>
+<!--         <h3>Tìm kiếm</h3> -->
         
-        <!-- Tìm kiếm theo giá -->
-        <div class="filter-item">
-            <h4>Tìm kiếm theo giá</h4>
-            <button id="openPriceModalButton">Chọn khoảng giá</button>
-            <span id="selectedPriceRange">Chưa chọn</span>
-        </div>
-
-        <!-- Tìm kiếm theo diện tích -->
-        <div class="filter-item">
-            <h4>Tìm kiếm theo diện tích</h4>
-            <button id="openAreaModalButton">Chọn khoảng diện tích</button>
-            <span id="selectedAreaRange">Chưa chọn</span>
-        </div>
-        
-		        <!-- Tìm kiếm theo loại phòng -->
+        								<!-- Tìm kiếm theo loại phòng -->
 		<div class="filter-item">
-		    <h4>Chọn loại phòng</h4>
+		    <!-- <h4>Chọn loại phòng</h4> -->
 		    <select id="roomTypeSelect">
 		        <option value="" disabled  selected>Chọn loại phòng</option>
 		        <option value="1">Phòng trọ</option>
@@ -47,12 +34,95 @@
 		    </select>
 		</div>
         
+		        						<!-- Tìm kiếm khu vực -->
+		        						
+		<div class="filter-item">
+		    <!-- <h4>Khu vực:</h4> -->
+		    <input id="locationInput" type="text" placeholder="Chọn khu vực" readonly>
+		</div>
 
+
+<!-- 		<div class="filter-item">
+		    <h4>Tỉnh/Thành phố:</h4>
+		    <select id="CitySelect">
+		        <option value="" disabled selected>-- Chọn tỉnh/thành phố --</option>
+		        <option value="1">Tỉnh Bình Định</option>
+		        <option value="2">TP Hồ Chí Minh</option>
+		        <option value="3">Hà Nội</option>
+		    </select>
+		</div>
+		<div class="filter-item">
+		    <h4>Quận/Huyện:</h4>
+		    <select id="DistrictSelect" disabled>
+		        <option value="" disabled selected>-- Chọn quận/huyện --</option>
+		    </select>
+		</div>
+		<div class="filter-item">
+		    <h4>Phường/Xã:</h4>
+		    <select id="WardSelect" disabled>
+		        <option value="" disabled selected>-- Chọn phường/xã --</option>
+		    </select>
+		</div> -->
+        
+        
+        								<!-- Tìm kiếm theo giá -->
+        <div class="filter-item">
+            <!-- <h4>Tìm kiếm theo giá</h4> -->
+            <input id="priceInput" type="text" placeholder="Chọn khoảng giá" readonly>
+<!--             <span id="selectedPriceRange">Chưa chọn</span> -->
+        </div>
+
+        								<!-- Tìm kiếm theo diện tích -->
+		<div class="filter-item">
+		   <!--  <h4>Tìm kiếm theo diện tích</h4> -->
+		    <input id="areaInput" type="text" placeholder="Chọn khoảng diện tích" readonly>
+		</div>
+
+        
+        
         <!-- Nút Tìm kiếm -->
         <div>
-            <button id="searchButton">Tìm kiếm</button>
+        
+            <button  id="searchButton"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
         </div>
     </div>
+
+
+
+		<!-- Modal chọn khu vực -->
+		<div id="locationModal" class="modal">
+		    <div class="modal-content">
+		        <span class="close" id="closeLocationModalButton">&times;</span>
+		        <h3>Chọn khu vực</h3>
+		
+		        <div id="cityList">
+		            <h4>Tỉnh/Thành phố:</h4>
+		            <select id="CitySelect">
+		                <option value="" disabled selected>-- Chọn tỉnh/thành phố --</option>
+		                <option value="1">Tỉnh Bình Định</option>
+		                <option value="2">TP Hồ Chí Minh</option>
+		                <option value="3">Hà Nội</option>
+		            </select>
+		        </div>
+		
+		        <div id="districtList" style="margin-top: 15px;">
+		            <h4>Quận/Huyện:</h4>
+		            <select id="DistrictSelect" disabled>
+		                <option value="" disabled selected>-- Chọn quận/huyện --</option>
+		            </select>
+		        </div>
+		
+		        <div id="wardList" style="margin-top: 15px;">
+		            <h4>Phường/Xã:</h4>
+		            <select id="WardSelect" disabled>
+		                <option value="" disabled selected>-- Chọn phường/xã --</option>
+		            </select>
+		        </div>
+		
+		        <button id="applyLocation" style="margin-top: 15px;">Áp dụng</button>
+		    </div>
+		</div>
+
 
     <!-- Modal chọn giá -->
     <div id="priceModal" class="modal">
@@ -92,56 +162,148 @@
     <div th:replace="views/header-footer/footer"></div>
 
     <!-- JavaScript -->
-    <script type="text/javascript">
-    let minPrice = null, maxPrice = null;
-    let minArea = null, maxArea = null;
-    let roomType = null;
+<script type="text/javascript">
+    // Khởi tạo các biến toàn cục
+    let minPrice = null,
+        maxPrice = null,
+        minArea = null,
+        maxArea = null,
+        roomType = null,
+        city_id = null,
+        district_id = null,
+        ward_id = null;
 
     // Modal xử lý
     const priceModal = document.getElementById("priceModal");
     const areaModal = document.getElementById("areaModal");
 
-    document.getElementById("openPriceModalButton").onclick = () => priceModal.style.display = "block";
+    
+
+ // Mở modal khi bấm vào input
+    document.getElementById("priceInput").onclick = () => priceModal.style.display = "block";
     document.getElementById("closePriceModalButton").onclick = () => priceModal.style.display = "none";
 
-    document.getElementById("openAreaModalButton").onclick = () => areaModal.style.display = "block";
-    document.getElementById("closeAreaModalButton").onclick = () => areaModal.style.display = "none";
-
-    // Chọn giá
-    document.getElementById("applyPrice").onclick = function() {
+    // Xử lý chọn giá
+    document.getElementById("applyPrice").onclick = function () {
         const selected = document.querySelector('input[name="priceRange"]:checked');
         if (selected) {
             [minPrice, maxPrice] = selected.value.split('-').map(Number);
-            document.getElementById("selectedPriceRange").innerText = selected.nextSibling.textContent;
+            document.getElementById("priceInput").value = selected.nextSibling.textContent.trim();
         }
         priceModal.style.display = "none";
     };
 
-    // Chọn diện tích
-    document.getElementById("applyArea").onclick = function() {
-        const selected = document.querySelector('input[name="areaRange"]:checked');
-        if (selected) {
-            [minArea, maxArea] = selected.value.split('-').map(Number);
-            document.getElementById("selectedAreaRange").innerText = selected.nextSibling.textContent;
-        }
-        areaModal.style.display = "none";
+
+		    // Xử lý chọn diện tích
+		// Mở modal khi bấm vào input
+		document.getElementById("areaInput").onclick = () => areaModal.style.display = "block";
+		document.getElementById("closeAreaModalButton").onclick = () => areaModal.style.display = "none";
+		// Xử lý chọn diện tích
+		document.getElementById("applyArea").onclick = function () {
+		    const selected = document.querySelector('input[name="areaRange"]:checked');
+		    if (selected) {
+		        [minArea, maxArea] = selected.value.split('-').map(Number);
+		        document.getElementById("areaInput").value = selected.nextSibling.textContent.trim();
+		    }
+		    areaModal.style.display = "none";
+		};
+
+
+    // Xử lý khi chọn loại phòng
+    document.getElementById("roomTypeSelect").onchange = function () {
+        roomType = this.value; // Cập nhật loại phòng
     };
-	 // Xử lý khi chọn loại phòng
-	    document.getElementById("roomTypeSelect").onchange = function() {
-	        roomType = this.value; // Lấy giá trị đã chọn
-	    };
-    // Nút Tìm kiếm
-    document.getElementById("searchButton").onclick = function() {
+    
+    //Xử lý modal khu vực
+// Mở modal khi bấm vào input
+const locationModal = document.getElementById("locationModal");
+document.getElementById("locationInput").onclick = () => locationModal.style.display = "block";
+document.getElementById("closeLocationModalButton").onclick = () => locationModal.style.display = "none";
+
+    
+
+    // Xử lý khi chọn thành phố
+    document.getElementById("CitySelect").onchange = async function () {
+        city_id = this.value; // Cập nhật giá trị city_id
+        const districtSelect = document.getElementById("DistrictSelect");
+        const wardSelect = document.getElementById("WardSelect");
+
+        // Reset các dropdown
+        districtSelect.innerHTML = '<option value="" disabled selected>-- Chọn quận/huyện --</option>';
+        wardSelect.innerHTML = '<option value="" disabled selected>-- Chọn phường/xã --</option>';
+        wardSelect.disabled = true;
+
+        if (city_id) {
+            const response = await fetch(`/getDistrictsByCity/${city_id}`);
+            const districts = await response.json();
+
+            districts.forEach(district => {
+                const option = document.createElement("option");
+                option.value = district.district_id;
+                option.textContent = district.district;
+                districtSelect.appendChild(option);
+            });
+
+            districtSelect.disabled = false;
+        }
+    };
+
+    // Xử lý khi chọn quận/huyện
+    document.getElementById("DistrictSelect").onchange = async function () {
+        district_id = this.value; // Cập nhật giá trị district_id
+        const wardSelect = document.getElementById("WardSelect");
+
+        // Reset danh sách phường/xã
+        wardSelect.innerHTML = '<option value="" disabled selected>-- Chọn phường/xã --</option>';
+
+        if (district_id) {
+            const response = await fetch(`/getWardsByDistrict/${district_id}`);
+            const wards = await response.json();
+
+            wards.forEach(ward => {
+                const option = document.createElement("option");
+                option.value = ward.ward_id;
+                option.textContent = ward.ward;
+                wardSelect.appendChild(option);
+            });
+
+            wardSelect.disabled = false;
+        }
+    };
+
+    // Xử lý khi chọn phường/xã
+    document.getElementById("WardSelect").onchange = function () {
+        ward_id = this.value; // Cập nhật giá trị ward_id
+    };
+    
+ // Áp dụng khu vực
+    document.getElementById("applyLocation").onclick = function () {
+        const selectedLocationText = [
+            city_id ? document.getElementById("CitySelect").selectedOptions[0].text : null,
+            district_id ? document.getElementById("DistrictSelect").selectedOptions[0].text : null,
+            ward_id ? document.getElementById("WardSelect").selectedOptions[0].text : null
+        ].filter(Boolean).join(", ");
+
+        document.getElementById("locationInput").value = selectedLocationText || "Chưa chọn";
+        locationModal.style.display = "none";
+    };
+
+    // Xử lý nút tìm kiếm
+    document.getElementById("searchButton").onclick = function () {
         const url = new URL(window.location.origin + '/search');
         if (minPrice !== null) url.searchParams.set('minPrice', minPrice);
         if (maxPrice !== null) url.searchParams.set('maxPrice', maxPrice);
         if (minArea !== null) url.searchParams.set('minArea', minArea);
         if (maxArea !== null) url.searchParams.set('maxArea', maxArea);
         if (roomType) url.searchParams.set('roomType', roomType);
+        if (city_id) url.searchParams.set('city_id', city_id);
+        if (district_id) url.searchParams.set('district_id', district_id);
+        if (ward_id) url.searchParams.set('ward_id', ward_id);
 
-        // Chuyển hướng đến URL
+        console.log("Generated URL:", url.toString()); // Debug URL
         window.location.href = url.toString();
     };
-    </script>
+</script>
+
 </body>
 </html>
