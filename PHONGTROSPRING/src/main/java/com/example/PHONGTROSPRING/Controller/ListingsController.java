@@ -6,6 +6,8 @@ import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -195,20 +197,55 @@ public class ListingsController {
 		return "views/search"; // Tên file Thymeleaf để render danh sách
 	}
 
+	/*
+	 * @GetMapping("/search") public String searchByCriteria(
+	 * 
+	 * @RequestParam(value = "minPrice", required = false, defaultValue = "0")
+	 * BigDecimal minPrice,
+	 * 
+	 * @RequestParam(value = "maxPrice", required = false, defaultValue =
+	 * "999999999") BigDecimal maxPrice,
+	 * 
+	 * @RequestParam(value = "minArea", required = false, defaultValue = "0")
+	 * BigDecimal minArea,
+	 * 
+	 * @RequestParam(value = "maxArea", required = false, defaultValue =
+	 * "999999999") BigDecimal maxArea,
+	 * 
+	 * @RequestParam(value = "roomType", required = false) String roomType,
+	 * 
+	 * @RequestParam(value = "city_id", required = false) String city_id,
+	 * 
+	 * @RequestParam(value = "district_id", required = false) String district_id,
+	 * 
+	 * @RequestParam(value = "ward_id", required = false) String ward_id, Model
+	 * model) { // Lấy danh sách dựa trên tiêu chí List<Listings> listings =
+	 * listingsService.getListingsByLAT(minPrice, maxPrice, minArea, maxArea,
+	 * roomType, city_id, district_id, ward_id); model.addAttribute("listings",
+	 * listings);
+	 * 
+	 * // Ghi log để kiểm tra System.out.println("Search params: minPrice=" +
+	 * minPrice + ", maxPrice=" + maxPrice + ", minArea=" + minArea + ", maxArea=" +
+	 * maxArea + ", roomType=" + roomType + ", city_id=" + city_id +
+	 * ", district_id=" + district_id + ", ward_id=" + ward_id);
+	 * 
+	 * return "views/kq_search"; // Render kết quả tìm kiếm trong file Thymeleaf }
+	 */
 	@GetMapping("/search")
 	public String searchByCriteria(
 	        @RequestParam(value = "minPrice", required = false, defaultValue = "0") BigDecimal minPrice,
 	        @RequestParam(value = "maxPrice", required = false, defaultValue = "999999999") BigDecimal maxPrice,
 	        @RequestParam(value = "minArea", required = false, defaultValue = "0") BigDecimal minArea,
 	        @RequestParam(value = "maxArea", required = false, defaultValue = "999999999") BigDecimal maxArea,
-	        @RequestParam(value = "roomType", required = false) String roomType,
-	        @RequestParam(value = "city_id", required = false) String city_id,
-	        @RequestParam(value = "district_id", required = false) String district_id,
-	        @RequestParam(value = "ward_id", required = false) String ward_id,
+	        @RequestParam(value = "roomType", required = false) Integer roomType,
+	        @RequestParam(value = "city_id", required = false) Integer city_id,
+	        @RequestParam(value = "district_id", required = false) Integer district_id,
+	        @RequestParam(value = "ward_id", required = false) Integer ward_id,
+	        @RequestParam(value = "page", defaultValue = "0") int page,
 	        Model model) {
+
 	    // Lấy danh sách dựa trên tiêu chí
-	    List<Listings> listings = listingsService.getListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType, city_id, district_id, ward_id);
-	    model.addAttribute("listings", listings);
+	    Page<ListingsResponse> listing = listingsService.getListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType, city_id, district_id, ward_id, PageRequest.of(page, 10));
 
 	    // Ghi log để kiểm tra
 	    System.out.println("Search params: minPrice=" + minPrice + ", maxPrice=" + maxPrice +
@@ -216,9 +253,24 @@ public class ListingsController {
 	                       ", roomType=" + roomType + ", city_id=" + city_id +
 	                       ", district_id=" + district_id + ", ward_id=" + ward_id);
 
+	    model.addAttribute("list_room", setImageForListingsResponse(listing));
+
+	    System.out.println("testdata: " + listing.getContent());
 	    return "views/kq_search"; // Render kết quả tìm kiếm trong file Thymeleaf
 	}
+	// set ảnh cho từng đối tượng listingsResponse
+		public List<ListingsResponse> setImageForListingsResponse(Page<ListingsResponse> listingResponse) {
+			List<ListingsResponse> list = new ArrayList<>();
 
+			for (ListingsResponse item : listingResponse) {
+				if (listingsService.findImageByItemId(item.getItemId()).size() > 0) {
+					item.setImageUrl(listingsService.findImageByItemId(item.getItemId()).get(0));
+				}
+				list.add(item);
+			}
+
+			return list;
+		}
 
 }
 
