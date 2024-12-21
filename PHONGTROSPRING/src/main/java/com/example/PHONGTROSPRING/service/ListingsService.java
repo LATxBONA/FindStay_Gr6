@@ -224,34 +224,49 @@ public class ListingsService {
 		return listingRepository.findListingsByPriceRange(minPrice, maxPrice);
 	}
 
-	public List<Listings> getListingsByLAT(
-		    BigDecimal minPrice,
-		    BigDecimal maxPrice,
-		    BigDecimal minArea,
-		    BigDecimal maxArea,
-		    String roomType,
-		    String city_id,
-		    String district_id,
-		    String ward_id
-		) {
-		    // Xử lý giá trị null hoặc rỗng
-		    String roomTypeFilter = (roomType == null || roomType.isEmpty()) ? "%" : roomType;
-		    String cityIdFilter = (city_id == null || city_id.isEmpty()) ? "%" : city_id;
-		    String districtIdFilter = (district_id == null || district_id.isEmpty()) ? "%" : district_id;
-		    String wardIdFilter = (ward_id == null || ward_id.isEmpty()) ? "%" : ward_id;
+	/*
+	 * public List<Listings> getListingsByLAT( BigDecimal minPrice, BigDecimal
+	 * maxPrice, BigDecimal minArea, BigDecimal maxArea, String roomType, String
+	 * city_id, String district_id, String ward_id ) { // Xử lý giá trị null hoặc
+	 * rỗng String roomTypeFilter = (roomType == null || roomType.isEmpty()) ? "%" :
+	 * roomType; String cityIdFilter = (city_id == null || city_id.isEmpty()) ? "%"
+	 * : city_id; String districtIdFilter = (district_id == null ||
+	 * district_id.isEmpty()) ? "%" : district_id; String wardIdFilter = (ward_id ==
+	 * null || ward_id.isEmpty()) ? "%" : ward_id;
+	 * 
+	 * // Gọi repository return listingRepository.findListingsByLAT( minPrice,
+	 * maxPrice, minArea, maxArea, roomTypeFilter, cityIdFilter, districtIdFilter,
+	 * wardIdFilter ); }
+	 */
+	public Page<ListingsResponse> getListingsByLAT(
+	        BigDecimal minPrice,
+	        BigDecimal maxPrice,
+	        BigDecimal minArea,
+	        BigDecimal maxArea,
+	        Integer roomType,
+	        Integer city_id,
+	        Integer district_id,
+	        Integer ward_id,
+	        Pageable pageable
+	) {
+	    // Kiểm tra giá trị null hoặc rỗng và thay thế bằng giá trị mặc định (-1)
+	    Integer roomTypeFilter = (roomType == null || roomType <= 0) ? -1 : roomType;
+	    Integer cityIdFilter = (city_id == null || city_id <= 0) ? -1 : city_id;
+	    Integer districtIdFilter = (district_id == null || district_id <= 0) ? -1 : district_id;
+	    Integer wardIdFilter = (ward_id == null || ward_id <= 0) ? -1 : ward_id;
 
-		    // Gọi repository
-		    return listingRepository.findListingsByLAT(
-		        minPrice,
-		        maxPrice,
-		        minArea,
-		        maxArea,
-		        roomTypeFilter,
-		        cityIdFilter,
-		        districtIdFilter,
-		        wardIdFilter
-		    );
-		}
+	    // Gọi repository
+	    return listingRepository.findListingsByLAT(
+	            minPrice,
+	            maxPrice,
+	            minArea,
+	            maxArea,
+	            roomTypeFilter,
+	            cityIdFilter,
+	            districtIdFilter,
+	            wardIdFilter, pageable
+	    );
+	}
 
 	
 

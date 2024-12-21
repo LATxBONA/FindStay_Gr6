@@ -76,25 +76,57 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer>, Jp
 	        @Param("maxArea") BigDecimal maxArea);
 
 	
+	/*
+	 * @Query( value =
+	 * "SELECT * FROM Listings WHERE price BETWEEN :minPrice AND :maxPrice" +
+	 * " AND area BETWEEN :minArea AND :maxArea " +
+	 * " AND (:roomType IS NULL OR room_type_id LIKE :roomType) " +
+	 * " AND (:city_id IS NULL OR city_id LIKE :city_id) " +
+	 * " AND (:district_id IS NULL OR district_id LIKE :district_id) " +
+	 * " AND (:ward_id IS NULL OR ward_id LIKE :ward_id) " + " ORDER BY price ASC",
+	 * nativeQuery = true ) List<Listings> findListingsByLAT(
+	 * 
+	 * @Param("minPrice") BigDecimal minPrice,
+	 * 
+	 * @Param("maxPrice") BigDecimal maxPrice,
+	 * 
+	 * @Param("minArea") BigDecimal minArea,
+	 * 
+	 * @Param("maxArea") BigDecimal maxArea,
+	 * 
+	 * @Param("roomType") String roomType,
+	 * 
+	 * @Param("city_id") String city_id,
+	 * 
+	 * @Param("district_id") String district_id,
+	 * 
+	 * @Param("ward_id") String ward_id );
+	 */
 	@Query(
-		    value = "SELECT * FROM Listings WHERE price BETWEEN :minPrice AND :maxPrice"
-		            + " AND area BETWEEN :minArea AND :maxArea "
-		            + " AND (:roomType IS NULL OR room_type_id LIKE :roomType) "
-		            + " AND (:city_id IS NULL OR city_id LIKE :city_id) "
-		            + " AND (:district_id IS NULL OR district_id LIKE :district_id) "
-		            + " AND (:ward_id IS NULL OR ward_id LIKE :ward_id) "
-		            + " ORDER BY price ASC",
-		    nativeQuery = true
+		    "SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(" +
+		            "   l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, " +
+		            "   l.location_city.city, l.location_district.district, l.location_ward.ward, " +
+		            "   l.address, l.user.fullName, l.user.phoneNumber, l.postType, l.area" +
+		            ") " +
+		            "FROM Listings l " +
+		            "WHERE (l.price BETWEEN :minPrice AND :maxPrice )" +
+		            "AND (l.area BETWEEN :minArea AND :maxArea )" +
+		            "AND (:roomTypeFilter = -1 OR l.roomType.id = :roomTypeFilter) " +
+		            "AND (:cityIdFilter = -1 OR l.location_city.id = :cityIdFilter) " +
+		            "AND (:districtIdFilter = -1 OR l.location_district.id = :districtIdFilter) " +
+		            "AND (:wardIdFilter = -1 OR l.location_ward.id = :wardIdFilter) " +
+		            "ORDER BY l.price ASC"
 		)
-		List<Listings> findListingsByLAT(
-		    @Param("minPrice") BigDecimal minPrice,
-		    @Param("maxPrice") BigDecimal maxPrice,
-		    @Param("minArea") BigDecimal minArea,
-		    @Param("maxArea") BigDecimal maxArea,
-		    @Param("roomType") String roomType,
-		    @Param("city_id") String city_id,
-		    @Param("district_id") String district_id,
-		    @Param("ward_id") String ward_id
+		Page<ListingsResponse> findListingsByLAT(
+		        @Param("minPrice") BigDecimal minPrice,
+		        @Param("maxPrice") BigDecimal maxPrice,
+		        @Param("minArea") BigDecimal minArea,
+		        @Param("maxArea") BigDecimal maxArea,
+		        @Param("roomTypeFilter") Integer roomTypeFilter,
+		        @Param("cityIdFilter") Integer cityIdFilter,
+		        @Param("districtIdFilter") Integer districtIdFilter,
+		        @Param("wardIdFilter") Integer wardIdFilter,
+		        Pageable pageable
 		);
 
 }
