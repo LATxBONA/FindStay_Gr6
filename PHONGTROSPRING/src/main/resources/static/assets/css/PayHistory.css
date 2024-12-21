@@ -1,0 +1,79 @@
+/* General reset */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+
+/* Main content */
+.main {
+    margin-left: 400px;
+    padding: 20px;
+}
+.main .tabs {
+    display: flex;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 10px;
+}
+.main .tabs .tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #333;
+    border: none;
+    background: none;
+    font-size: 1em;
+}
+.main .tabs .tab.active {
+    color: #004a9c;
+    font-weight: bold;
+    border-bottom: 2px solid #004a9c;
+}
+
+/* Table */
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.transaction-table th, .transaction-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 0.9em;
+}
+.transaction-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+.transaction-table tr:hover {
+    background-color: #f9f9f9;
+}
+.transaction-table .status {
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 0.8em;
+}
+.transaction-table .status.completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+.transaction-table .status.repost {
+    background-color: #cce5ff;
+    color: #004085;
+}
+.transaction-table .badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.8em;
+    color: white;
+}
+.transaction-table .badge.normal {
+    background-color: #007bff;
+}
+.transaction-table .badge.free {
+    background-color: #28a745;
+}
+

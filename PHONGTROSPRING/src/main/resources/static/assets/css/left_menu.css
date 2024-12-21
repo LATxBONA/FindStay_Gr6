@@ -1,0 +1,159 @@
+/* Định dạng chung cho left-column */
+.left-column {
+    position: fixed; /* Cố định vị trí của cột */
+    top: 0;
+    left: 0;
+    width: 370px; /* Chiều rộng của cột */
+    height: 100%; /* Chiếm toàn bộ chiều cao */
+    background-color: #fff; /* Màu nền */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+    padding: 20px; /* Khoảng cách bên trong */
+    overflow-y: auto; /* Thêm thanh cuộn nếu nội dung quá dài */
+    z-index: -1;
+}
+
+/* Cấu trúc lại container để chứa sidebar và user-info trong cùng một cột */
+/* .left-column {
+	display: flex;
+	flex-direction: column;
+	width: 25%; Chiếm 25% chiều rộng của container
+	margin-right: 20px;
+} */
+
+/* Sidebar menu */
+.sidebar {
+	width: 100%;
+}
+
+.user-info button {
+	display: block;
+	width: 100px;
+	padding: 10px;
+	margin-bottom: 10px;
+	margin-right: 20px;
+	background-color: #ffff00;
+	color: #000000;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.user-info button:hover {
+	background-color: #dbdb00;
+}
+
+.user-info button.btn-post {
+	background-color: #dc3545;
+	margin-left: 10px;
+}
+
+.user-info button.btn-post:hover {
+	background-color: #c10000;
+}
+
+.sidebar ul {
+	list-style: none;
+}
+
+.sidebar ul li {
+	margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+	text-decoration: none;
+	color: #000000;
+	font-size: 16px;
+	display: flex;
+	align-items: center;
+}
+
+.sidebar ul li a:hover {
+	color: #0056b3;
+	font-weight: bold;
+}
+
+/* Thêm icon trước các thẻ <a> */
+.sidebar .menu li a::before {
+	content: ''; /* Nội dung ban đầu là rỗng */
+	display: inline-block;
+	font-family: 'Font Awesome 6 Free'; /* Sử dụng Font Awesome */
+	font-weight: 900;
+	/* Đảm bảo sử dụng phiên bản Solid của Font Awesome */
+	margin-right: 10px; /* Khoảng cách giữa icon và văn bản */
+	color: #000000; /* Màu sắc của icon */
+}
+
+/* Tùy chỉnh icon theo mục đích */
+.sidebar .menu li:nth-child(1) a::before {
+	content: '\f015'; /* Icon quản lý tin đăng (home icon) */
+}
+
+.sidebar .menu li:nth-child(2) a::before {
+	content: '\f044'; /* Icon sửa thông tin (edit icon) */
+}
+
+.sidebar .menu li:nth-child(3) a::before {
+	content: '\f09d'; /* Icon nạp tiền (credit card icon) */
+}
+
+.sidebar .menu li:nth-child(4) a::before {
+	content: '\f1da'; /* Icon lịch sử nạp tiền (history icon) */
+}
+
+.sidebar .menu li:nth-child(5) a::before {
+	content: '\f1d1'; /* Icon lịch sử thanh toán (file icon) */
+}
+
+.sidebar .menu li:nth-child(6) a::before {
+	content: '\f3e3'; /* Icon bảng giá dịch vụ (pricing icon) */
+}
+
+.sidebar .menu li:nth-child(7) a::before {
+	content: '\f095'; /* Icon liên hệ (phone icon) */
+}
+
+.sidebar .menu li:nth-child(8) a::before {
+	content: '\f2f5'; /* Icon thoát (exit icon) */
+}
+
+/* Thông tin người dùng */
+.user-info {
+	flex-direction: column;
+	display: flex;
+	align-items: center;
+	margin-top: 100px; /* Thêm khoảng cách giữa sidebar và user-info */
+	padding: 20px;
+	border-radius: 10px;
+	display: flex;
+}
+
+.user-info2 {
+	display: flex;
+}
+
+.user-avatar {
+	margin-right: 20px;
+}
+
+.user-avatar i {
+	color: #000000;
+}
+
+.user-details p {
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.btn2 {
+	display: flex;
+	padding: 10px;
+}
+
+.support-info {
+	width: 70%;
+	text-align: center;	
+	font-size: 14px;
+	background-color: #d1d87e;
+	font-weight: bold; 
+}
