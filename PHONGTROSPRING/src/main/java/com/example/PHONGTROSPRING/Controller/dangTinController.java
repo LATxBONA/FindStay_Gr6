@@ -256,43 +256,5 @@ public class dangTinController {
 
 	}
 
-	@GetMapping("/quanlytin")
-	public String quanlytin(@RequestParam(defaultValue = "0") int page,
-			@RequestParam(value = "valuesearch", required = false, defaultValue = "") String valuesearch,
-			@RequestParam(value = "valueloaitin", required = false, defaultValue = "999999") int valueloaitin,
-			@RequestParam(value = "valuetrangthai", required = false, defaultValue = "") String valuetrangthai,
-			Model model, HttpSession session) {
 
-		User user = (User) session.getAttribute("user");
-		Pageable pageable = PageRequest.of(page, 10);
-
-		// Xử lý khi không có giá trị tìm kiếm
-		Page<Listings> listings;
-		if (valuesearch.isEmpty() && valueloaitin == 999999 && valuetrangthai.isEmpty()) {
-			listings = ListingsService.getListingByUser(user, pageable);
-		} else {
-			listings = ListingsService.searchTin(valuetrangthai, valueloaitin, valuesearch, user, pageable);
-		}
-
-		model.addAttribute("listtingsss", listings);
-		model.addAttribute("valuesearch", valuesearch);
-		model.addAttribute("valueloaitin", valueloaitin);
-		model.addAttribute("valuetrangthai", valuetrangthai);
-
-		return "views/quanlytin"; // Trả về view quanlytin.html
-	}
-
-	@GetMapping("/quanlytin/hide/{id}")
-	public String antin(@PathVariable int id) {
-		ListingsService.antin(id);
-
-		return "redirect:/quanlytin";
-	}
-
-	@GetMapping("/quanlytin/danglai/{id}")
-	public String danglai(@PathVariable int id) {
-
-		ListingsService.danglai(id);
-		return "redirect:/quanlytin";
-	}
 }

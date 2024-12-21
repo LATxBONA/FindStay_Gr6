@@ -42,9 +42,12 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer>, Jp
 	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, l.postType, l.area) FROM Listings l WHERE l.roomType.roomTypeId = :roomtype_id AND l.status = 'Đã duyệt' ORDER BY l.postType DESC, l.createdAt DESC")
 	Page<ListingsResponse> getListingsNationWide(@Param("roomtype_id") int roomtype_id, Pageable pageable);
 
-	Page<Listings> findByStatusOrPostTypeOrTitleAndUser(String status, int postType, String title, User user, Pageable pageable);
+	@Query("SELECT l FROM Listings l WHERE (l.status = :status OR l.postType = :postType OR l.title = :title) AND l.user = :user")
+	Page<Listings> getListingBySearchtin(String status, int postType, String title, User user, Pageable pageable);
 	
 	Page<Listings> findByUser(User user,Pageable pageable);
+	
+	Listings findByItemId(int itemId);
 
 	@Query("SELECT l FROM Listings l WHERE l.price BETWEEN :minPrice AND :maxPrice ORDER BY l.price ASC")
 	List<Listings> findListingsByPriceRange(@Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice);

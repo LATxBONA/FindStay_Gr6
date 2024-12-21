@@ -21,4 +21,8 @@ public class LocationsCityService {
 	public int findByCityName(String cityName) {
 		return locationsCityRepository.findByCityName(cityName);
 	}
+	
+	public LocationsCity getlocationCity(int id) {
+		return locationsCityRepository.findById(id).orElseThrow(()->new RuntimeException("error"));
+	}
 }

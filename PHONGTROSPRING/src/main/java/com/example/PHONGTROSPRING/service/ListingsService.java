@@ -20,9 +20,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.PHONGTROSPRING.entities.Images;
 import com.example.PHONGTROSPRING.entities.Listings;
+import com.example.PHONGTROSPRING.entities.ListingsFeatures;
 import com.example.PHONGTROSPRING.entities.LocationsDistrict;
 import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.repository.ImagesRepository;
+import com.example.PHONGTROSPRING.repository.ListingsFeaturesRepository;
 import com.example.PHONGTROSPRING.repository.ListingsRepository;
 
 import com.example.PHONGTROSPRING.repository.LocationsDistrictRepository;
@@ -38,6 +40,9 @@ public class ListingsService {
 
 	@Autowired
 	private ImagesRepository imagesRepository;
+	
+	@Autowired
+	private ListingsFeaturesRepository listingsFeaturesRepository;
 
 	private Pageable pageable_5 = PageRequest.of(0, 5);
 	private Pageable pageable_1 = PageRequest.of(0, 1);
@@ -188,7 +193,7 @@ public class ListingsService {
 	 */
 
 	public Page<Listings> searchTin(String status, int postType, String title, User user, Pageable pageable) {
-		return listingRepository.findByStatusOrPostTypeOrTitleAndUser(status, postType, title, user, pageable);
+		return listingRepository.getListingBySearchtin(status, postType, title, user, pageable);
 	}
 
 	public void antin(int id) {
@@ -223,4 +228,8 @@ public class ListingsService {
 		return listingRepository.findListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType);
 	}
 
+	
+	public ListingsFeatures getListingsFeatures(Listings listings) {
+		return listingsFeaturesRepository.findByListings(listings);
+	}
 }

@@ -17,4 +17,8 @@ public class LocationsWardService {
 	public List<LocationsWard> getAllWard(LocationsDistrict locationsDistrict) {
 		return locationsWardRepository.findByLocationDistrict(locationsDistrict);
 	}
+	
+	public LocationsWard getLocationWard(int id) {
+		return locationsWardRepository.findById(id).orElseThrow(()->new RuntimeException("error"));
+	}
 }

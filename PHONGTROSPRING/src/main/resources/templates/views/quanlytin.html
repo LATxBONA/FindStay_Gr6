@@ -78,7 +78,7 @@
 					</div>
 					<div th:if="${listing.status} != 'Ẩn tin'">
 						<div class="btn">
-							<a><button>Sửa tin</button></a>
+							<a th:href="@{quanlytin/update/{id}(id=${listing.itemId})}"><button>Sửa tin</button></a>
 						</div>
 						<div class="btn">
 							<a href="#"><button>Gia hạn</button></a>
