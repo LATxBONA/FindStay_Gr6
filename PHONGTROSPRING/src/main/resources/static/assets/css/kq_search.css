@@ -5,6 +5,25 @@
     width: 100%;
     margin-top: 20px;
 }
+.warpper_search_from_footer {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding: 1rem 0;
+}
+
+.wrapper_search_context {
+	width: 90%;
+	display: flex;
+}
+
+.wrapper_search_part_1 {
+	width: 75%;
+}
+
+.wrapper_search_part_2 {
+	width: 25%;
+}
 
 /* Phần bên trái: Danh sách phòng */
 .results-list {

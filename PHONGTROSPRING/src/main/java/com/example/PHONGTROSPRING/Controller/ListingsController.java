@@ -244,20 +244,55 @@ public class ListingsController {
 	        @RequestParam(value = "page", defaultValue = "0") int page,
 	        Model model) {
 
+		
+		
+	    // Xử lý page index nếu nhỏ hơn 0
+	    if (page < 0) {
+	        page = 0;
+	    }
 	    // Lấy danh sách dựa trên tiêu chí
-	    Page<ListingsResponse> listing = listingsService.getListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomType, city_id, district_id, ward_id, PageRequest.of(page, 10));
+	    Page<ListingsResponse> listing = listingsService.getListingsByLAT(
+	            minPrice, maxPrice, minArea, maxArea, roomType, city_id, district_id, ward_id,
+	            PageRequest.of(page, 3) // PageRequest.of(page, size)
+	    );
 
-	    // Ghi log để kiểm tra
-	    System.out.println("Search params: minPrice=" + minPrice + ", maxPrice=" + maxPrice +
-	                       ", minArea=" + minArea + ", maxArea=" + maxArea +
-	                       ", roomType=" + roomType + ", city_id=" + city_id +
-	                       ", district_id=" + district_id + ", ward_id=" + ward_id);
-
+	    // Lấy danh sách phòng trọ và set ảnh
 	    model.addAttribute("list_room", setImageForListingsResponse(listing));
 
-	    System.out.println("testdata: " + listing.getContent());
-	    return "views/kq_search"; // Render kết quả tìm kiếm trong file Thymeleaf
+	    // Tổng số trang
+	    int totalPage = listing.getTotalPages();
+
+	    // Tính prePage và nextPage
+	    int prePage = page - 1;
+	    int nextPage = page + 1;
+
+	    if (page < 1) {
+	        prePage = 0;
+	        nextPage = Math.min(page + 2, totalPage - 1);
+	    }
+
+	    if (page == totalPage - 1) {
+	        nextPage = totalPage - 1;
+	        prePage = Math.max(page - 2, 0);
+	    }
+	    
+	    // Tính toán trang trước và trang sau
+	    boolean isFirstPage = page == 0;
+	    boolean isLastPage = page == totalPage - 1;
+
+	    // Đưa các giá trị phân trang vào model
+	    model.addAttribute("page", page);
+	    model.addAttribute("totalPage", totalPage);
+	    model.addAttribute("prePage", prePage);
+	    model.addAttribute("nextPage", nextPage);
+	    
+	    model.addAttribute("isFirstPage", isFirstPage); // Kiểm tra trang đầu
+	    model.addAttribute("isLastPage", isLastPage);   // Kiểm tra trang cuối
+
+	    
+	    return "views/kq_search";
 	}
+
 	// set ảnh cho từng đối tượng listingsResponse
 		public List<ListingsResponse> setImageForListingsResponse(Page<ListingsResponse> listingResponse) {
 			List<ListingsResponse> list = new ArrayList<>();
