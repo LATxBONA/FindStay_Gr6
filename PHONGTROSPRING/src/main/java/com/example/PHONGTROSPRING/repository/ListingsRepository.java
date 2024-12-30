@@ -1,9 +1,7 @@
 package com.example.PHONGTROSPRING.repository;
 
 
-import org.springframework.data.domain.*;
 import java.math.BigDecimal;
-
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -13,8 +11,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import com.example.PHONGTROSPRING.entities.User;
+
 import com.example.PHONGTROSPRING.entities.Listings;
+import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.response.ListingsResponse;
 
 
@@ -53,6 +52,23 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer>, Jp
 	Page<Listings> getListingBySearchtin(String status, int postType, String title, User user, Pageable pageable);
 	
 	Page<Listings> findByUser(User user,Pageable pageable);
+	
+	//Lấy all danh sách đã duyệt cho trang home
+	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, " +
+		       "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, " +
+		       "l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, " +
+		       "l.postType, l.area) FROM Listings l WHERE l.status = 'Đã duyệt'")
+		Page<ListingsResponse> getAllApprovedListings(Pageable pageable);
+	
+	//Lấy all danh sách đã duyệt cho trang home
+	@Query(value = "SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(" +
+	      "l.itemId, l.title, l.price, l.createdAt, " +
+	      "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, " + 
+	      "l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, " +
+	      "l.postType, l.area) FROM Listings l WHERE l.status = 'Đã duyệt' " +
+	      "ORDER BY l.postType DESC") 
+	Page<ListingsResponse> getSortedListings(Pageable pageable);
+
 	
 	Listings findByItemId(int itemId);
 
@@ -128,7 +144,14 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer>, Jp
 		        @Param("wardIdFilter") Integer wardIdFilter,
 		        Pageable pageable
 		);
+	
+	
+	
+
 
 }
+
+
+
 
 

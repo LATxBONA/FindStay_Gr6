@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Thông tin tài khoản</title>
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/info.css}">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/assets/js/header.js"></script>
+</head>
+<body>
+	<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông tin tài khoản</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/naptien.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header th:replace="views/header-footer/header"></header>
+
+    <div class="container">
+        <!-- <div class="left-column"> -->
+	<div class="left-column" th:replace="views/header-footer/left_menu"></div>
+			
+			<!-- <div class="user-info">
+				<div class="user-info2">
+					<div class="user-avatar">
+						<i class="fa-solid fa-circle-user fa-4x"></i>
+					</div>
+					<div class="user-details">
+
+						<p class="user-name">Nguyễn Văn Thuận</p>
+						<p class="user-phone">0384756773</p>
+						<p class="user-id">
+							Mã thành viên: <span>12345678</span>
+						</p>
+					</div>
+				</div>
+				<div class="btn2">
+					<button th:onclick="'window.location.href=\'' + @{/recharge} + '\''" class="btn-recharge">Nạp tiền</button>
+					<button class="btn-post">Đăng tin</button>
+				</div>
+				<div class="support-info">
+					<p>Nhân viên hỗ trợ của bạn:</p>
+					<p>Văn Thuận - 0999999999</p>
+				</div> -->
+		<!-- 	</div> -->
+
+			
+			<!-- <aside class="sidebar">
+
+				<ul class="menu">
+					<li><a href="#">Quản lý tin đăng</a></li>
+					<li><a href="@{/info}">Sửa thông tin cá nhân</a></li>
+					<li><a th:href="@{/recharge}">Nạp tiền vào tài khoản</a></li>
+					<li><a th:href="@{/recharge4}">Lịch sử nạp tiền</a></li>
+					<li><a href="#">Lịch sử thanh toán</a></li>
+					<li><a href="#">Bảng giá dịch vụ</a></li>
+					<li><a href="#">Liên hệ</a></li>
+					<li><a href="#">Thoát</a></li>
+				</ul>
+			</aside>
+
+
+		</div> -->
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="recharge_history">
+                <h2>Quản lí tài khoản</h2>
+                
+                <!-- Navigation Tabs -->
+                <div style="margin-bottom: 20px;">
+                    <a href="#" class="nav-link actives" data-target="profile-form" 
+                       style="display: inline-block; margin: 0 10px; padding: 8px 15px; text-decoration: none;">
+                        Thông tin cá nhân
+                    </a>
+                    <a href="#" class="nav-link" data-target="form-password"
+                       style="display: inline-block; margin: 0 10px; padding: 8px 15px; text-decoration: none;">
+                        Đổi mật khẩu
+                    </a>
+                </div>
+
+                <!-- Profile Form -->
+                <div id="profile-form" class="form-container actives">
+                    <div th:if="${status}">
+                        <p style="color: red; text-align: center; margin-bottom: 15px;" th:text="${status}"></p>
+                    </div>
+                    <form th:action="@{/changeInfo}" method="post" style="max-width: 500px; margin: 0 auto;">
+                        <div class="info" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Số điện thoại</label>
+                            <input type="text" th:value="${infoUser.getPhoneNumber}" readonly 
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div class="info" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Tên liên hệ</label>
+                            <input type="text" name="fullName" th:value="${infoUser.getFullName}"
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div class="info" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Email</label>
+                            <input type="email" name="email" th:value="${infoUser.getEmail}"
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <button type="submit" class="btn-confirm">Cập nhật</button>
+                    </form>
+                </div>
+
+                <!-- Password Form -->
+                <div id="form-password" class="form-container">
+                    <p id="passwordError" style="color: red; display: none; margin-bottom: 15px;">
+                        Mật khẩu không trùng khớp!
+                    </p>
+                    <p id="passwordsame" style="color: red; display: none; margin-bottom: 15px;">
+                        Mật khẩu mới không được trùng với mật khẩu hiện tại
+                    </p>
+                    <form id="passwordForm" th:action="@{/changePass}" method="post" style="max-width: 500px; margin: 0 auto;">
+                        <div class="info" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Mật khẩu cũ</label>
+                            <input type="password" name="currentPassword" required
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div class="info" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Mật khẩu mới</label>
+                            <input type="password" name="newPassword" required
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <div class="info" style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Xác nhận mật khẩu</label>
+                            <input type="password" name="confirmPassword" required
+                                   style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                        </div>
+                        <button type="submit" class="btn-confirm">Cập nhật</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const navLinks = document.querySelectorAll(".nav-link");
+            const forms = document.querySelectorAll(".form-container");
+            const form = document.getElementById("passwordForm");
+            const currentPassword = document.getElementById("currentPassword");
+            const newPassword = document.getElementById("newPassword");
+            const confirmPassword = document.getElementById("confirmPassword");
+            const passwordError = document.getElementById("passwordError");
+            const passwordsame = document.getElementById("passwordsame");
+
+            form.addEventListener("submit", function(event) {
+                if(newPassword.value !== confirmPassword.value) {
+                    event.preventDefault();
+                    passwordError.style.display = "block";
+                } else {
+                    passwordError.style.display = "none";
+                }
+                if(currentPassword.value === newPassword.value) {
+                    event.preventDefault();
+                    passwordsame.style.display = "block";
+                } else {
+                    passwordsame.style.display = "none";
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    forms.forEach(form => form.classList.remove("actives"));
+                    navLinks.forEach(nav => nav.classList.remove("actives"));
+                    
+                    const target = this.getAttribute("data-target");
+                    document.getElementById(target).classList.add("actives");
+                    this.classList.add("actives");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
