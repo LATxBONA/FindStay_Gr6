@@ -1,37 +1,25 @@
 package com.example.PHONGTROSPRING.service;
 
-import org.springframework.data.domain.*;
-
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.repository.query.Param;
-
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.example.PHONGTROSPRING.entities.Images;
 import com.example.PHONGTROSPRING.entities.Listings;
 import com.example.PHONGTROSPRING.entities.ListingsFeatures;
-import com.example.PHONGTROSPRING.entities.LocationsDistrict;
 import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.repository.ImagesRepository;
 import com.example.PHONGTROSPRING.repository.ListingsFeaturesRepository;
 import com.example.PHONGTROSPRING.repository.ListingsRepository;
-
-import com.example.PHONGTROSPRING.repository.LocationsDistrictRepository;
 import com.example.PHONGTROSPRING.response.ListingsResponse;
-
-import com.example.PHONGTROSPRING.repository.UserRepository;
 
 @Service
 public class ListingsService {
@@ -41,7 +29,7 @@ public class ListingsService {
 
 	@Autowired
 	private ImagesRepository imagesRepository;
-	
+
 	@Autowired
 	private ListingsFeaturesRepository listingsFeaturesRepository;
 
@@ -205,6 +193,33 @@ public class ListingsService {
 
 	}
 
+	// Trang home
+	public Page<ListingsResponse> getAllListingsByNewest(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size,
+				Sort.by("postType").descending().and(Sort.by("createdAt").descending()));
+		return listingRepository.getSortedListings(pageable);
+	}
+
+	// Trang home
+	// Lấy danh sách tin đã duyệt
+	public Page<ListingsResponse> getAllListingsApproved(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return listingRepository.getAllApprovedListings(pageable);
+	}
+
+	// Set ảnh cho từng tin
+	public List<ListingsResponse> setImageForListingsResponse(Page<ListingsResponse> listingResponse) {
+		List<ListingsResponse> list = new ArrayList<>();
+		for (ListingsResponse item : listingResponse) {
+			List<String> images = findImageByItemId(item.getItemId());
+			if (!images.isEmpty()) {
+				item.setImageUrl(images.get(0));
+			}
+			list.add(item);
+		}
+		return list;
+	}
+
 	public void danglai(int id) {
 		Listings listting = listingRepository.findById(id).orElseThrow(() -> new RuntimeException("error"));
 		listting.setStatus("Đã duyệt");
@@ -238,41 +253,20 @@ public class ListingsService {
 	 * maxPrice, minArea, maxArea, roomTypeFilter, cityIdFilter, districtIdFilter,
 	 * wardIdFilter ); }
 	 */
-	public Page<ListingsResponse> getListingsByLAT(
-	        BigDecimal minPrice,
-	        BigDecimal maxPrice,
-	        BigDecimal minArea,
-	        BigDecimal maxArea,
-	        Integer roomType,
-	        Integer city_id,
-	        Integer district_id,
-	        Integer ward_id,
-	        Pageable pageable
-	) {
-	    // Kiểm tra giá trị null hoặc rỗng và thay thế bằng giá trị mặc định (-1)
-	    Integer roomTypeFilter = (roomType == null || roomType <= 0) ? -1 : roomType;
-	    Integer cityIdFilter = (city_id == null || city_id <= 0) ? -1 : city_id;
-	    Integer districtIdFilter = (district_id == null || district_id <= 0) ? -1 : district_id;
-	    Integer wardIdFilter = (ward_id == null || ward_id <= 0) ? -1 : ward_id;
+	public Page<ListingsResponse> getListingsByLAT(BigDecimal minPrice, BigDecimal maxPrice, BigDecimal minArea,
+			BigDecimal maxArea, Integer roomType, Integer city_id, Integer district_id, Integer ward_id,
+			Pageable pageable) {
+		// Kiểm tra giá trị null hoặc rỗng và thay thế bằng giá trị mặc định (-1)
+		Integer roomTypeFilter = (roomType == null || roomType <= 0) ? -1 : roomType;
+		Integer cityIdFilter = (city_id == null || city_id <= 0) ? -1 : city_id;
+		Integer districtIdFilter = (district_id == null || district_id <= 0) ? -1 : district_id;
+		Integer wardIdFilter = (ward_id == null || ward_id <= 0) ? -1 : ward_id;
 
-	    // Gọi repository
-	    return listingRepository.findListingsByLAT(
-	            minPrice,
-	            maxPrice,
-	            minArea,
-	            maxArea,
-	            roomTypeFilter,
-	            cityIdFilter,
-	            districtIdFilter,
-	            wardIdFilter, pageable
-	    );
+		// Gọi repository
+		return listingRepository.findListingsByLAT(minPrice, maxPrice, minArea, maxArea, roomTypeFilter, cityIdFilter,
+				districtIdFilter, wardIdFilter, pageable);
 	}
 
-	
-
-
-
-	
 	public ListingsFeatures getListingsFeatures(Listings listings) {
 		return listingsFeaturesRepository.findByListings(listings);
 	}

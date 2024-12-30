@@ -8,10 +8,10 @@
 					</div>
 					<div class="user-details">
 
-						<p class="user-name">Nguyễn Văn Thuận</p>
-						<p class="user-phone">0384756773</p>
+						<p class="user-name" th:text="${session.user.fullName}"></p>
+						<p class="user-phone" th:text="${session.user.phoneNumber}" ></p>
 						<p class="user-id">
-							Mã thành viên: <span>12345678</span>
+							Mã thành viên: <span th:text="${session.user.userId}" ></span>
 						</p>
 					</div>
 				</div>
@@ -32,13 +32,13 @@
 
 				<ul class="menu">
 					<li><a href="#">Quản lý tin đăng</a></li>
-					<li><a href="#">Sửa thông tin cá nhân</a></li>
+					<li><a href="/info">Sửa thông tin cá nhân</a></li>
 					<li><a th:href="@{/recharge}">Nạp tiền vào tài khoản</a></li>
 					<li><a th:href="@{/recharge4}">Lịch sử nạp tiền</a></li>
 					<li><a href="#">Lịch sử thanh toán</a></li>
 					<li><a href="#">Bảng giá dịch vụ</a></li>
 					<li><a href="#">Liên hệ</a></li>
-					<li><a href="#">Thoát</a></li>
+					<li><a href="/logout">Thoát</a></li>
 				</ul>
 			</aside>
 
