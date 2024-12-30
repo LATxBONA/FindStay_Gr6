@@ -1,6 +1,7 @@
 package com.example.PHONGTROSPRING.service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,10 @@ public class UserService {
 
 	@Autowired
 	private UserRepository repo;
-	
+
+	public User getUser(String id){
+		return repo.findByuserId(id);
+	}
 	 public void addUsers() {
 	        User user1 = new User();
 	        user1.setPassword("password123");
@@ -60,7 +64,17 @@ public class UserService {
 		User u = repo.findByphoneNumberAndPassword(user.getPhoneNumber(), user.getPassword());
 		return u;
 	}
-
+	public boolean updateUser(User user) {
+        Optional<User> existingUserOpt = repo.findById(user.getUserId());
+        if (existingUserOpt.isPresent()) {
+            User existingUser = existingUserOpt.get();
+            existingUser.setFullName(user.getFullName());
+            existingUser.setEmail(user.getEmail());
+            repo.save(existingUser);
+            return true;
+        }
+        return false;
+	}
 	public boolean register(RegisterRequest user) {
 		User u = new User();
 		u.setFullName(user.getFullName());
@@ -76,4 +90,28 @@ public class UserService {
 	public boolean checkPhone(String phone) {
 		return repo.existsByphoneNumber(phone) ? true : false;
 	}
+	
+	public boolean changePass(User user , String password) {
+		User u  = repo.findByphoneNumberAndPassword(user.getPhoneNumber(), user.getPassword());
+		if(u != null) {
+			u.setPassword(password);
+			repo.save(u);
+			return true;
+		}
+		return false;
+		
+		
+//		Optional<User> existingUserOpt = repo.findById(user.getUserId());
+//        if (existingUserOpt.isPresent()) {
+//            User existingUser = existingUserOpt.get();
+//            if(existingUser.getPassword() != user.getPassword()) {
+//            	return false;
+//            }
+//            existingUser.setPassword(user.getPassword());
+//            repo.save(existingUser);
+//            return true;
+//        }
+//        return false;
+	}
+	
 }

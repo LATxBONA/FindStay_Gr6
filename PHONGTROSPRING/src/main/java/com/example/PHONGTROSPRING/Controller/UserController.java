@@ -1,5 +1,8 @@
 package com.example.PHONGTROSPRING.Controller;
 
+import java.lang.ProcessBuilder.Redirect;
+
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,8 +10,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.request.LoginRequest;
 import com.example.PHONGTROSPRING.request.RegisterRequest;
 import com.example.PHONGTROSPRING.service.UserService;
@@ -41,7 +46,7 @@ public class UserController {
 		if (userService.login(user) != null) {
 			model.addAttribute("login", "Đăng nhập thành công");
 			session.setAttribute("user", userService.login(user));
-			return "views/home";
+			return "redirect:/";
 
 		}
 		model.addAttribute("loginfail", "Tài khoản hoặc mật khẩu không chính xác");
@@ -84,4 +89,43 @@ public class UserController {
 		return "redirect:/";
 	}
 
+	@GetMapping("/info")
+	public String info(Model model , HttpSession session) {
+			User u = (User) session.getAttribute("user");
+			if(u!= null) {
+				User userMain = userService.getUser(u.getUserId());
+				model.addAttribute("infoUser", userMain);
+				return "views/info";
+			}
+		return "redirect:/login";
+	}
+	
+	@PostMapping("/changeInfo")
+	public String changeInfo(RedirectAttributes redirectAttributes,@RequestParam String fullName , @RequestParam String email , HttpSession session ,Model model ) {
+		User u = (User) session.getAttribute("user");
+		u.setEmail(email);
+		u.setFullName(fullName);
+		if(userService.updateUser(u)) {
+			User update = userService.getUser(u.getUserId());
+			redirectAttributes.addFlashAttribute("status", "Cập nhật thành công");
+//			model.addAttribute("status", "Cập nhật thành công");
+			session.setAttribute("user", update);
+			return "redirect:/info";
+		}
+		model.addAttribute("status", "Có lỗi xảy ra");
+		return "redirect:/info";
+		
+	}
+	@PostMapping("/changePass")
+	public String changPass(RedirectAttributes redirectAttributes,@RequestParam String currentPassword ,@RequestParam String newPassword , HttpSession session , Model model) {
+		User u = (User) session.getAttribute("user");
+		if(userService.changePass(u,newPassword)) {
+			redirectAttributes.addFlashAttribute("status", "Đổi mật khẩu thành công");
+//			model.addAttribute("status", "Đổi mật khẩu thành công");
+			return "redirect:/info";
+		}
+		redirectAttributes.addFlashAttribute("status", "Đổi mật khẩu thất bại");
+//		model.addAttribute("status", "Đổi mật khẩu thất b");
+		return "redirect:/info";	
+	}
 }

@@ -16,52 +16,7 @@
 	<header th:replace="views/header-footer/header"></header>
 
 	<div class="container">
-		<div class="left-column">
-
-			<!-- Thông tin người dùng -->
-			<div class="user-info">
-				<div class="user-info2">
-					<div class="user-avatar">
-						<i class="fa-solid fa-circle-user fa-4x"></i>
-					</div>
-					<div class="user-details">
-
-						<p class="user-name">Nguyễn Văn Thuận</p>
-						<p class="user-phone">0384756773</p>
-						<p class="user-id">
-							Mã thành viên: <span>12345678</span>
-						</p>
-					</div>
-				</div>
-				<div class="btn2">
-					<button
-						th:onclick="'window.location.href=\'' + @{/recharge} + '\''"
-						class="btn-recharge">Nạp tiền</button>
-					<button class="btn-post">Đăng tin</button>
-				</div>
-				<div class="support-info">
-					<p>Nhân viên hỗ trợ của bạn:</p>
-					<p>Văn Thuận - 0999999999</p>
-				</div>
-			</div>
-
-			<!-- Thanh bên (sidebar) -->
-			<aside class="sidebar">
-
-				<ul class="menu">
-					<li><a href="#">Quản lý tin đăng</a></li>
-					<li><a href="#">Sửa thông tin cá nhân</a></li>
-					<li><a th:href="@{/recharge}">Nạp tiền vào tài khoản</a></li>
-					<li><a th:href="@{/recharge4}">Lịch sử nạp tiền</a></li>
-					<li><a href="#">Lịch sử thanh toán</a></li>
-					<li><a href="#">Bảng giá dịch vụ</a></li>
-					<li><a href="#">Liên hệ</a></li>
-					<li><a href="#">Thoát</a></li>
-				</ul>
-			</aside>
-
-
-		</div>
+		<div class="left-column" th:replace="views/header-footer/left_menu"></div>
 
 		<div class="payment-methods3">
 			<div class="confirmation-message">
