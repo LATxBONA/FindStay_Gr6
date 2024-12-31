@@ -2,7 +2,7 @@
 
 /* Khi chiều rộng cửa sổ <= 1280px và chiều cao cửa sổ >= 585px */
 @media ( max-width : 1280px) and (min-height: 585px) {
-	header {
+	/* header {
 		height: 11vh !important;
 		font-size: 2.5vh !important;
 	}
@@ -12,12 +12,12 @@
 	header>div>a>i {
 		font-size: 4vh !important;
 	}
-	/* header>div>a>ul {
+	header>div>a>ul {
 		margin-top: 13% !important;
-	} */
-	/* .header-account:hover .header-account-menu {
+	}
+	.header-account:hover .header-account-menu {
 		margin-top: 15% !important;
-	} */
+	}
 	header>div:nth-child(5)>a {
 		width: 65% !important;
 		padding: 8% 0 !important;
@@ -59,7 +59,7 @@
 	.wrapper_footer_page{
 		width: 142vh;
 		margin: 2rem 13.5rem !important;
-	}
+	} */
 }
 
 

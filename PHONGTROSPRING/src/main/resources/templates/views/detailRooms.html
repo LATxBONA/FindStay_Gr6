@@ -53,7 +53,6 @@
 								<i class="fa-solid fa-chevron-right"></i>
 							</button>
 						</div>
-
 					</div>
 
 					<!-- Title star -->
@@ -83,12 +82,42 @@
 						<li>#<span th:text="${room.itemId}"></span></li>
 					</ul>
 
+					<hr>
 					<!-- Description -->
 					<ul class="detail_describe">
 						<li class="detail_title_category">Thông tin mô tả</li>
 						<li th:each="item : ${listDescription}" th:text="${item} + '.'"></li>
 					</ul>
-
+					
+					<hr>
+					
+					<div class="outstanding_news">
+						<p class="detail_title_category">Nổi bật</p>
+						<div>
+							<ul class="list_outstanding_news">
+								<li th:class="${listingsFeatures.fullFurniture == true ? 'active_display' : 'active_none'}"><i class="fa-solid fa-circle-check"></i>Đầy đủ nội thất</li>
+								<li th:class="${listingsFeatures.washingMachine == true ? 'active_display' : 'active_none'}"><i class="fa-solid fa-circle-check"></i>Có máy giặt</li>
+								<li th:class="${listingsFeatures.freeTime == true ? 'active_display' : 'active_none'}"><i class="fa-solid fa-circle-check"></i>Giờ giấc tự do</li>
+							</ul>
+							<ul class="list_outstanding_news">
+								<li th:class="${listingsFeatures.attic == true ? 'active_display' : 'active_none'}"><i class="fa-solid fa-circle-check"></i>Có gác</li>
+								<li th:class="${listingsFeatures.refrigerator == true ? 'active_display' : 'active_none'}"><i class="fa-solid fa-circle-check"></i>Có tủ lạnh</li>
+								<li th:class="${listingsFeatures.protection == true ? 'active_display' : 'active_none'}"><i class="fa-solid fa-circle-check"></i>Có bảo vệ 24/24</li>
+							</ul>
+							<ul class="list_outstanding_news">
+								<li th:class="${listingsFeatures.kitchenShelves == true ? 'active_display' : 'active_none'}"><i class="fa-solid fa-circle-check"></i>Có kệ bếp</li>
+								<li th:class="${listingsFeatures.elevator == true ? 'active_display' : 'active_none'}"><i class="fa-solid fa-circle-check"></i>Có thang máy</li>
+								<li th:class="${listingsFeatures.parkingBasement == true ? 'active_display' : 'active_none'}"><i class="fa-solid fa-circle-check"></i>Có hầm để xe</li>
+							</ul>
+							<ul class="list_outstanding_news">
+								<li th:class="${listingsFeatures.airConditioning == true ? 'active_display' : 'active_none'}"><i class="fa-solid fa-circle-check"></i>Có máy lạnh</li>
+								<li th:class="${listingsFeatures.commonOwner == true ? 'active_display' : 'active_none'}"><i class="fa-solid fa-circle-check"></i>Không chung chủ</li>
+							</ul>
+						</div>
+					</div>
+					
+					<hr>
+					
 					<div>
 						<p class="detail_title_category">Đặc điểm tin đăng</p>
 						<table class="table">
@@ -131,6 +160,9 @@
 							</tr>
 						</table>
 					</div>
+					
+					<hr>
+					
 					<div>
 						<p class="detail_title_category">Thông tin liên hê</p>
 						<ul class="detail_contact">
@@ -139,6 +171,9 @@
 							<li th:text="'Zalo: '+${room.user.phoneNumber}"></li>
 						</ul>
 					</div>
+					
+					<hr>
+					
 					<div>
 						<p class="detail_title_category">Bản đồ</p>
 						<span>Địa chỉ: </span><span id="location_map"

@@ -44,6 +44,10 @@ public class ListingsService {
 
 		return list;
 	}
+	
+	public ListingsFeatures getListingsFeatures(int id) {
+		return listingRepository.findListingsFeatures(id);
+	}
 
 	public Listings findById(int roomId) {
 		return listingRepository.findById(roomId).orElse(null);

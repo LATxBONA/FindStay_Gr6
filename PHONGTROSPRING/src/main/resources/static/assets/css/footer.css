@@ -1,6 +1,6 @@
 footer {
 	width: 100%;
-	padding: 1.5rem 10%;
+	padding: 0.5rem 10%;
 	margin-top: .5rem;
 	background-color: white;
 }
@@ -45,7 +45,6 @@ footer {
 .footer-system {
 	font-size: 1.6vh;
 	padding: 1rem 0;
-	border-top: 1px solid gray;
 	border-bottom: 1px solid gray;
 	display: flex;
 	flex-direction: column;
@@ -54,6 +53,7 @@ footer {
 
 .footer-system>p {
 	margin-bottom: 1rem;
+	font-size: 2vh;
 }
 
 .footer-system-image {
@@ -114,8 +114,9 @@ footer {
 }
 
 .wrapper_footer_page {
-	background-color: white;
-	margin: 2rem 20rem;
+	width: 80%;
+    background-color: white;
+    margin: 2rem 8rem;
 	padding: 1%;
 	line-height: 1.5rem;
 	border-radius: 10px;

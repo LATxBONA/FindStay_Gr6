@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.PHONGTROSPRING.entities.Listings;
+import com.example.PHONGTROSPRING.entities.ListingsFeatures;
 import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.response.ListingsResponse;
 
@@ -52,6 +53,9 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer>, Jp
 	Page<Listings> getListingBySearchtin(String status, int postType, String title, User user, Pageable pageable);
 	
 	Page<Listings> findByUser(User user,Pageable pageable);
+	
+	@Query("SELECT l FROM ListingsFeatures l WHERE l.listings.itemId = :id")
+	ListingsFeatures findListingsFeatures(@Param("id") int id);
 	
 	//Lấy all danh sách đã duyệt cho trang home
 	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, " +
