@@ -1,73 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý giao dịch</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/PayHistory.css">
-       <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
-	<link rel="stylesheet" type="text/css" href="/assets/css/left_menu.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quản lý giao dịch</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/PayHistory.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/left_menu.css">
 </head>
 <body>
-<div th:replace="views/header-footer/header"></div>
-    <main class="main">
+	<div th:replace="views/header-footer/header"></div>
+	<main class="main">
 
 
-<div th:replace="views/header-footer/left_menu"></div>
+		<div th:replace="views/header-footer/left_menu"></div>
 
-	<!-- Phần thân cái bảng ở chính giữa -->
+		<!-- Phần thân cái bảng ở chính giữa -->
 
-        <section class="content">
-            <h1>Quản lý giao dịch</h1>
-            <div class="tabs">
-                <button class="tab">Nạp tiền vào tài khoản</button>
-                <button class="tab">Lịch sử nạp tiền</button>
-                <button class="tab active">Lịch sử thanh toán</button>
-            </div>
-            <table class="transaction-table">
-                <thead>
-                    <tr>
-                    	<th></th>
-                        <th>THỜI GIAN</th>
-                        <th>PHÍ THANH TOÁN</th>
-                        <th>SỐ DƯ ĐẦU</th>
-                        <th>SỐ DƯ CUỐI</th>
-                        <th>LOẠI HOẠT ĐỘNG</th>
-                        <th>MÃ TIN</th>
-                        <th>LOẠI TIN</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    	<td><i class="fa-solid fa-circle-check" style=" color: green;"></i></td>
-                        <td>11:04 19/12/2024</td>
-                        <td>-0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td><span class="status completed">Đã cho thuê</span></td>
-                        <td>672031</td>
-                        <td><span class="badge normal">Tin thường</span></td>
-                    </tr>
-                    <tr>
-                    	<td><i class="fa-solid fa-circle-check" style=" color: #CCCCCC;"></td>
-                        <td>22:29 18/12/2024</td>
-                        <td>-0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td><span class="status repost">Đăng lại tin</span></td>
-                        <td>672031</td>
-                        <td><span class="badge free">Tin miễn phí</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-    </main>
-    
-    
-<!-- <div th:replace="views/header-footer/footer"></div> -->
+		<section class="content">
+			<h1>Quản lý giao dịch</h1>
+			<div class="tabs">
+				<button class="tab">Nạp tiền vào tài khoản</button>
+				<button class="tab">Lịch sử nạp tiền</button>
+				<button class="tab active">Lịch sử thanh toán</button>
+			</div>
+			<table class="transaction-table">
+				<thead>
+					<tr>
+						<th></th>
+						<th>THỜI GIAN</th>
+						<th>PHÍ THANH TOÁN</th>
+						<th>SỐ DƯ ĐẦU</th>
+						<th>SỐ DƯ CUỐI</th>
+						<th>LOẠI HOẠT ĐỘNG</th>
+						<th>MÃ TIN</th>
+						<th>LOẠI TIN</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="item : ${payments}">
+						<td><i class="fa-solid fa-circle-check" style="color: green;"></i></td>
+						<td th:text="${item.createAt}"></td>
+						<td th:text="${item.paymentFee}"></td>
+						<td th:text="${item.balanceBefore}"></td>
+						<td th:text="${item.balanceAfter}"></td>
+						<td th:text="${item.typeActivity}" class="status completed"></td>
+						<td th:text="${item.getListings().getItemId()}"></td>
+						<td th:switch="${item.getListings().getPostType()}"
+							class="badge normal"><span th:case="1">Miễn phí</span> <span
+							th:case="2">VIP 1</span> <span th:case="3">VIP 2</span> <span
+							th:case="4">VIP 3</span> <span th:case="5">VIP 4</span> <span
+							th:case="*">Không xác định</span> <!-- Mặc định nếu không khớp -->
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="pagination">
+				<a th:if="${payments.hasPrevious()}"
+					th:href="@{/pay(page=${payments.number - 1})}">« Previous</a> <span>Page
+					<span th:text="${payments.number + 1}">1</span> of <span
+					th:text="${payments.totalPages}">1</span>
+				</span> <a th:if="${payments.hasNext()}"
+					th:href="@{/pay(page=${payments.number + 1})}">Next »</a>
+			</div>
+		</section>
+	</main>
+
+
+	<!-- <div th:replace="views/header-footer/footer"></div> -->
 </body>
 </html>

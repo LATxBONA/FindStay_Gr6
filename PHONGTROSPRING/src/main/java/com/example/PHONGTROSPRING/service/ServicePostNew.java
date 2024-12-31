@@ -26,6 +26,7 @@ import com.example.PHONGTROSPRING.repository.ListingsRepository;
 import com.example.PHONGTROSPRING.repository.LocationsCityRepository;
 import com.example.PHONGTROSPRING.repository.LocationsDistrictRepository;
 import com.example.PHONGTROSPRING.repository.LocationsWardRepository;
+import com.example.PHONGTROSPRING.repository.PaymentHistoryRepository;
 //import com.example.PHONGTROSPRING.repository.LocationRepository;
 import com.example.PHONGTROSPRING.repository.RoomTypesRepository;
 import com.example.PHONGTROSPRING.repository.UserRepository;
@@ -206,6 +207,9 @@ public class ServicePostNew {
 	@Autowired
 	private ListingsFeaturesRepository ListingsFeaturesRepository;
 	
+	@Autowired
+	private PaymentHistoryRepository paymentHistoryRepository;
+	
 	/*
 	 * public List<Locations> getLocation() {
 	 * 
@@ -252,14 +256,20 @@ public class ServicePostNew {
 
 		Listings listing = new Listings();
 		LocalDateTime localdate = UtitilyService.plusday(requesttt);
+		BigDecimal tiensd = UtitilyService.tinhtien(requesttt);
+		BigDecimal tienuser = request.getUser().getBalance().subtract(tiensd);
 
-		request.getUser().getBalance().subtract(UtitilyService.tinhtien(requesttt));
-		RoomTypes roomtypes = new RoomTypes();
-		roomtypes = RoomTypesRepository.findById(request.getRoomTypeid())
+		
+		User us = request.getUser();
+		us.setBalance(tienuser);
+		UserRepository.save(us);
+		
+		RoomTypes roomtypes = RoomTypesRepository.findById(request.getRoomTypeid())
 				.orElseThrow(() -> new RuntimeException("Không có kiểu phòng"));
 
 		LocationsCity city = locationsCityRepository.findById(request.getCity_id())
 				.orElseThrow(() -> new RuntimeException("Không có city"));
+		
 		LocationsDistrict district = locationsDistrictRepository.findById(request.getDistrict_id())
 				.orElseThrow(() -> new RuntimeException("Không có district"));
 
@@ -283,6 +293,7 @@ public class ServicePostNew {
 		ListingsRepository.save(listing);
 		listingsFeatures.setListings(listing);
 		ListingsFeaturesRepository.save(listingsFeatures);
+		paymentHistoryRepository.save(UtitilyService.payment(request.getUser(), tiensd, "Đăng tin mới", listing));
 		for (MultipartFile file : request.getUrlAnh()) {
 			Images images = new Images();
 			try {

@@ -81,6 +81,8 @@ public class Listings {
 	@Column(nullable = false, columnDefinition = "nvarchar(255)")
 	private String object;
 
+	
+	
 	/*
 	 * public LocalDateTime getExpiryDate() { return expiryDate; }
 	 * 
