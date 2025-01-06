@@ -68,6 +68,6 @@ public class BlogPostController {
 			
 		}
         model.addAttribute("listings", listphongtrocoanh);
-        return "views/blog"; // Trỏ đến file blog.html trong thư mục templates
+        return "views/blog"; 
     }
 }

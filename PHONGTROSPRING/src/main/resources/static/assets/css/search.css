@@ -93,6 +93,8 @@
     animation: fadeIn 0.3s ease-out; /* Hiệu ứng fade-in */
 }
 
+
+
 /* Nút đóng modal */
 .close {
     color: #555;
@@ -130,6 +132,31 @@
 .modal-content form input[type="radio"] {
     margin-right: 10px;
 }
+
+
+.price-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Hai cột */
+    gap: 10px; /* Khoảng cách giữa các mục */
+    width: 100%;
+}
+
+.price-options label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #555;
+}
+
+.price-options input[type="radio"] {
+    margin-right: 10px;
+}
+@media (max-width: 480px) {
+    .price-options {
+        grid-template-columns: 1fr; /* Một cột trên màn hình nhỏ */
+    }
+}
+
 
 /* Nút áp dụng */
 .modal-content button {
