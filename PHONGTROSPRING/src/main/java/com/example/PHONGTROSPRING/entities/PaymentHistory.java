@@ -44,6 +44,23 @@ public class PaymentHistory {
 	private Listings listings;
 
 
+	
+	public PaymentHistory() {
+		super();
+	}
+
+	public PaymentHistory(User user, LocalDateTime createAt, BigDecimal paymentFee, BigDecimal balanceBefore,
+			BigDecimal balanceAfter, String typeActivity, Listings listings) {
+		super();
+		this.user = user;
+		this.createAt = createAt;
+		this.paymentFee = paymentFee;
+		this.balanceBefore = balanceBefore;
+		this.balanceAfter = balanceAfter;
+		this.typeActivity = typeActivity;
+		this.listings = listings;
+	}
+
 	public User getUser() {
 		return user;
 	}
