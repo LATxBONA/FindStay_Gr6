@@ -100,83 +100,94 @@ public class FooterController {
 	}
 
 	@GetMapping("/{typeroom}/{city}")
-	public String danhSachPhongTro(@PathVariable String typeroom, @PathVariable String city,
-			@RequestParam(value = "orderby", defaultValue = "mac-dinh") String orderby,
-			@RequestParam(value = "page", defaultValue = "0") int page, Model model, HttpSession session) {
+    public String danhSachPhongTro(
+            @PathVariable String typeroom, 
+            @PathVariable String city,
+            @RequestParam(required = false) String district,
+            @RequestParam(required = false) Integer district_id,
+            @RequestParam(defaultValue = "mac-dinh") String orderby,
+            @RequestParam(defaultValue = "1") int page,
+            Model model,
+            HttpSession session) {
 
-		String typeroom_default = typeroom;
-		String city_default = city;
+        // Giữ lại giá trị gốc cho URL
+        String typeroom_default = typeroom;
+        String city_default = city;
+        model.addAttribute("city_default", city_default);
+        model.addAttribute("typeroom_default", typeroom_default);
 
-		model.addAttribute("city_default", city_default);
-		model.addAttribute("typeroom_default", typeroom_default);
+        // Chuyển đổi tên hiển thị
+        typeroom = convertRoomType(typeroom);
+        city = convertCityName(city);
 
-		typeroom = convertRoomType(typeroom);
-		city = convertCityName(city);
+        // Thiết lập tiêu đề và thông tin cơ bản
+        model.addAttribute("title", "Cho thuê " + typeroom + " " + city);
+        model.addAttribute("city", city);
+        model.addAttribute("typeroom", typeroom);
+        model.addAttribute("quantity_post", listingsService.getQuantityPost());
 
-		// Tiêu đề page
-		model.addAttribute("title", "Cho thuê " + typeroom + city);
+        // Lấy roomtype_id
+        int roomtype_id = roomTypesService.findRoomTypeByName(typeroom);
 
-		model.addAttribute("city", city);
-		model.addAttribute("typeroom", typeroom);
+        // Xử lý page
+        int currentPage = page > 0 ? page - 1 : 0;
 
-		// Số lượng bài đăng
-		model.addAttribute("quantity_post", listingsService.getQuantityPost());
+        // Xử lý favorite nếu user đã login
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            model.addAttribute("list_favorite", favoriteService.findByUserId(user.getUserId()));
+        }
 
-		int roomtype_id = roomTypesService.findRoomTypeByName(typeroom);
+        final int PAGE_SIZE = 3;
+        Page<ListingsResponse> listing;
 
-		if (page - 1 < 0) {
-			page = 0;
-		} else {
-			page -= 1;
-		}
+        // Xử lý tìm kiếm theo các trường hợp
+        if (city.equals("Toàn quốc")) {
+            if (orderby.equals("moi-dang")) {
+                listing = listingsService.getListingsByNewest(roomtype_id, currentPage, PAGE_SIZE);
+            } else {
+                listing = listingsService.getListingsNationWide(roomtype_id, currentPage, PAGE_SIZE);
+            }
+        } else {
+            int city_id = locationsCityService.findByCityName(city);
+            model.addAttribute("list_district", 
+                UtitilyService.changeDistrictName(locationsDistrictService.getDistrict(city_id)));
 
-		// favorite heart
-		User user = (User) session.getAttribute("user");
-		if (user != null) {
-			model.addAttribute("list_favorite", favoriteService.findByUserId(user.getUserId()));
-		}
+            if (district_id != null) {
+                listing = listingsService.getListingsByDistrictAndOrder(
+                    roomtype_id, 
+                    city_id,
+                    district_id,
+                    orderby,
+                    currentPage, 
+                    PAGE_SIZE
+                );
+                model.addAttribute("current_district", district);
+                model.addAttribute("current_district_id", district_id);
+            } else {
+                if (orderby.equals("moi-dang")) {
+                    listing = listingsService.getListingsByNewestAndCity(roomtype_id, city_id, currentPage, PAGE_SIZE);
+                } else {
+                    listing = listingsService.getListings(roomtype_id, city_id, currentPage, PAGE_SIZE);
+                }
+            }
+        }
 
-		int totalPage = 0;
-		Page<ListingsResponse> listing = null;
+        // Xử lý phân trang
+        int totalPages = listing.getTotalPages();
+        model.addAttribute("list_room", setImageForListingsResponse(listing));
+        model.addAttribute("totalPage", totalPages);
+        model.addAttribute("page", currentPage);
+        model.addAttribute("orderby", orderby);
+        
+        // Tính toán các trang cho phân trang
+        int prePage = Math.max(0, currentPage - 1);
+        int nextPage = Math.min(totalPages - 1, currentPage + 1);
+        model.addAttribute("prePage", prePage);
+        model.addAttribute("nextPage", nextPage);
 
-		if (city.equals("Toàn quốc")) {
-
-			listing = listingsService.getListingsNationWide(roomtype_id, page, 15);
-			totalPage = listing.getTotalPages();
-			
-		} else {
-			int city_id = locationsCityService.findByCityName(city);
-
-			// District của city tương ứng
-			model.addAttribute("list_district",
-					UtitilyService.changeDistrictName(locationsDistrictService.getDistrict(city_id)));
-
-			listing = listingsService.getListings(roomtype_id, city_id, page, 15);
-			totalPage = listing.getTotalPages();
-		}
-		
-		model.addAttribute("list_room", setImageForListingsResponse(listing));
-		model.addAttribute("page", page);
-		model.addAttribute("totalPage", totalPage);
-
-		int prePage = page - 1;
-		int nextPage = page + 1;
-
-		if (page < 1) {
-			prePage = 0;
-			nextPage = page + 2;
-		}
-
-		if (page == totalPage - 1) {
-			nextPage = totalPage - 1;
-			prePage = page - 2;
-		}
-
-		model.addAttribute("prePage", prePage);
-		model.addAttribute("nextPage", nextPage);
-
-		return "views/ListRoomsSearchFromFooter";
-	}
+        return "views/ListRoomsSearchFromFooter";
+    }
 
 	// set ảnh cho từng đối tượng listingsResponse
 	public List<ListingsResponse> setImageForListingsResponse(Page<ListingsResponse> listingResponse) {

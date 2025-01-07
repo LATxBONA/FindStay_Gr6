@@ -48,6 +48,8 @@ public class ListingsController {
 
 		// Ảnh
 		model.addAttribute("listImages", listingsService.getImages(roomId));
+		
+		model.addAttribute("listingsFeatures", listingsService.getListingsFeatures(roomId));
 
 		// Tin nổi bật lấy theo vị trí district, ko lấy những phòng có id là id phòng
 		// hiện tại, lấy theo loại phòng

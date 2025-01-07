@@ -10,10 +10,6 @@
 		"Noto Color Emoji";
 }
 
-*::selection{
-	background-color: transparent;
-}
-
 body{
 	background-color: whitesmoke;
 }

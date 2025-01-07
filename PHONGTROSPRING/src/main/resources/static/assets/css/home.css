@@ -86,23 +86,32 @@
     text-align: center;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
-/* Menu sắp xếp */
+/* Style cho menu sắp xếp */
 .menu_dexuat_moidang {
     list-style: none;
     display: flex;
     align-items: center;
-    padding: 0;
+    padding: 10px 0;
     margin: 15px 0;
+    border-bottom: 1px solid #eee;
 }
 
-.menu_dexuat_moidang > li {
-    margin-right: 15px;
-    font-size: 14px;
+.menu_dexuat_moidang li {
+    margin-right: 20px;
 }
 
 .menu_dexuat_moidang a {
-    color: #333;
+    color: #666;
     text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.menu_dexuat_moidang a:hover,
+.menu_dexuat_moidang a.active {
+    color: #1266DD;
+    background-color: #f0f7ff;
 }
 
 /* Content layout */
@@ -270,4 +279,33 @@
 	margin-left: 25px;
 	flex-direction: column;
 	flex-wrap: 10px;
+}
+
+/* Style cho phân trang */
+.wrapper_btnPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    gap: 10px;
+}
+
+.btn_page {
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #666;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn_page:hover,
+.btn_page.active_btnPage {
+    background: #1266DD;
+    color: white;
+    border-color: #1266DD;
+}
+
+.btn_page i {
+    margin: 0 5px;
 }

@@ -183,6 +183,7 @@ body {
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
     padding-right: 10px;
+    text-decoration: none;
 }
 
 .recent-post-item:last-child {
@@ -194,6 +195,7 @@ body {
     height: 80px;
     object-fit: cover;
     border-radius: 8px;
+    text-decoration: none;
 }
 
 .recent-post-content {
@@ -205,12 +207,14 @@ body {
     font-weight: 500;
     color: #00499E;
     margin-bottom: 5px;
+    text-decoration: none;
 }
 
 .recent-post-price {
     font-size: 14px;
     color: #59d659;
     font-weight: 500;
+    text-decoration: none;
 }
 
 .recent-post-time {

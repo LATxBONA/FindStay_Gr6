@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	var login = document.getElementById("login");
 	var logout = document.getElementById("logout");
 	var recharge = document.getElementById("recharge");
+	var info = document.getElementById("infor_detail_user");
 
 	if (login && register) {
 		login.addEventListener("click", function() {
@@ -26,7 +27,9 @@ document.addEventListener("DOMContentLoaded", function() {
 			window.location.href = "/recharge";
 		})
 	}
-
+	info.addEventListener("click" ,function(){
+		window.location.href = "/info";
+	});
 	var header_fullname = document.getElementById("header_fullname");
 	var header_popup = document.getElementById("header_popup");
 	var popup = document.getElementById("popup");
@@ -55,10 +58,14 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 
 	var headerAccountMenus = document.getElementById('header-account-menu');
-
-	console.log(header_fullname)
-	
-	if (header_fullname) {
-		headerAccountMenus.classList.add('active_header');
+	var listItems = headerAccountMenus.getElementsByTagName('li');
+	var screenWidth = screen.width;
+	var screenHeight = screen.height;
+	if (listItems.length == 4) {
+		if(screenWidth == 1536 && screenHeight == 864){
+			headerAccountMenus.classList.add('active_header_15inch');
+		}else{
+			headerAccountMenus.classList.add('active_header');
+		}
 	}
 })

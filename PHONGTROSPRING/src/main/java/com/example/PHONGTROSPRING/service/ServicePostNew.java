@@ -252,7 +252,7 @@ public class ServicePostNew {
 	 * return location; }
 	 */
 
-	public void postNew(RequestPostNew request, RequestThanhToan requesttt, ListingsFeatures listingsFeatures) {
+	public boolean postNew(RequestPostNew request, RequestThanhToan requesttt, ListingsFeatures listingsFeatures) {
 
 		Listings listing = new Listings();
 		LocalDateTime localdate = UtitilyService.plusday(requesttt);
@@ -261,6 +261,10 @@ public class ServicePostNew {
 
 		
 		User us = request.getUser();
+		if(us.getBalance().compareTo(tiensd)<0) {
+			return false;
+		}
+		
 		us.setBalance(tienuser);
 		UserRepository.save(us);
 		
@@ -305,6 +309,7 @@ public class ServicePostNew {
 				e.printStackTrace();
 			}
 		}
+		return true;
 
 	}
 

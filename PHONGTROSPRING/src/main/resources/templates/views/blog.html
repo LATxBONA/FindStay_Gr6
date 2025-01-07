@@ -52,7 +52,7 @@
 			<div class="recent-posts-section">
 			    <h3 style="color: #3a3a3a" class="section-title">Tin mới đăng</h3>
 			    <div class="recent-posts-list">
-			        <div class="recent-post-item" th:each="listing, i : ${listings}" th:if="${i.index < 3}">
+			        <a class="recent-post-item" th:each="listing, i : ${listings}" th:if="${i.index < 3 }" th:href="@{/detailRoom/id={id}(id=${listing.itemId})}">
 			            <img  th:src="${listing.listings[0]}" alt="Ảnh phòng trọ" class="recent-post-image" />
 			            <div class="recent-post-content">
 			                <h4 class="recent-post-title" th:text="${listing.title}">Tiêu đề tin</h4>
@@ -63,7 +63,7 @@
 			                </p>
 			                
 			            </div>
-			        </div>
+			        </a>
 			    </div>
 			</div>
 

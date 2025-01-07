@@ -51,7 +51,6 @@
 		<table>
 			<tr>
 				<th>Mã tin</th>
-				<th>Ảnh đại diện</th>
 				<th>Tiêu đề</th>
 				<th>Giá</th>
 				<th>Ngày bắt đầu</th>
@@ -61,7 +60,6 @@
 			</tr>
 			<tr th:each="listing : ${listtingsss}">
 				<td th:text="${listing.itemId}"></td>
-				<td></td>
 				<td th:text="${listing.title}"></td>
 				<td th:text="${listing.price}"></td>
 				<td th:text="${listing.createdAt}"></td>

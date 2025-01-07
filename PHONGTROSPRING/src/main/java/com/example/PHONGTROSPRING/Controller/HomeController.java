@@ -19,40 +19,37 @@ public class HomeController {
 	   private ListingsService listingsService;
 
 	@GetMapping("/")
-	   public String home(@RequestParam(defaultValue = "mac-dinh") String orderby,
-	                     @RequestParam(defaultValue = "0") int page,
-	                     Model model) {
+	public String home(
+	    @RequestParam(defaultValue = "mac-dinh") String orderby,
+	    @RequestParam(defaultValue = "1") int page,  // Đổi giá trị mặc định thành 1
+	    Model model) {
 
-	       Page<ListingsResponse> listingPage;
-	       if(orderby.equals("moi-dang")) {
-	           listingPage = listingsService.getAllListingsByNewest(page, 10); 
-	       } else {
-	           listingPage = listingsService.getAllListingsApproved(page, 10);
-	       }
+	    final int PAGE_SIZE = 2;
+	    // Chuyển đổi sang đánh số trang bắt đầu từ 0 cho Spring Data JPA
+	    int pageIndex = page - 1;
+	    
+	    Page<ListingsResponse> listingPage;
+	    if (orderby.equals("moi-dang")) {
+	        listingPage = listingsService.getAllListingsByNewest(pageIndex, PAGE_SIZE);
+	    } else {
+	        listingPage = listingsService.getAllListingsApproved(pageIndex, PAGE_SIZE);
+	    }
 
-	       List<ListingsResponse> listings = listingsService.setImageForListingsResponse(listingPage);
+	    List<ListingsResponse> listings = listingsService.setImageForListingsResponse(listingPage);
 
-	       model.addAttribute("list_room", listings);
-	       model.addAttribute("totalPage", listingPage.getTotalPages());
-	       model.addAttribute("page", page);
-	       model.addAttribute("orderby", orderby);
-	       model.addAttribute("totalPosts", listingPage.getTotalElements());
-	       // Phân trang 
-	       if (page > 0) {
-	           model.addAttribute("prePage", page - 1);
-	       } else {
-	           model.addAttribute("prePage", 0);
-	       }
-	       
-	       if (page < listingPage.getTotalPages() - 1) {
-	           model.addAttribute("nextPage", page + 1); 
-	       } else {
-	           model.addAttribute("nextPage", page);
-	       }
+	    model.addAttribute("list_room", listings);
+	    model.addAttribute("totalPage", listingPage.getTotalPages());
+	    model.addAttribute("page", page);  // Giữ số trang bắt đầu từ 1 cho view
+	    model.addAttribute("orderby", orderby);
+	    model.addAttribute("totalPosts", listingPage.getTotalElements());
 
-	       return "views/home";
-	   }
-	
+	    // Điều chỉnh tính toán phân trang cho đánh số bắt đầu từ 1
+	    model.addAttribute("prePage", Math.max(1, page - 1));
+	    model.addAttribute("nextPage", 
+	        page < listingPage.getTotalPages() ? page + 1 : page);
+
+	    return "views/home";
+	}
 	
 	
 	

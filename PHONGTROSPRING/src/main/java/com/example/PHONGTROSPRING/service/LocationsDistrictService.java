@@ -20,4 +20,10 @@ public class LocationsDistrictService {
 	public LocationsDistrict get1District(int district_id) {
 		return locationsDistrictRepository.findById(district_id).orElseThrow(() -> new RuntimeException("District not found"));
 	}
+	 // Thêm method mới để tìm district_id theo tên
+    public int findDistrictIdByName(String districtName) {
+        LocationsDistrict district = locationsDistrictRepository.findByDistrict(districtName)
+            .orElseThrow(() -> new RuntimeException("Không tìm thấy quận/huyện: " + districtName));
+        return district.getDistrict_id();
+    }
 }

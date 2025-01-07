@@ -91,27 +91,15 @@ public class UserService {
 		return repo.existsByphoneNumber(phone) ? true : false;
 	}
 	
-	public boolean changePass(User user , String password) {
-		User u  = repo.findByphoneNumberAndPassword(user.getPhoneNumber(), user.getPassword());
+	public boolean changePass(User user ,String currentPassword, String password) {
+		User u  = repo.findByphoneNumberAndPassword(user.getPhoneNumber(),currentPassword);
 		if(u != null) {
 			u.setPassword(password);
 			repo.save(u);
 			return true;
 		}
 		return false;
-		
-		
-//		Optional<User> existingUserOpt = repo.findById(user.getUserId());
-//        if (existingUserOpt.isPresent()) {
-//            User existingUser = existingUserOpt.get();
-//            if(existingUser.getPassword() != user.getPassword()) {
-//            	return false;
-//            }
-//            existingUser.setPassword(user.getPassword());
-//            repo.save(existingUser);
-//            return true;
-//        }
-//        return false;
 	}
+	
 	
 }

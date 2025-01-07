@@ -81,3 +81,13 @@
         width: 100%;
     }
 }
+
+@media ( min-width : 1535px) and (max-height: 863px) {
+	/* header>div>a>ul{
+		margin-top: 12% !important;
+	} */
+	
+	#popup{
+		height: 20% !important;
+	}
+}

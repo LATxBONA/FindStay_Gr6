@@ -3,6 +3,7 @@ package com.example.PHONGTROSPRING.service;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,12 @@ public class ListingsService {
 		List<Listings> list = new ArrayList<>();
 
 		list = listingRepository.findAll();
-
+		list.sort(Comparator.comparing(Listings::getCreatedAt).reversed());
 		return list;
+	}
+	
+	public ListingsFeatures getListingsFeatures(int id) {
+		return listingRepository.findListingsFeatures(id);
 	}
 
 	public Listings findById(int roomId) {
@@ -168,13 +173,6 @@ public class ListingsService {
 		return listingRepository.getQuantityPost();
 	}
 
-	public Page<ListingsResponse> getListings(int roomtype_id, int city_id, int page, int size) {
-		return listingRepository.getListings(roomtype_id, city_id, PageRequest.of(page, size));
-	}
-
-	public Page<ListingsResponse> getListingsNationWide(int roomtype_id, int page, int size) {
-		return listingRepository.getListingsNationWide(roomtype_id, PageRequest.of(page, size));
-	}
 
 	/*
 	 * public Listings getListingById(int id) { return
@@ -193,19 +191,60 @@ public class ListingsService {
 
 	}
 
-	// Trang home
-	public Page<ListingsResponse> getAllListingsByNewest(int page, int size) {
-		Pageable pageable = PageRequest.of(page, size,
-				Sort.by("postType").descending().and(Sort.by("createdAt").descending()));
-		return listingRepository.getSortedListings(pageable);
-	}
+	// Lấy danh sách theo room type từ cao xuống thấp- trang home
+    public Page<ListingsResponse> getAllListingsApproved(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return listingRepository.getAllListingsApproved(pageable);
+    }
 
-	// Trang home
-	// Lấy danh sách tin đã duyệt
-	public Page<ListingsResponse> getAllListingsApproved(int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		return listingRepository.getAllApprovedListings(pageable);
-	}
+    // Lấy danh sách theo thời gian mới nhất - trang home
+    public Page<ListingsResponse> getAllListingsByNewest(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return listingRepository.getAllListingsByNewest(pageable);
+    }
+    
+ 
+ // Lấy danh sách theo thời gian mới nhất cho toàn quốc
+    public Page<ListingsResponse> getListingsByNewest(int roomtype_id, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return listingRepository.getListingsByNewest(roomtype_id, pageable);
+    }
+
+    // Lấy danh sách theo room type từ cao xuống thấp cho toàn quốc
+    public Page<ListingsResponse> getListingsNationWide(int roomtype_id, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return listingRepository.getListingsNationWide(roomtype_id, pageable);
+    }
+
+    // Lấy danh sách theo thời gian mới nhất cho thành phố cụ thể
+    public Page<ListingsResponse> getListingsByNewestAndCity(int roomtype_id, int city_id, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return listingRepository.getListingsByNewestAndCity(roomtype_id, city_id, pageable);
+    }
+
+    // Lấy danh sách mặc định cho thành phố cụ thể
+    public Page<ListingsResponse> getListings(int roomtype_id, int city_id, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return listingRepository.getListings(roomtype_id, city_id, pageable);
+    }
+    
+    public Page<ListingsResponse> getListingsByDistrictAndOrder(
+            int roomtype_id, 
+            int city_id,
+            int district_id,  // Thay đổi tham số thành district_id
+            String orderby,
+            int page, 
+            int size) {
+                
+            Pageable pageable = PageRequest.of(page, size);
+            return listingRepository.findByDistrictAndOrderBy(
+                roomtype_id, 
+                city_id, 
+                district_id,  // Truyền district_id
+                orderby,
+                pageable
+            );
+        }
 
 	// Set ảnh cho từng tin
 	public List<ListingsResponse> setImageForListingsResponse(Page<ListingsResponse> listingResponse) {

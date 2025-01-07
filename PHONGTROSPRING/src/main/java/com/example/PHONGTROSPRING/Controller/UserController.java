@@ -119,13 +119,11 @@ public class UserController {
 	@PostMapping("/changePass")
 	public String changPass(RedirectAttributes redirectAttributes,@RequestParam String currentPassword ,@RequestParam String newPassword , HttpSession session , Model model) {
 		User u = (User) session.getAttribute("user");
-		if(userService.changePass(u,newPassword)) {
+		if(userService.changePass(u,currentPassword,newPassword)) {
 			redirectAttributes.addFlashAttribute("status", "Đổi mật khẩu thành công");
-//			model.addAttribute("status", "Đổi mật khẩu thành công");
 			return "redirect:/info";
 		}
 		redirectAttributes.addFlashAttribute("status", "Đổi mật khẩu thất bại");
-//		model.addAttribute("status", "Đổi mật khẩu thất b");
 		return "redirect:/info";	
 	}
 }

@@ -183,21 +183,20 @@ public class dangTinController {
 	}
 
 	@PostMapping("/dangtin")
-	public String dtbdangtin(@ModelAttribute RequestPostNew request, @ModelAttribute RequestThanhToan requesttt, @ModelAttribute ListingsFeatures listingsfeatures,
+	public String dtbdangtin(RedirectAttributes redirectattributes ,@ModelAttribute RequestPostNew request, @ModelAttribute RequestThanhToan requesttt, @ModelAttribute ListingsFeatures listingsfeatures,
 			Model model, HttpSession session) {
-		// ServicePostNew.postNew(request);
-		// System.out.println(request.getUrlAnh());
 
 		User user = (User) session.getAttribute("user");
 		request.setUser(user);
-		ServicePostNew.postNew(request, requesttt, listingsfeatures);
-		/*
-		 * session.setAttribute("requestpost", request);
-		 * redirectAttributes.addFlashAttribute("requestpost", request);
-		 * model.addAttribute("requestthanhtoan", request);
-		 */
+		
+		if(ServicePostNew.postNew(request, requesttt, listingsfeatures)) {
+			return "redirect:/quanlytin";
+		}else {
+			redirectattributes.addFlashAttribute("msg", "Không đủ tiền để đăng tin");
+			return "redirect:/dangtin";
+		}
 
-		return "views/dangtin";
+		
 	}
 
 	/*
