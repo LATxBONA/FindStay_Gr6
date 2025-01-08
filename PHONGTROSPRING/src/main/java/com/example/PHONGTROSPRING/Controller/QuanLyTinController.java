@@ -1,5 +1,7 @@
 package com.example.PHONGTROSPRING.Controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.PHONGTROSPRING.entities.Listings;
 import com.example.PHONGTROSPRING.entities.ListingsFeatures;
@@ -22,6 +25,7 @@ import com.example.PHONGTROSPRING.service.ListingsService;
 import com.example.PHONGTROSPRING.service.LocationsCityService;
 import com.example.PHONGTROSPRING.service.QuanLyTinService;
 import com.example.PHONGTROSPRING.service.RoomTypesService;
+import com.example.PHONGTROSPRING.service.UtitilyService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -67,30 +71,41 @@ public class QuanLyTinController {
 	}
 
 	@GetMapping("/quanlytin/hide/{id}")
-	public String antin(@PathVariable int id) {
+	public String antin(RedirectAttributes redirectattributes,@PathVariable int id) {
 		ListingsService.antin(id);
+		redirectattributes.addFlashAttribute("successMessage", "Đã ẩn tin số "+ id);
 
 		return "redirect:/quanlytin";
 	}
 
 	@GetMapping("/quanlytin/danglai/{id}")
-	public String danglai(@PathVariable int id) {
-
-		ListingsService.danglai(id);
+	public String danglai(RedirectAttributes redirectattributes,HttpSession session, @PathVariable int id) {
+		User user = (User) session.getAttribute("user");
+		
+		if(ListingsService.danglai(user,id)) {
+			redirectattributes.addFlashAttribute("successMessage", "Đăng lại thành công tin số "+ id);
+		}
+		else {
+			redirectattributes.addFlashAttribute("errorMessage", "Tin đã hết hạn không thể đăng lại");
+		}
 		return "redirect:/quanlytin";
 	}
 
 	@GetMapping("quanlytin/update/{id}")
-	public String update(Model model, @PathVariable int id) {
+	public String update(RedirectAttributes redirectattributes ,Model model, @PathVariable int id) {
 		Listings listings = ListingsService.findById(id);
-		System.out.println("dataget ne tr "+ListingsService.getListingsFeatures(listings).getId());
-		model.addAttribute("listings", listings);
-		model.addAttribute("listingsfeatures", ListingsService.getListingsFeatures(listings));
-		model.addAttribute("locationscity", locationsCityService.getAllCity());
-		model.addAttribute("roomtypes", RoomTypesService.getAllRoomTypes());
-		return "views/updatetin";
+		if(listings.getExpiryDate().isBefore(LocalDateTime.now())) {
+			model.addAttribute("listings", listings);
+			model.addAttribute("listingsfeatures", ListingsService.getListingsFeatures(listings));
+			model.addAttribute("locationscity", locationsCityService.getAllCity());
+			model.addAttribute("roomtypes", RoomTypesService.getAllRoomTypes());
+			return "views/updatetin";
+		}
+		else {
+			redirectattributes.addFlashAttribute("errorMessage", "Gia hạn thất bại");
+			return "redirect:/quanlytin";
+		}	
 	}
-
 	@PostMapping("/quanlytin/update/{id}")
 	public String updateExcute(@ModelAttribute RequestPostNew request,
 			@PathVariable int id,
@@ -98,5 +113,15 @@ public class QuanLyTinController {
 		quanLyTinService.updateTin(id,request, listingsfeatures);
 		return "redirect:/quanlytin";
 	}
-
+	@GetMapping("/quanlytin/giahan/{id}")
+	public String giahanExcute(RedirectAttributes redirectattributes,HttpSession session,@ModelAttribute RequestThanhToan rq,@PathVariable int id) {
+		User user = (User) session.getAttribute("user");
+		if(	quanLyTinService.giahantin(rq, id, user)) {
+			redirectattributes.addFlashAttribute("successMessage", "Gia hạn thành công");
+		}
+		else {
+			redirectattributes.addFlashAttribute("errorMessage", "Gia hạn thất bại");
+		}
+		return "redirect:/quanlytin";
+	}
 }

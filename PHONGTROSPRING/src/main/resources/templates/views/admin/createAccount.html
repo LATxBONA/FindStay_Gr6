@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo Tài Khoản Mới</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/createAccount.css">
+</head>
+<body>
+    <div class="container">
+
+        <form th:action="@{/admin/accounts/save}" method="post" th:object="${user}">
+            <div class="form-group">
+                <label for="fullName">Tên</label>
+                <input type="text" id="fullName" th:field="*{fullName}" placeholder="Nhập tên" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" th:field="*{email}" placeholder="Nhập email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" th:field="*{password}" placeholder="Nhập mật khẩu" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phoneNumber">Số điện thoại</label>
+                <input type="text" id="phoneNumber" th:field="*{phoneNumber}" placeholder="Nhập số điện thoại">
+            </div>
+
+            <div class="form-group">
+                <label for="role">Vai trò</label>
+                <select id="role" th:field="*{role}">
+                    <option value="Quản trị viên">Quản trị viên</option>
+                    <option value="Tìm kiếm">Người dùng</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="balance">Số dư</label>
+                <input type="number" step="0.01" id="balance" th:field="*{balance}" placeholder="Nhập số dư">
+            </div>
+
+            <button type="submit" class="button">Lưu</button>
+            <a th:href="@{/admin/accounts}" class="button button-cancel">Hủy</a>
+        </form>
+    </div>
+</body>
+</html>

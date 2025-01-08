@@ -255,7 +255,7 @@ public class ServicePostNew {
 	public boolean postNew(RequestPostNew request, RequestThanhToan requesttt, ListingsFeatures listingsFeatures) {
 
 		Listings listing = new Listings();
-		LocalDateTime localdate = UtitilyService.plusday(requesttt);
+		LocalDateTime localdate = UtitilyService.plusday(LocalDateTime.now(),requesttt);
 		BigDecimal tiensd = UtitilyService.tinhtien(requesttt);
 		BigDecimal tienuser = request.getUser().getBalance().subtract(tiensd);
 
@@ -312,7 +312,6 @@ public class ServicePostNew {
 		return true;
 
 	}
-
 	/*
 	 * public byte[] get1anh(int dunglamtcuoiid) { return
 	 * ImagesRepository.findById(dunglamtcuoiid).orElseThrow(() -> new

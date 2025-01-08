@@ -1,6 +1,7 @@
 package com.example.PHONGTROSPRING.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Comparator;
@@ -259,11 +260,16 @@ public class ListingsService {
 		return list;
 	}
 
-	public void danglai(int id) {
+	public boolean danglai(User user, int id) {
 		Listings listting = listingRepository.findById(id).orElseThrow(() -> new RuntimeException("error"));
-		listting.setStatus("Đã duyệt");
-
-		listingRepository.save(listting);
+		if(listting.getExpiryDate().isBefore(LocalDateTime.now())) {
+			return false;
+		}
+		else {
+			listting.setStatus("Chờ duyệt");
+			listingRepository.save(listting);
+			return true;
+		}
 
 	}
 
@@ -308,5 +314,17 @@ public class ListingsService {
 
 	public ListingsFeatures getListingsFeatures(Listings listings) {
 		return listingsFeaturesRepository.findByListings(listings);
+	}
+	
+	public List<Listings> getListingByStatus(String status) {
+		return listingRepository.getListingByStatus(status);
+	}
+	
+	public Listings updateListing(Integer itemId, String newStatus) {
+		Listings listing = listingRepository.findById(itemId).orElse(null);
+		
+		listing.setStatus(newStatus);
+		
+		return listingRepository.save(listing);
 	}
 }

@@ -1,6 +1,5 @@
 package com.example.PHONGTROSPRING.repository;
 
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -17,120 +16,101 @@ import com.example.PHONGTROSPRING.entities.ListingsFeatures;
 import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.response.ListingsResponse;
 
-
 @Repository
-public interface ListingsRepository extends JpaRepository<Listings, Integer>, JpaSpecificationExecutor<Listings>{
+public interface ListingsRepository extends JpaRepository<Listings, Integer>, JpaSpecificationExecutor<Listings> {
 
 	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address) "
-			+ "FROM Listings l WHERE l.itemId != :item_id "
-			+ "AND l.roomType.roomTypeId = :roomType_id "
-			+ "AND l.location_district.district_id = :district_id "
-			+ "AND l.status = 'Đã duyệt' "
+			+ "FROM Listings l WHERE l.itemId != :item_id " + "AND l.roomType.roomTypeId = :roomType_id "
+			+ "AND l.location_district.district_id = :district_id " + "AND l.status = 'Đã duyệt' "
 			+ "ORDER BY l.postType DESC, l.createdAt DESC")
-	List<ListingsResponse> findAllListingsFeatured(@Param("item_id") int item_id, 
-			@Param("roomType_id") int roomType_id,
-			@Param("district_id") int district_id, 
-			Pageable pageable);
-	
+	List<ListingsResponse> findAllListingsFeatured(@Param("item_id") int item_id, @Param("roomType_id") int roomType_id,
+			@Param("district_id") int district_id, Pageable pageable);
 
 	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address) FROM Listings l WHERE l.itemId != :item_id AND l.roomType.roomTypeId = :roomType_id AND l.location_district.district_id = :district_id AND l.status = 'Đã duyệt' ORDER BY l.createdAt DESC")
 	List<ListingsResponse> findAllNewsJustPosted(@Param("item_id") int item_id, @Param("roomType_id") int roomType_id,
 			@Param("district_id") int district_id, Pageable pageable);
-	
+
 	@Query("SELECT COUNT(l) FROM Listings l")
 	int getQuantityPost();
-	
+
 //	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, l.postType, l.area) FROM Listings l WHERE l.roomType.roomTypeId = :roomtype_id AND l.location_city.city_id = :city_id AND l.status = 'Đã duyệt' ORDER BY l.postType DESC, l.createdAt DESC")
 //	Page<ListingsResponse> getListings(@Param("roomtype_id") int roomtype_id, @Param("city_id") int city_id, Pageable pageable);
 
 	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, l.postType, l.area) FROM Listings l WHERE l.itemId = :item_id")
-	ListingsResponse getListingsByItemId(@Param("item_id")int item_id);
+	ListingsResponse getListingsByItemId(@Param("item_id") int item_id);
+
 //	
 //	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, l.postType, l.area) FROM Listings l WHERE l.roomType.roomTypeId = :roomtype_id AND l.status = 'Đã duyệt' ORDER BY l.postType DESC, l.createdAt DESC")
 //	Page<ListingsResponse> getListingsNationWide(@Param("roomtype_id") int roomtype_id, Pageable pageable);
 //
 	@Query("SELECT l FROM Listings l WHERE (l.status = :status OR l.postType = :postType OR l.title = :title) AND l.user = :user")
 	Page<Listings> getListingBySearchtin(String status, int postType, String title, User user, Pageable pageable);
-	
-	Page<Listings> findByUser(User user,Pageable pageable);
-	
+
+	Page<Listings> findByUser(User user, Pageable pageable);
+
 	// Query cho tìm kiếm theo district và orderby
-	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, " +
-		       "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, " +
-		       "l.user.fullName, l.user.phoneNumber, l.postType, l.area) " +
-		       "FROM Listings l " +
-		       "WHERE l.roomType.roomTypeId = :roomtype_id " +
-		       "AND l.location_city.city_id = :city_id " + 
-		       "AND l.location_district.district_id = :district_id " +  // Thay đổi tìm theo district_id thay vì tên district
-		       "AND l.status = 'Đã duyệt' " +
-		       "ORDER BY CASE WHEN :orderby = 'moi-dang' THEN l.createdAt " +
-		       "ELSE l.postType END DESC")
-		Page<ListingsResponse> findByDistrictAndOrderBy(
-		    @Param("roomtype_id") int roomtype_id,
-		    @Param("city_id") int city_id,
-		    @Param("district_id") int district_id,  // Thay đổi tham số thành district_id
-		    @Param("orderby") String orderby,
-		    Pageable pageable
-		);
+	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, "
+			+ "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, "
+			+ "l.user.fullName, l.user.phoneNumber, l.postType, l.area) " + "FROM Listings l "
+			+ "WHERE l.roomType.roomTypeId = :roomtype_id " + "AND l.location_city.city_id = :city_id "
+			+ "AND l.location_district.district_id = :district_id " + // Thay đổi tìm theo district_id thay vì tên
+																		// district
+			"AND l.status = 'Đã duyệt' " + "ORDER BY CASE WHEN :orderby = 'moi-dang' THEN l.createdAt "
+			+ "ELSE l.postType END DESC")
+	Page<ListingsResponse> findByDistrictAndOrderBy(@Param("roomtype_id") int roomtype_id,
+			@Param("city_id") int city_id, @Param("district_id") int district_id, // Thay đổi tham số thành district_id
+			@Param("orderby") String orderby, Pageable pageable);
 
-    // Query cho toàn quốc mới nhất
-    @Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, " +
-           "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, " +
-           "l.user.fullName, l.user.phoneNumber, l.postType, l.area) " +
-           "FROM Listings l " +
-           "WHERE l.roomType.roomTypeId = :roomtype_id " + 
-           "AND l.status = 'Đã duyệt' " +
-           "ORDER BY l.createdAt DESC")
-    Page<ListingsResponse> getListingsByNewest(@Param("roomtype_id") int roomtype_id, Pageable pageable);
-    
-    // Query cho toàn quốc mặc định
-    @Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, " +
-           "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, " +
-           "l.user.fullName, l.user.phoneNumber, l.postType, l.area) " +
-           "FROM Listings l " +
-           "WHERE l.roomType.roomTypeId = :roomtype_id " +
-           "AND l.status = 'Đã duyệt' " +
-           "ORDER BY l.postType DESC, l.createdAt DESC")
-    Page<ListingsResponse> getListingsNationWide(@Param("roomtype_id") int roomtype_id, Pageable pageable);
+	// Query cho toàn quốc mới nhất
+	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, "
+			+ "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, "
+			+ "l.user.fullName, l.user.phoneNumber, l.postType, l.area) " + "FROM Listings l "
+			+ "WHERE l.roomType.roomTypeId = :roomtype_id " + "AND l.status = 'Đã duyệt' "
+			+ "ORDER BY l.createdAt DESC")
+	Page<ListingsResponse> getListingsByNewest(@Param("roomtype_id") int roomtype_id, Pageable pageable);
 
-    // Query cho thành phố cụ thể mới nhất
-    @Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, " +
-           "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, " + 
-           "l.user.fullName, l.user.phoneNumber, l.postType, l.area) " +
-           "FROM Listings l " +
-           "WHERE l.roomType.roomTypeId = :roomtype_id " +
-           "AND l.location_city.city_id = :city_id " +
-           "AND l.status = 'Đã duyệt' " +
-           "ORDER BY l.createdAt DESC")
-    Page<ListingsResponse> getListingsByNewestAndCity(@Param("roomtype_id") int roomtype_id, 
-            @Param("city_id") int city_id, Pageable pageable);
+	// Query cho toàn quốc mặc định
+	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, "
+			+ "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, "
+			+ "l.user.fullName, l.user.phoneNumber, l.postType, l.area) " + "FROM Listings l "
+			+ "WHERE l.roomType.roomTypeId = :roomtype_id " + "AND l.status = 'Đã duyệt' "
+			+ "ORDER BY l.postType DESC, l.createdAt DESC")
+	Page<ListingsResponse> getListingsNationWide(@Param("roomtype_id") int roomtype_id, Pageable pageable);
 
-    // Query cho thành phố cụ thể mặc định
-    @Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, " +
-           "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, " +
-           "l.user.fullName, l.user.phoneNumber, l.postType, l.area) " +
-           "FROM Listings l " +
-           "WHERE l.roomType.roomTypeId = :roomtype_id " +
-           "AND l.location_city.city_id = :city_id " +
-           "AND l.status = 'Đã duyệt' " +
-           "ORDER BY l.postType DESC, l.createdAt DESC")
-    Page<ListingsResponse> getListings(@Param("roomtype_id") int roomtype_id, 
-            @Param("city_id") int city_id, Pageable pageable);
-	
-	
-	
-	
-	// Query lấy danh sách đã duyệt và sắp xếp theo room_type từ cao xuống thấp lấy tất cả cho trang home
-	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(" +
-	       "l.itemId, l.title, l.price, l.createdAt, " +
-	       "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, " +
-	       "l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, " +
-	       "l.postType, l.area) " +
-	       "FROM Listings l WHERE l.status = 'Đã duyệt' " +
-	       "ORDER BY l.postType DESC, l.roomType.roomTypeId DESC")  // Thêm sắp xếp theo postType DESC
+	// Query cho thành phố cụ thể mới nhất
+	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, "
+			+ "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, "
+			+ "l.user.fullName, l.user.phoneNumber, l.postType, l.area) " + "FROM Listings l "
+			+ "WHERE l.roomType.roomTypeId = :roomtype_id " + "AND l.location_city.city_id = :city_id "
+			+ "AND l.status = 'Đã duyệt' " + "ORDER BY l.createdAt DESC")
+	Page<ListingsResponse> getListingsByNewestAndCity(@Param("roomtype_id") int roomtype_id,
+			@Param("city_id") int city_id, Pageable pageable);
+
+	// Query cho thành phố cụ thể mặc định
+	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(l.itemId, l.title, l.price, l.createdAt, "
+			+ "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, l.location_ward.ward, l.address, "
+			+ "l.user.fullName, l.user.phoneNumber, l.postType, l.area) " + "FROM Listings l "
+			+ "WHERE l.roomType.roomTypeId = :roomtype_id " + "AND l.location_city.city_id = :city_id "
+			+ "AND l.status = 'Đã duyệt' " + "ORDER BY l.postType DESC, l.createdAt DESC")
+	Page<ListingsResponse> getListings(@Param("roomtype_id") int roomtype_id, @Param("city_id") int city_id,
+			Pageable pageable);
+
+	// Query lấy danh sách đã duyệt và sắp xếp theo room_type từ cao xuống thấp lấy
+	// tất cả cho trang home
+	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse("
+			+ "l.itemId, l.title, l.price, l.createdAt, "
+			+ "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, "
+			+ "l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, " + "l.postType, l.area) "
+			+ "FROM Listings l WHERE l.status = 'Đã duyệt' " + "ORDER BY l.postType DESC, l.roomType.roomTypeId DESC") // Thêm
+																														// sắp
+																														// xếp
+																														// theo
+																														// postType
+																														// DESC
 	Page<ListingsResponse> getAllListingsApproved(Pageable pageable);
 
-	// Query lấy danh sách đã duyệt và sắp xếp theo thời gian mới nhất  (dự phòng xếp theo RomType ưu tiền -> time đăng)
+	// Query lấy danh sách đã duyệt và sắp xếp theo thời gian mới nhất (dự phòng xếp
+	// theo RomType ưu tiền -> time đăng)
 //	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(" +
 //	       "l.itemId, l.title, l.price, l.createdAt, " +
 //	       "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, " +
@@ -140,45 +120,39 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer>, Jp
 //	       "ORDER BY l.postType DESC, l.createdAt DESC") // Thêm sắp xếp theo postType DESC
 //	Page<ListingsResponse> getAllListingsByNewest(Pageable pageable);
 //	
-	
-	// Query lấy danh sách đã duyệt và sắp xếp theo thời gian mới nhất lấy tất cả cho trang home
-	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(" +
-	       "l.itemId, l.title, l.price, l.createdAt, " + 
-	       "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, " +
-	       "l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, " +
-	       "l.postType, l.area) " +
-	       "FROM Listings l WHERE l.status = 'Đã duyệt' " +
-	       "ORDER BY l.createdAt DESC")  
+
+	// Query lấy danh sách đã duyệt và sắp xếp theo thời gian mới nhất lấy tất cả
+	// cho trang home
+	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse("
+			+ "l.itemId, l.title, l.price, l.createdAt, "
+			+ "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, "
+			+ "l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, " + "l.postType, l.area) "
+			+ "FROM Listings l WHERE l.status = 'Đã duyệt' " + "ORDER BY l.createdAt DESC")
 	Page<ListingsResponse> getAllListingsByNewest(Pageable pageable);
-	
-	
-	
-	
+
 	Listings findByItemId(int itemId);
 
 	@Query("SELECT l FROM ListingsFeatures l WHERE l.listings.itemId = :id")
 	ListingsFeatures findListingsFeatures(@Param("id") int id);
-	
-	@Query("SELECT l FROM Listings l WHERE l.price BETWEEN :minPrice AND :maxPrice ORDER BY l.price ASC")
-	List<Listings> findListingsByPriceRange(@Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice);
-	
-/*	@Query(
- // value Đây là nơi bạn định nghĩa câu truy vấn
-		    value = "SELECT * FROM listings WHERE price BETWEEN :minPrice AND :maxPrice ORDER BY price ASC", 
-		    nativeQuery = true //câu này là để Xác định rằng đây là một câu lệnh SQL thuần
-		)
-		List<Listings> findListingsByPriceRangeNative(@Param("minPrice") BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice);
-													// ánh xạ minPrice của câu truy vấn vào tham số của hàm java
-	*/
-	
-	@Query("SELECT l FROM Listings l WHERE l.price BETWEEN :minPrice AND :maxPrice AND l.area BETWEEN :minArea AND :maxArea")
-	List<Listings> findListingsByPriceAndAreaLAT(
-	        @Param("minPrice") BigDecimal minPrice,
-	        @Param("maxPrice") BigDecimal maxPrice,
-	        @Param("minArea") BigDecimal minArea,
-	        @Param("maxArea") BigDecimal maxArea);
 
-	
+	@Query("SELECT l FROM Listings l WHERE l.price BETWEEN :minPrice AND :maxPrice ORDER BY l.price ASC")
+	List<Listings> findListingsByPriceRange(@Param("minPrice") BigDecimal minPrice,
+			@Param("maxPrice") BigDecimal maxPrice);
+
+	/*
+	 * @Query( // value Đây là nơi bạn định nghĩa câu truy vấn value =
+	 * "SELECT * FROM listings WHERE price BETWEEN :minPrice AND :maxPrice ORDER BY price ASC"
+	 * , nativeQuery = true //câu này là để Xác định rằng đây là một câu lệnh SQL
+	 * thuần ) List<Listings> findListingsByPriceRangeNative(@Param("minPrice")
+	 * BigDecimal minPrice, @Param("maxPrice") BigDecimal maxPrice); // ánh xạ
+	 * minPrice của câu truy vấn vào tham số của hàm java
+	 */
+
+	@Query("SELECT l FROM Listings l WHERE l.price BETWEEN :minPrice AND :maxPrice AND l.area BETWEEN :minArea AND :maxArea")
+	List<Listings> findListingsByPriceAndAreaLAT(@Param("minPrice") BigDecimal minPrice,
+			@Param("maxPrice") BigDecimal maxPrice, @Param("minArea") BigDecimal minArea,
+			@Param("maxArea") BigDecimal maxArea);
+
 	/*
 	 * @Query( value =
 	 * "SELECT * FROM Listings WHERE price BETWEEN :minPrice AND :maxPrice" +
@@ -205,40 +179,21 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer>, Jp
 	 * 
 	 * @Param("ward_id") String ward_id );
 	 */
-	@Query(
-		    "SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(" +
-		            "   l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, " +
-		            "   l.location_city.city, l.location_district.district, l.location_ward.ward, " +
-		            "   l.address, l.user.fullName, l.user.phoneNumber, l.postType, l.area" +
-		            ") " +
-		            "FROM Listings l " +
-		            "WHERE (l.price BETWEEN :minPrice AND :maxPrice )" +
-		            "AND (l.area BETWEEN :minArea AND :maxArea )" +
-		            "AND (:roomTypeFilter = -1 OR l.roomType.id = :roomTypeFilter) " +
-		            "AND (:cityIdFilter = -1 OR l.location_city.id = :cityIdFilter) " +
-		            "AND (:districtIdFilter = -1 OR l.location_district.id = :districtIdFilter) " +
-		            "AND (:wardIdFilter = -1 OR l.location_ward.id = :wardIdFilter) " +
-		            "ORDER BY l.price ASC"
-		)
-		Page<ListingsResponse> findListingsByLAT(
-		        @Param("minPrice") BigDecimal minPrice,
-		        @Param("maxPrice") BigDecimal maxPrice,
-		        @Param("minArea") BigDecimal minArea,
-		        @Param("maxArea") BigDecimal maxArea,
-		        @Param("roomTypeFilter") Integer roomTypeFilter,
-		        @Param("cityIdFilter") Integer cityIdFilter,
-		        @Param("districtIdFilter") Integer districtIdFilter,
-		        @Param("wardIdFilter") Integer wardIdFilter,
-		        Pageable pageable
-		);
-	
-	
-	
+	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse("
+			+ "   l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, "
+			+ "   l.location_city.city, l.location_district.district, l.location_ward.ward, "
+			+ "   l.address, l.user.fullName, l.user.phoneNumber, l.postType, l.area" + ") " + "FROM Listings l "
+			+ "WHERE (l.price BETWEEN :minPrice AND :maxPrice )" + "AND (l.area BETWEEN :minArea AND :maxArea )"
+			+ "AND (:roomTypeFilter = -1 OR l.roomType.id = :roomTypeFilter) "
+			+ "AND (:cityIdFilter = -1 OR l.location_city.id = :cityIdFilter) "
+			+ "AND (:districtIdFilter = -1 OR l.location_district.id = :districtIdFilter) "
+			+ "AND (:wardIdFilter = -1 OR l.location_ward.id = :wardIdFilter) " + "ORDER BY l.price ASC")
+	Page<ListingsResponse> findListingsByLAT(@Param("minPrice") BigDecimal minPrice,
+			@Param("maxPrice") BigDecimal maxPrice, @Param("minArea") BigDecimal minArea,
+			@Param("maxArea") BigDecimal maxArea, @Param("roomTypeFilter") Integer roomTypeFilter,
+			@Param("cityIdFilter") Integer cityIdFilter, @Param("districtIdFilter") Integer districtIdFilter,
+			@Param("wardIdFilter") Integer wardIdFilter, Pageable pageable);
 
+	List<Listings> getListingByStatus(String status);
 
 }
-
-
-
-
-

@@ -3,13 +3,20 @@
 	height: 3px;
 	background: black;
 }
+/* Left Column Styles (Keeping consistent with your existing styles) */
+.container {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+}
 .search_form{
 	display: flex;
 	margin-top: 30px;
 	margin-bottom: 20px;
 }
 .search_form div{
-	margin-right: 10%;
+/* 	margin-right: 10%; */
 	margin-left:10px;
 	
 }
@@ -17,10 +24,13 @@
 	width: 100%;
 	height: 100%;
 }
+.main-content{
+	width: 100%;
+}
 .main-content table {
   border-collapse: collapse;
   margin-left:10px;
-  width: 95%;
+  width: 100%;
 }
 
 .main-content th,

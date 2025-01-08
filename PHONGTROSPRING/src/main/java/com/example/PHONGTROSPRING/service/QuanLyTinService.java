@@ -1,6 +1,7 @@
 package com.example.PHONGTROSPRING.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +15,17 @@ import com.example.PHONGTROSPRING.entities.LocationsCity;
 import com.example.PHONGTROSPRING.entities.LocationsDistrict;
 import com.example.PHONGTROSPRING.entities.LocationsWard;
 import com.example.PHONGTROSPRING.entities.RoomTypes;
+import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.repository.ImagesRepository;
 import com.example.PHONGTROSPRING.repository.ListingsFeaturesRepository;
 import com.example.PHONGTROSPRING.repository.ListingsRepository;
 import com.example.PHONGTROSPRING.repository.LocationsCityRepository;
 import com.example.PHONGTROSPRING.repository.LocationsDistrictRepository;
 import com.example.PHONGTROSPRING.repository.LocationsWardRepository;
+import com.example.PHONGTROSPRING.repository.PaymentHistoryRepository;
 import com.example.PHONGTROSPRING.repository.RoomTypesRepository;
 import com.example.PHONGTROSPRING.request.RequestPostNew;
+import com.example.PHONGTROSPRING.request.RequestThanhToan;
 
 
 @Service
@@ -46,6 +50,9 @@ public class QuanLyTinService {
 
 	@Autowired
 	private ListingsFeaturesRepository ListingsFeaturesRepository;
+	
+	@Autowired
+	private PaymentHistoryRepository paymentHistoryRepository;
 	
 	public void updateTin(int id, RequestPostNew request, ListingsFeatures listingfeature) {
 		Listings listing = ListingsRepository.findByItemId(id);
@@ -74,8 +81,6 @@ public class QuanLyTinService {
 		listing.setUpdatedAt(LocalDateTime.now());
 		listing.setObject(request.getObject());
 		ListingsRepository.save(listing);
-		System.out.println("data id"+listingfeature.getId());
-		System.out.println(listingfeature.getId());
 		//listingfeature.setListings(listing);
 		ListingsFeaturesRepository.save(listingfeature);
 		ImagesRepository.deleteByListing(id);
@@ -92,5 +97,30 @@ public class QuanLyTinService {
 		}
 		
 		ListingsRepository.save(listing);
+	}
+	
+	public boolean giahantin(RequestThanhToan rq, int id, User user) {
+		Listings listing = ListingsRepository.findByItemId(id);
+		LocalDateTime dategiahan = LocalDateTime.now();
+		rq.setLoaitin(listing.getPostType());
+		BigDecimal tiensd = UtitilyService.tinhtien(rq);
+		BigDecimal tienuser = user.getBalance().subtract(tiensd);
+		if(user.getBalance().compareTo(tiensd)<0) {
+			return false;
+		}
+		else {
+			if(listing.getExpiryDate().isBefore(LocalDateTime.now())) {
+				user.setBalance(tienuser);
+				dategiahan = UtitilyService.plusday(listing.getExpiryDate(), rq);
+			}else {
+				user.setBalance(tienuser);
+				dategiahan = UtitilyService.plusday(LocalDateTime.now(), rq);
+	
+			}
+			paymentHistoryRepository.save(UtitilyService.payment(user, tiensd, "Gia hạn tin", listing));
+			listing.setExpiryDate(dategiahan);
+			ListingsRepository.save(listing);
+			return true;
+		}
 	}
 }

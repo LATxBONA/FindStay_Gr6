@@ -1,6 +1,7 @@
 package com.example.PHONGTROSPRING.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.repository.UserRepository;
+import com.example.PHONGTROSPRING.request.AccountRequest;
 import com.example.PHONGTROSPRING.request.LoginRequest;
 import com.example.PHONGTROSPRING.request.RegisterRequest;
 
@@ -101,5 +103,37 @@ public class UserService {
 		return false;
 	}
 	
+	public List<User> getAllUser() {
+		return repo.findAll();
+	}
+
+	public List<User> filterUser(AccountRequest accountRequest) {
+		String role = accountRequest.getRole();
+		 if (role == null || role.isEmpty()) {
+		        return repo.findAll(); 
+		    }
+		return repo.findUser(role);
+	}
 	
+	public boolean save(AccountRequest user) {
+		User u = new User();
+		u.setFullName(user.getFullName());
+		u.setPhoneNumber(user.getPhoneNumber());
+		u.setEmail(user.getEmail());
+		u.setPassword(user.getPassword());
+		u.setCreatedAt();
+		u.setRole(user.getRole());
+		u.setBalance(new BigDecimal("0.00"));
+		repo.save(u);
+		return true;
+	}
+	
+	public Optional<User> findById(String id) {
+		return repo.findById(id);
+	}
+	
+	public boolean deleteById(String id) {
+		repo.deleteById(id);
+		return true;
+	}
 }

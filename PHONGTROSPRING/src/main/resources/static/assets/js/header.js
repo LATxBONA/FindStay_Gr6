@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	var logout = document.getElementById("logout");
 	var recharge = document.getElementById("recharge");
 	var info = document.getElementById("infor_detail_user");
-
+   	var changepass = document.getElementById("change_password");
 	if (login && register) {
 		login.addEventListener("click", function() {
 			window.location.href = "/login";
@@ -21,7 +21,12 @@ document.addEventListener("DOMContentLoaded", function() {
 			window.location.href = "/logout";
 		})
 	}
-
+	
+	if(changepass){
+		changepass.addEventListener("click", function() {
+					window.location.href = "/info";
+				})
+	}
 	if (recharge) {
 		recharge.addEventListener("click", function() {
 			window.location.href = "/recharge";

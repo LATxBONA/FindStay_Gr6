@@ -76,8 +76,8 @@ public class UtitilyService {
 	}
 
 
-	public static LocalDateTime plusday(RequestThanhToan requesttt) {
-		LocalDateTime localdate = LocalDateTime.now();
+	public static LocalDateTime plusday(LocalDateTime datehientai,RequestThanhToan requesttt) {
+		LocalDateTime localdate = datehientai;
 		if (requesttt.getGoitime().equals("ngay")) {
 			localdate = localdate.plusDays(requesttt.getSongay());
 		} else if (requesttt.getGoitime().equals("tuan")) {
