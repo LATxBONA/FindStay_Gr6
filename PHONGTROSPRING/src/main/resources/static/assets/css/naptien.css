@@ -1,5 +1,5 @@
 /* Reset mặc định cho các phần tử */
-* {
+/* * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
@@ -12,7 +12,7 @@ body {
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
-}
+} */
 
 /* Container chính */
 .container {
@@ -24,6 +24,10 @@ body {
 	border-radius: 10px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	background-color: #fff;
+}
+
+.fa-4x {
+	font-size: 3em !important;
 }
 
 /* Breadcrumb */

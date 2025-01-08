@@ -108,7 +108,7 @@ function loadTime() {
 			<h1>Đăng tin mới</h1>
 
 			<div class="boder"></div>
-			<div th:text="${msg}"></div>
+			<div style="color: red" th:text="${msg}"></div>
 			<form th:action="@{dangtin}" enctype="multipart/form-data"
 				method="post">
 				<div class="big">

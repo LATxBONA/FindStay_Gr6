@@ -4,11 +4,10 @@
 	background: black;
 }
 /* Left Column Styles (Keeping consistent with your existing styles) */
-.container {
+.wrapper {
     display: flex;
-    gap: 20px;
-    width: 100%;
-    padding: 20px;
+/*     gap: 20px;
+    width: 100%; */
 }
 .search_form{
 	display: flex;
@@ -29,8 +28,7 @@
 }
 .main-content table {
   border-collapse: collapse;
-  margin-left:10px;
-  width: 100%;
+  margin: 0px 10px;
 }
 
 .main-content th,
@@ -103,3 +101,6 @@
 	color: red;
 }
 
+p {
+    margin: 0 !important;
+}

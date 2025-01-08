@@ -15,7 +15,7 @@
 			<br>
 			<span>Mã tài khoản: <span id="header_username" style="font-weight: 600" th:text="${#strings.substring(session.user.userId, 0, 9) + '...'}"></span></span>
 			<br>
-			<span>Tài khoản chính: <span style="font-weight: 600" th:text="${session.user.balance + 'VNĐ'}"></span></span>
+			<span>Tài khoản chính: <span style="font-weight: 600" th:text="${session.user.balance >= 1000000 ? session.user.balance/1000000 + ' triệu vnđ' : session.user.balance + ' vnđ'}"></span></span>
 		</div>
 	</div>
 	
@@ -71,7 +71,7 @@
 			<img src="/assets/images/img_no.png">
 		</div>
 		<div>
-			<p>Đăng nhập để xem danh sách yêu thích!</p>
+			<p><a href="/login" id="login">Đăng nhập</a> để xem danh sách yêu thích!</p>
 		</div>
 	</div>
 </div>
