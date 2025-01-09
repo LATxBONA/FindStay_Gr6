@@ -196,4 +196,5 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer>, Jp
 
 	List<Listings> getListingByStatus(String status);
 
+	List<Listings> findByUser_UserId(String userId);
 }

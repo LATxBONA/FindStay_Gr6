@@ -136,4 +136,21 @@ public class UserService {
 		repo.deleteById(id);
 		return true;
 	}
+	
+	public boolean updateUserAdmin(User user) {
+        Optional<User> existingUserOpt = repo.findById(user.getUserId());
+        if (existingUserOpt.isPresent()) {
+            User existingUser = existingUserOpt.get();
+            existingUser.setFullName(user.getFullName());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setBalance(user.getBalance());
+            existingUser.setPhoneNumber(user.getPhoneNumber());
+            existingUser.setRole(user.getRole());
+            existingUser.setPassword(user.getPassword());
+            
+            repo.save(existingUser);
+            return true;
+        }
+        return false;
+	}
 }

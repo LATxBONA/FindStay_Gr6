@@ -53,11 +53,6 @@ public class AdminController {
 
 	@PostMapping("/transactions/update")
 	public String updateTransactions(HttpSession session, Integer transactionId, String newStatus, Model model) {
-		// Kiểm tra xem người dùng đã đăng nhập chưa
-		// if (session.getAttribute("user") == null) {
-		// return "redirect:/login"; // Chuyển hướng đến trang đăng nhập nếu chưa đăng
-		// nhập
-		// }
 
 		adminService.updateTransactions(transactionId, newStatus);
 		return "redirect:/admin/transactions";
@@ -66,12 +61,6 @@ public class AdminController {
 	@GetMapping("/transactions/search")
 	public String filterTransactions(@ModelAttribute TransactionsRequest transactionsRequest, HttpSession session,
 			Model model) {
-
-		// Kiểm tra xem người dùng đã đăng nhập chưa
-		// if (session.getAttribute("user") == null) {
-		// return "redirect:/login"; // Chuyển hướng đến trang đăng nhập nếu chưa đăng
-		// nhập
-		// }
 
 		List<Transactions> transactions = adminService.searchTransactions(transactionsRequest);
 
@@ -113,17 +102,28 @@ public class AdminController {
 		userService.save(user);
 		return "redirect:/admin/accounts";
 	}
+	
+	@PostMapping("accounts/update")
+	public String updateAccount(@ModelAttribute User user) {
+		userService.updateUserAdmin(user);
+		return "redirect:/admin/accounts";
+	}
 
 	@GetMapping("/accounts/edit/{id}")
 	public String showEditForm(@PathVariable String id, Model model) {
 		Optional<User> user = userService.findById(id);
-		model.addAttribute("user", user.get());
-		model.addAttribute("contentTemplate", "views/admin/createAccount");
+		model.addAttribute("user", user);
+		model.addAttribute("contentTemplate", "views/admin/updateAccount");
 		return "views/admin/layout/layoutAdmin";
 	}
 
 	@PostMapping("/accounts/delete/{id}")
 	public String deleteAccount(@PathVariable String id) {
+		adminService.deleteTransactionsByUserId(id);
+		listingServive.deleteListingFeaturesByUserId(id);
+		listingServive.deleteImagesByUserId(id);
+		listingServive.deletePaymentHistoryByUserId(id);
+		listingServive.deleteListingsByUserId(id);
 		userService.deleteById(id);
 		return "redirect:/admin/accounts";
 	}

@@ -12,6 +12,7 @@
 			th:object="${accountRequest}">
 			<select name="role">
 				<option value="Tìm kiếm" th:selected="${role == 'Tìm kiếm'}">Tìm kiếm</option>
+				<option value="Chủ trọ" th:selected="${role == 'Chủ trọ'}">Chủ trọ</option>
 				<option value="Quản trị viên" th:selected="${role == 'Quản trị viên'}">Quản trị viên</option>
 			</select>
 			<button type="submit">Lọc</button>

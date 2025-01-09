@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 public interface TransactionsRepository extends JpaRepository<Transactions, Integer> {
 
 	List<Transactions> findByUser(User user);
+	
+	List<Transactions> findByUser_UserId(String userId);
 
 	@Query("SELECT t FROM Transactions t " + "WHERE (:status IS NULL OR t.status = :status)")
 	List<Transactions> seachTransactions(String status);

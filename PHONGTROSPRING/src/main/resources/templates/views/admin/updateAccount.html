@@ -2,13 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Tạo Tài Khoản Mới</title>
+    <title>Update tài khoản</title>
     <link rel="stylesheet" type="text/css" href="/assets/css/createAccount.css">
 </head>
 <body>
+	
     <div class="container">
-		<h1>Tạo tài khoản</h1>
-        <form th:action="@{/admin/accounts/save}" method="post" th:object="${user}">
+    <h1>Cập nhật tài khoản</h1>
+
+        <form th:action="@{/admin/accounts/update}" method="post" th:object="${user}">
+
+            <input type="hidden" id="userId" th:field="*{userId}">
+        
             <div class="form-group">
                 <label for="fullName">Tên</label>
                 <input type="text" id="fullName" th:field="*{fullName}" placeholder="Nhập tên" required>
@@ -33,8 +38,8 @@
                 <label for="role">Vai trò</label>
                 <select id="role" th:field="*{role}">
                     <option value="Quản trị viên">Quản trị viên</option>
+                    <option value="Tìm kiếm">Người dùng</option>
                     <option value="Chủ trọ">Chủ trọ</option>
-                    <option value="Tìm kiếm">Tìm kiếm</option>
                 </select>
             </div>
 

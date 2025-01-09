@@ -89,7 +89,7 @@ public class RechargeController {
 	@PostMapping("/recharge4")
 	public String rechargeConfirm(@Valid @ModelAttribute RechargeRequest rechargeRequest, HttpSession session,
 			Model model) {
-		rechargeService.recharge(rechargeRequest, session);
+		rechargeService.createRechargeRequest(rechargeRequest, session);
 		return "redirect:/recharge4";
 	}
 

@@ -17,10 +17,12 @@ import org.springframework.stereotype.Service;
 import com.example.PHONGTROSPRING.entities.Images;
 import com.example.PHONGTROSPRING.entities.Listings;
 import com.example.PHONGTROSPRING.entities.ListingsFeatures;
+import com.example.PHONGTROSPRING.entities.PaymentHistory;
 import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.repository.ImagesRepository;
 import com.example.PHONGTROSPRING.repository.ListingsFeaturesRepository;
 import com.example.PHONGTROSPRING.repository.ListingsRepository;
+import com.example.PHONGTROSPRING.repository.PaymentHistoryRepository;
 import com.example.PHONGTROSPRING.response.ListingsResponse;
 
 @Service
@@ -34,6 +36,9 @@ public class ListingsService {
 
 	@Autowired
 	private ListingsFeaturesRepository listingsFeaturesRepository;
+	
+	@Autowired
+	private PaymentHistoryRepository paymentHistoryRepository;
 
 	private Pageable pageable_5 = PageRequest.of(0, 5);
 	private Pageable pageable_1 = PageRequest.of(0, 1);
@@ -326,5 +331,47 @@ public class ListingsService {
 		listing.setStatus(newStatus);
 		
 		return listingRepository.save(listing);
+	}
+	
+	public void deleteListingsByUserId(String userId) {
+	    List<Listings> userListings = listingRepository.findByUser_UserId(userId);
+	    listingRepository.deleteAll(userListings);
+	}
+	
+	public void deleteListingFeaturesByUserId(String userId) {
+		List<Listings> userListings = listingRepository.findByUser_UserId(userId);
+		
+		for (Listings listing : userListings) {
+			ListingsFeatures features = listingsFeaturesRepository.findByListings(listing);
+			if (features != null) {
+				listingsFeaturesRepository.delete(features);
+			}
+		}
+	}
+	
+	public void deleteImagesByUserId(String userId) {
+		// Lấy danh sách listings của user
+		List<Listings> userListings = listingRepository.findByUser_UserId(userId);
+		
+		// Xóa images của từng listing
+		for (Listings listing : userListings) {
+			List<Images> images = imagesRepository.findByListingItemId(listing.getItemId());
+			if (!images.isEmpty()) {
+				imagesRepository.deleteAll(images);
+			}
+		}
+	}
+	
+	public void deletePaymentHistoryByUserId(String userId) {
+		// Lấy danh sách listings của user
+		List<Listings> userListings = listingRepository.findByUser_UserId(userId);
+		
+		// Xóa payment history của từng listing
+		for (Listings listing : userListings) {
+			List<PaymentHistory> payments = paymentHistoryRepository.findByListings(listing);
+			if (!payments.isEmpty()) {
+				paymentHistoryRepository.deleteAll(payments);
+			}
+		}
 	}
 }

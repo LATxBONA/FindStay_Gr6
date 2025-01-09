@@ -46,6 +46,9 @@ public class UserController {
 		if (userService.login(user) != null) {
 			model.addAttribute("login", "Đăng nhập thành công");
 			session.setAttribute("user", userService.login(user));
+			if (userService.login(user).getRole().equals("Quản trị viên")) {
+	            return "redirect:/admin/accounts";
+	        }
 			return "redirect:/";
 
 		}

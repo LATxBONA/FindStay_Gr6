@@ -1,14 +1,127 @@
+/* Modal Background */
+.custom-modal {
+    display: none; /* Ẩn modal mặc định */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal Dialog */
+.modal-dialog {
+    background-color: #fff;
+    border-radius: 8px;
+    width: 400px;
+    padding: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease;
+}
+
+/* Modal Header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 8px;
+}
+
+.modal-title {
+    margin: 0;
+    font-size: 18px;
+}
+
+/* Close Button */
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* Form Labels and Inputs */
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Modal Footer */
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+}
+.btn-secondary {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 .boder {
 	margin-left: 10px;
 	height: 3px;
 	background: black;
 }
-/* Left Column Styles (Keeping consistent with your existing styles) */
-.wrapper {
+
+.container {
     display: flex;
-/*     gap: 20px;
-    width: 100%; */
+    padding:20px;
+    gap: 20px;
+    width: 100%; 
 }
+/* Áp dụng font chung cho toàn bộ */
+/* body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+.btn2 button{
+	font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";	color: #777;
+
+}
+.user-details p,
+.support-info p {
+	font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+
+ul {
+    padding-left: 0;
+    margin-bottom: 0;
+} */
+
 .search_form{
 	display: flex;
 	margin-top: 30px;
@@ -23,22 +136,23 @@
 	width: 100%;
 	height: 100%;
 }
-.main-content{
-	width: 100%;
+.main-contents{
+	width:99%;
 }
-.main-content table {
+.main-contents table {
   border-collapse: collapse;
   margin: 0px 10px;
+  width:100%;
 }
 
-.main-content th,
-.main-content td {
+.main-contents th,
+.main-contents td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
 }
 
-.main-content th {
+.main-contents th {
   background-color: #f0f0f0;
 }
 .btn{
@@ -99,8 +213,4 @@
 }
 #giahansubmit{
 	color: red;
-}
-
-p {
-    margin: 0 !important;
 }

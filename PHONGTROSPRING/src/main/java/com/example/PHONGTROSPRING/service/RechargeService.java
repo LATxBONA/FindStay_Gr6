@@ -22,7 +22,7 @@ public class RechargeService {
     private TransactionsRepository transactionsRepository;
 
     
-	private BigDecimal calculateBonus(BigDecimal amount) {
+	public static BigDecimal calculateBonus(BigDecimal amount) {
 	    if (amount.compareTo(BigDecimal.valueOf(50000)) >= 0 && amount.compareTo(BigDecimal.valueOf(1000000)) < 0) {
 	        return amount.multiply(BigDecimal.valueOf(0.1)); // Tặng 10%
 	    } else if (amount.compareTo(BigDecimal.valueOf(1000000)) >= 0 && amount.compareTo(BigDecimal.valueOf(2000000)) < 0) {
@@ -34,17 +34,11 @@ public class RechargeService {
 	    }
 	}
 	
-    public void recharge(RechargeRequest request, HttpSession session) {
-        // Lấy thông tin người dùng từ session
+    public void createRechargeRequest(RechargeRequest request, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        
-		BigDecimal bonus = calculateBonus(request.getAmount());
-        // Cập nhật số dư
-        BigDecimal newBalance = user.getBalance().add(request.getAmount()).add(bonus);
-        user.setBalance(newBalance);
-        userRepository.save(user);
-        
-        
+        if (request.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Recharge amount must be positive");
+        }
 
         // Tạo giao dịch
         Transactions transaction = new Transactions();
@@ -52,8 +46,8 @@ public class RechargeService {
         transaction.setAmount(request.getAmount());
         transaction.setTransactionDate();
         transaction.setStatus("Đang xử lý");
-        transactionsRepository.save(transaction);    
-        
+        transactionsRepository.save(transaction);
+
     }
     
     public List<Transactions> getRechargeHistory(HttpSession session) {
