@@ -59,10 +59,14 @@
 						<td th:text="${item.typeActivity}" class="status completed"></td>
 						<td th:text="${item.getListings().getItemId()}"></td>
 						<td th:switch="${item.getListings().getPostType()}"
-							class="badge normal"><span th:case="1">Miễn phí</span> <span
-							th:case="2">VIP 1</span> <span th:case="3">VIP 2</span> <span
-							th:case="4">VIP 3</span> <span th:case="5">VIP 4</span> <span
-							th:case="*">Không xác định</span> <!-- Mặc định nếu không khớp -->
+							class="badge normal">
+							<span th:case="0">Tin miễn phí</span> 
+							<span th:case="1">Tin thường</span> 
+							<span th:case="2">Tin VIP 3</span> 
+							<span th:case="3">Tin VIP 2</span> 
+							<span th:case="4">Tin VIP 1</span> 
+							<span th:case="5">VIP 4</span> 
+							<span th:case="*">Tin VIP nổi bật</span> <!-- Mặc định nếu không khớp -->
 						</td>
 					</tr>
 				</tbody>

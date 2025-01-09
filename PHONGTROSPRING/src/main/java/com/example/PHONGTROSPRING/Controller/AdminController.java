@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.PHONGTROSPRING.entities.Listings;
 import com.example.PHONGTROSPRING.entities.Transactions;
@@ -130,8 +134,9 @@ public class AdminController {
 
 	// listings----------------------------------------------
 	@GetMapping("listings")
-	public String viewListing(Model model) {
-		List<Listings> listings = listingServive.getAllListings();
+	public String viewListing(Model model, @RequestParam(defaultValue = "0") int page) {
+		Pageable pageable = PageRequest.of(page, 10);
+		Page<Listings> listings = listingServive.getAllListing(pageable);
 		model.addAttribute("listings", listings);
 		model.addAttribute("contentTemplate", "views/admin/listings");
 

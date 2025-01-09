@@ -33,21 +33,7 @@
 		</div>
 	</div>
 	<div class="menuright_menu_2">
-		<div th:if="${city != null}" >
-			<p class="menuright_p" th:text="'Danh mục cho thuê tại ' + ${city}"></p>
-			<div class="menuright_list">
-				<div class="menuright_list_into">
-					<a href="#"><i class="fa-solid fa-chevron-right"></i><span th:text="'Phòng trọ ' + ${city}"></span></a>
-					<a href="#"><i class="fa-solid fa-chevron-right"></i><span th:text="'Nhà nguyên căn ' + ${city}"></span></a>
-					<a href="#"><i class="fa-solid fa-chevron-right"></i><span th:text="'Căn hộ ' + ${city}"></span></a>
-					<a href="#"><i class="fa-solid fa-chevron-right"></i><span th:text="'Mặt bằng ' + ${city}"></span></a>
-					<a href="#"><i class="fa-solid fa-chevron-right"></i><span th:text="'Ở ghép ' + ${city}"></span></a>
-				</div>
-			</div>
-		</div>
-		
-		<div th:if="${city == null}" >
-			<p class="menuright_p">Danh mục</p>
+		<p class="menuright_p">Danh mục</p>
 			<div class="menuright_list">
 				<div class="menuright_list_into">
 					<a href="/search?roomType=1"><i class="fa-solid fa-chevron-right"></i>Phòng trọ</a>
@@ -57,6 +43,5 @@
 					<a href="/search?roomType=5"><i class="fa-solid fa-chevron-right"></i>Ở ghép</a>
 				</div>
 			</div>
-		</div>
 	</div>
 </div>

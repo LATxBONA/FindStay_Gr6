@@ -6,7 +6,6 @@
 }
 
 body {
-	font-family: Arial, sans-serif;
 	height: 100%;
 	width:100%;
 	overflow: hidden;
@@ -27,7 +26,8 @@ nav {
 	flex-direction: column;
 	text-align: center;
 	justify-content: flex-start;
-	height: 300vh;
+	height: 100vh;
+    position: fixed;
 }
 
 nav h2 {

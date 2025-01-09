@@ -35,7 +35,7 @@ public class Listings {
 	@Column(nullable = false, length = 100, columnDefinition = "varchar(255)")
 	private String title;
 
-	@Column(nullable = false, length = 5000, columnDefinition = "varchar(5000)")
+	@Column(nullable = false, length = 5000, columnDefinition = "TEXT")
 	private String description;
 
 	@Column(nullable = false, precision = 10, scale = 0)

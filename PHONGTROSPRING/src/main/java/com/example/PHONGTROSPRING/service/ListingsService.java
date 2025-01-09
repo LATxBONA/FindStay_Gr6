@@ -52,6 +52,12 @@ public class ListingsService {
 		return list;
 	}
 	
+	public Page<Listings> getAllListing(Pageable pagein) {
+
+		Page<Listings> list = listingRepository.findAll(pagein);
+		return list;
+	}
+	
 	public ListingsFeatures getListingsFeatures(int id) {
 		return listingRepository.findListingsFeatures(id);
 	}
