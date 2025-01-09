@@ -24,11 +24,13 @@
     <div class="news-container">
         <div class="news-list">
             <div th:each="post : ${blogPosts}" class="news-item">
+            <a th:href="@{/blog/{id}(id=${post.postId})}" class="news-link">
                 <img src="../assets/images/penhouse.jpg" alt="News Image" class="news-image">
                 <div class="news-content">
                     <h3 th:text="${post.title}" class="news-heading">Tiêu đề bài viết</h3>
                     <p th:text="${post.message}" class="news-description">Nội dung tóm tắt</p>
                 </div>
+                </a>
             </div>
         </div>
     </div>

@@ -54,10 +54,16 @@ body {
     gap: 20px;
 }
 
-.news-item {
+.news-link {
     display: flex;
     gap: 15px;
     align-items: center;
+    text-decoration: none;
+    width: 100%;
+}
+
+.news-item {
+    display: block;
     background-color: #f7f7f7;
     padding: 15px;
     border-radius: 8px;
@@ -75,11 +81,11 @@ body {
     height: 90px;
     object-fit: cover;
     border-radius: 8px;
+    flex-shrink: 0;
 }
 
 .news-content {
-    display: flex;
-    flex-direction: column;
+    flex: 1;
 }
 
 .news-heading {

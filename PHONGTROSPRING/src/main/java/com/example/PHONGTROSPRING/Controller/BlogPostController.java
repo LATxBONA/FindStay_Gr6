@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -70,4 +71,51 @@ public class BlogPostController {
         model.addAttribute("listings", listphongtrocoanh);
         return "views/blog"; // Trỏ đến file blog.html trong thư mục templates
     }
+    
+    @GetMapping("/blog/{id}")
+    public String showBlogDetail(@PathVariable Integer id, Model model) {
+        BlogPost blogPost = blogPostService.getPostById(id);
+        model.addAttribute("blogPost", blogPost);
+        
+        // Lấy 3 bài viết mới nhất
+        List<BlogPost> recentBlogPosts = blogPostService.getRecentBlogPosts(3); 
+        model.addAttribute("recentBlogPosts", recentBlogPosts);
+        
+        // Các phần còn lại
+        List<Listings> listings = listingsService.getAllListings(); 
+        List<phongtroresponse> listphongtrocoanh = new ArrayList<phongtroresponse>();
+        
+        for (int i = 0; i < listings.size(); i++) {
+            List<byte[]> imageBytes = ServicePostNew.getanh(listings.get(i).getItemId());
+            List<String> listurlimg = new ArrayList<String>();
+            for (byte[] img : imageBytes) {
+                listurlimg.add("data:image/jpg;base64," + Base64.getEncoder().encodeToString(img));
+            }
+            
+            phongtroresponse phongtro = new phongtroresponse();
+            phongtro.setListings(listurlimg);
+            phongtro.setItemId(listings.get(i).getItemId());
+            phongtro.setUser(listings.get(i).getUser());
+            phongtro.setTitle(listings.get(i).getTitle());
+            phongtro.setDescription(listings.get(i).getDescription());
+            phongtro.setPrice(listings.get(i).getPrice());
+            phongtro.setArea(listings.get(i).getArea());
+            phongtro.setAddress(listings.get(i).getAddress());
+            phongtro.setRoomType(listings.get(i).getRoomType());
+            phongtro.setCreatedAt(listings.get(i).getCreatedAt());
+            phongtro.setExpiryDate(listings.get(i).getExpiryDate());
+            phongtro.setUpdatedAt(listings.get(i).getUpdatedAt());
+            phongtro.setPostType(listings.get(i).getPostType());
+            phongtro.setStatus(listings.get(i).getStatus());
+            phongtro.setObject(listings.get(i).getObject());
+            
+            listphongtrocoanh.add(phongtro);
+        }
+        model.addAttribute("listings", listphongtrocoanh);
+        
+        return "views/blog_detail";
+    }
+
+
+
 }

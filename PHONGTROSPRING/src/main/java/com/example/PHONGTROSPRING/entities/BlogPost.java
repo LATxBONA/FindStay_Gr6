@@ -1,7 +1,9 @@
 package com.example.PHONGTROSPRING.entities;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,7 +29,7 @@ public class BlogPost {
 	@Column(nullable = false, length = 255, columnDefinition = "varchar(255)")
 	private String title;
 
-	@Column(nullable = false, columnDefinition = "varchar(255)")
+	@Column(nullable = false, columnDefinition = "varchar(5000)")
 	private String message;
 
 	@Column(nullable = false)
@@ -71,5 +73,19 @@ public class BlogPost {
 
 	public void setCreatedAt() {
 		this.createdAt = LocalDateTime.now();
+	}
+	
+	public String getRelativeTime() {
+		LocalDateTime now = LocalDateTime.now();
+		Duration duration = Duration.between(this.createdAt, now);
+
+		if (duration.toHours() < 24) {
+			return duration.toHours() + " giờ trước";
+		} else if (duration.toDays() <= 30) {
+			return duration.toDays() + " ngày trước";
+		} else {
+			long months = ChronoUnit.MONTHS.between(this.createdAt.toLocalDate(), now.toLocalDate());
+			return months + " tháng trước";
+		}
 	}
 }
