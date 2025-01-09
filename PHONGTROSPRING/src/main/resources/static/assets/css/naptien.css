@@ -127,7 +127,7 @@ body {
 }
 
 .sidebar .menu li:nth-child(5) a::before {
-	content: '\f1d1'; /* Icon lịch sử thanh toán (file icon) */
+	content: '\f1da'; /* Icon lịch sử thanh toán (file icon) */
 }
 
 .sidebar .menu li:nth-child(6) a::before {
@@ -135,11 +135,7 @@ body {
 }
 
 .sidebar .menu li:nth-child(7) a::before {
-	content: '\f095'; /* Icon liên hệ (phone icon) */
-}
-
-.sidebar .menu li:nth-child(8) a::before {
-	content: '\f2f5'; /* Icon thoát (exit icon) */
+	content: '\f2f5'; /* Icon liên hệ (phone icon) */
 }
 
 /* Thông tin người dùng */
