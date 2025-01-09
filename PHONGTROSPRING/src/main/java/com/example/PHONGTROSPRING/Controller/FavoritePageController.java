@@ -12,8 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.PHONGTROSPRING.entities.Favorites;
+import com.example.PHONGTROSPRING.entities.Listings;
 import com.example.PHONGTROSPRING.entities.User;
 import com.example.PHONGTROSPRING.response.ListingsResponse;
 import com.example.PHONGTROSPRING.service.FavoritePageService;
@@ -60,16 +64,26 @@ public class FavoritePageController {
 	}
 
 	@GetMapping("/delete_favorite/{item_id}")
-    public ResponseEntity<Void> deleteFavorite(@PathVariable int item_id, HttpSession session) {
+	public ResponseEntity<Void> deleteFavorite(@PathVariable int item_id, HttpSession session) {
 
-        User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 
-        // Kiểm tra nếu người dùng đã đăng nhập
-        if (user != null) {
-            favoritePageService.deleteFavorite(user.getUserId(), item_id);
-            return ResponseEntity.ok().build(); // Trả về HTTP 200 OK nếu xóa thành công
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // Trả về HTTP 401 Unauthorized nếu người dùng chưa đăng nhập
-        }
-    }
+		// Kiểm tra nếu người dùng đã đăng nhập
+		if (user != null) {
+			favoritePageService.deleteFavorite(user.getUserId(), item_id);
+			return ResponseEntity.ok().build();
+		} else {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		}
+	}
+
+	@GetMapping("/add_favorite/{itemId}")
+	public ResponseEntity<Favorites> addFavorite(@PathVariable int itemId, HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		if(user == null) {
+			return new ResponseEntity<>(null, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(favoritePageService.addFavorite(user, itemId), HttpStatus.OK);
+	}
+
 }

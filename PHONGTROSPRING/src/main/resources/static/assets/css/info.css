@@ -150,3 +150,7 @@ input[readonly] {
     margin-top: 5px;
     display: block;
 }
+
+.display-none{
+	display: none !important;
+}

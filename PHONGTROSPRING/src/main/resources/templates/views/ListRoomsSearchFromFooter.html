@@ -22,13 +22,14 @@
 	<div class="warpper_search_from_footer">
 		<div class="wrapper_search_context">
 			<div class="wrapper_search_part_1">
-				<span
-					th:text="'Cho Thuê ' + ${typeroom} + '/ ' + ${city} + ' / trang ' + ${page + 1}"></span>
+				<span th:text="'Cho Thuê ' + ${typeroom} + '/ ' + ${city}"></span>
+				<span id="district_name"></span>
+				<span th:text="' / trang ' + ${page + 1}"></span>
 
 				<h2 style="font-weight: 600; margin: .5rem 0;"
-					th:text="'Cho Thuê ' + ${typeroom} + '/ ' + ${city} + ', Giá Rẻ, Tiện Nghi, Mới nhất ' + ${#dates.format(#dates.createNow(), 'yyyy')}"></h2>
+					th:text="'Cho Thuê ' + ${typeroom} + ' ' + ${city} + ', Giá Rẻ, Tiện Nghi, Mới nhất ' + ${#dates.format(#dates.createNow(), 'yyyy')}"></h2>
 				<span style="color: gray;"
-					th:text="'Có '+ ${quantity_post} +' tin đăng cho thuê'"></span>
+					th:text="'Có '+ ${quantity_post} +' tin đăng cho thuê cho mọi loại phòng'"></span>
 
 				<ol class="list_menu">
 					<li class="toanquoc"><a href="toanquoc">Toàn quốc</a></li>
@@ -36,64 +37,53 @@
 					<li class="HN"><a href="HN">Hà Nội</a></li>
 					<li class="BD"><a href="BD">Bình Định</a></li>
 				</ol>
-				<div class="list_district">
+				<div id="list_district" class="list_district">
 					<div class="menu_district" th:each="district : ${list_district}">
-						<a class="district"
-							th:href="@{/{typeroom}/{city}(
-               typeroom=${typeroom_default},
-               city=${city_default},
-               district=${district.district},
-               district_id=${district.district_id},
-               orderby=${orderby})}"
-							th:text="${district.district}"> </a>
+						<a class="district" th:href="@{/{typeroom}/{city}(typeroom=${typeroom_default}, city=${city_default}, district=${district.district}, district_id=${district.district_id}, orderby=${orderby})}" th:text="${district.district}"></a>
 					</div>
 				</div>
 
 				<ol class="menu_dexuat_moidang">
-					<li><a id="mac-dinh"
-						th:href="'/'+${typeroom_default}+'/'+${city_default}+'?orderby=mac-dinh'">Đề
-							xuất</a></li>
-					<li><a id="moi-dang"
-						th:href="'/'+${typeroom_default}+'/'+${city_default}+'?orderby=moi-dang'">Mới
-							đăng</a></li>
+					<li><a id="mac-dinh" th:href="'/'+${typeroom_default}+'/'+${city_default}+'?orderby=mac-dinh'">Đề xuất</a></li>
+					<li><a id="moi-dang" th:href="'/'+${typeroom_default}+'/'+${city_default}+'?orderby=moi-dang'">Mới đăng</a></li>
 				</ol>
 
 				<div class="wrapper_list_search">
-					<a class="item_room" th:each="item : ${list_room}"
-						th:href="@{/detailRoom/id={id}(id=${item.itemId})}"> <span
-						class="item_room_image"> <img
-							th:src="'data:image/*;base64,' + ${item.imageUrl}"
-							th:alt="'Ảnh của '+${item.itemId}"> <span
-							th:each="favorite : ${list_favorite}"> <span
-								th:if="${item.itemId == favorite}"> <img
-									class="item_room_favorite_2" alt=""
-									src="https://phongtro123.com/images/bi-heart-fill.svg">
-							</span> <img class="item_room_favorite_1" alt=""
-								src="https://phongtro123.com/images/bi-heart.svg">
+					<a class="item_room" th:each="item : ${list_room}" th:href="@{/detailRoom/id={id}(id=${item.itemId})}"> 
+						<span class="item_room_image"> 
+						<img th:src="'data:image/*;base64,' + ${item.imageUrl}" th:alt="'Ảnh của '+${item.itemId}"> 
+						<span th:each="favorite : ${list_favorite}"> 
+							<span th:if="${item.itemId == favorite}"> 
+								<img class="item_room_favorite_2" alt="" src="https://phongtro123.com/images/bi-heart-fill.svg">
+							</span> 
 						</span>
-					</span> <span class="item_room_infor"> <span> <span
-								th:if="${item.postType > 1}"
-								th:each="i : ${#numbers.sequence(1, item.postType)}"> <img
-									class="img-star" src="/assets/images/bi-star-fill-yellow.svg">
-							</span> <span style="font-weight: 600; font-size: 3vh;"
-								th:class="'wrapper_infor_title vip' + ${item.postType}"
-								th:text="${item.title}"></span>
-						</span> <span class="item_room_price_area_location"> <span
-								style="font-weight: 600; color: #22C785;"
-								th:text="${item.changePrice()}"></span> <span
-								th:text="${item.area}+'m&sup2;'"></span> <span
-								th:text="${item.location_district +','+ item.location_city}"></span>
-						</span> <span class="item_room_time"> <span
-								th:text="${item.changeDate()}"></span>
-						</span> <span class="item_room_text"> <span
-								th:text="${item.title +' '+ item.location_district + ', '+ item.location_city + '. Diện tích ' + item.area +'m&sup2;.' + ' Giá ' + item.changePrice() + '...'}"></span>
-						</span> <span class="item_room_name_phone"> <span> <i
+						<img th:attr="itemId=${item.itemId}" class="item_room_favorite_1" alt="" src="https://phongtro123.com/images/bi-heart.svg">
+					</span> 
+					<span class="item_room_infor"> 
+					<span> 
+					<span th:if="${item.postType > 1}" th:each="i : ${#numbers.sequence(1, item.postType)}"> 
+					<img class="img-star" src="/assets/images/bi-star-fill-yellow.svg">
+							</span> 
+							<span style="font-weight: 600; font-size: 3vh;" th:class="'wrapper_infor_title vip' + ${item.postType}" th:text="${item.title}"></span>
+						</span> 
+						<span class="item_room_price_area_location"> 
+						<span style="font-weight: 600; color: #22C785;" th:text="${item.changePrice()}"></span> 
+						<span th:text="${item.area}+'m&sup2;'"></span> 
+						<span th:text="${item.location_district +','+ item.location_city}"></span>
+						</span> 
+						<span class="item_room_time"> 
+							<span th:text="${item.changeDate()}"></span>
+						</span> 
+						<span class="item_room_text"> 
+							<span th:text="${item.title +' '+ item.location_district + ', '+ item.location_city + '. Diện tích ' + item.area +'m&sup2;.' + ' Giá ' + item.changePrice() + '...'}"></span>
+						</span> 
+						<span class="item_room_name_phone"> <span> <i
 									style="font-size: 5vh;" class="fa-solid fa-circle-user"></i> <span
 									th:text="${item.user_name}"></span>
-							</span> <span>
+							</span> 
+							<span>
 									<button class="btn-phone" th:text="'Gọi: '+${item.phone}"></button>
-									<button class="btn-zalo" th:attr="data-phone=${item.phone}">Nhắn
-										Zalo</button>
+									<button class="btn-zalo" th:attr="data-phone=${item.phone}">Nhắn Zalo</button>
 							</span>
 						</span>
 					</span>

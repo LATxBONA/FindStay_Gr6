@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	var login = document.getElementById("login");
 	var logout = document.getElementById("logout");
 	var recharge = document.getElementById("recharge");
-	var info = document.getElementById("infor_detail_user");
 	var changepass = document.getElementById("change_password");
 	if (login && register) {
 		login.addEventListener("click", function() {
@@ -32,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			window.location.href = "/recharge";
 		})
 	}
-	
+
 	var header_fullname = document.getElementById("header_fullname");
 	var header_popup = document.getElementById("header_popup");
 	var popup = document.getElementById("popup");
@@ -64,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	var listItems = headerAccountMenus.getElementsByTagName('li');
 	var screenWidth = screen.width;
 	var screenHeight = screen.height;
-	if (listItems.length == 4) {
+	if (listItems.length == 3) {
 		if (screenWidth == 1536 && screenHeight == 864) {
 			headerAccountMenus.classList.add('active_header_1');
 		} else {
@@ -77,8 +76,12 @@ document.addEventListener("DOMContentLoaded", function() {
 			headerAccountMenus.classList.add('active_header_4');
 		}
 	}
-	
-	info.addEventListener("click", function() {
+
+
+	var info = document.getElementById("infor_detail_user");
+	if (info) {
+		info.addEventListener("click", function() {
 			window.location.href = "/info";
 		});
+	}
 })

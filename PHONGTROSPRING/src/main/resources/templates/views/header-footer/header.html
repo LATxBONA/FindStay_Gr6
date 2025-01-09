@@ -39,15 +39,17 @@
 		<a class="header-account"><i class="fa-solid fa-bars-progress"></i>Quản lý tài khoản
 			<ul id="header-account-menu" class="header-account-menu">
 				<li id="infor_detail_user">Thông tin tài khoản</li>
-				<li id="change_password">Đổi mật khẩu</li>
-				<li id="recharge"> Nạp tiền</li>
+				<li th:if="${session.user.role == 'Chủ trọ'}" id="recharge"> Nạp tiền</li>
 				<li id="logout">Đăng xuất</li>
 			</ul> 
 		</a>
 	</div>
 	
 	<!-- Đăng tin -->
-	<div class="header-posting-free">
+	<div th:if="${session.user == null}" class="header-posting-free">
+		<a href="/login">Đăng tin miễn phí</a>
+	</div>
+	<div th:if="${session.user != null && session.user.role == 'Chủ trọ'}" class="header-posting-free">
 		<a href="/dangtin">Đăng tin miễn phí</a>
 	</div>
 </header>

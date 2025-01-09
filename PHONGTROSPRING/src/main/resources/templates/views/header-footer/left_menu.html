@@ -1,6 +1,5 @@
-
 <!-- Phần bên trái -->
-<div class="left-column">
+<div th:class="${session.user != null and session.user.role == 'Chủ trọ' ? 'left-column' : 'left-column display-none'}" >
 	<!-- Thông tin người dùng -->
 	<div class="user-info">
 		<div class="user-info2">

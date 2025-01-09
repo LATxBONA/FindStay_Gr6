@@ -21,4 +21,7 @@ public interface FavoritePageRepository extends JpaRepository<Favorites, Integer
 	@Transactional
 	@Query("DELETE FROM Favorites f WHERE f.user.userId = :user_id AND f.listing.itemId = :item_id")
 	void deleteFavorite(@Param("user_id") String user_id, @Param("item_id") int item_id);
+	
+	@Query("SELECT f FROM Favorites f WHERE f.user.userId = :user_id AND f.listing.itemId = :item_id")
+	Favorites checkFavoriteExist(@Param("user_id") String user_id, @Param("item_id") int item_id);
 }
