@@ -85,6 +85,13 @@
     text-align: center;
     border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
+
+.area-cards a {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* Đảm bảo thẻ <a> bao toàn bộ .area-card */
+}
+
 /* Style cho menu sắp xếp */
 .menu_dexuat_moidang {
     list-style: none;

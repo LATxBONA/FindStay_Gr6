@@ -56,13 +56,13 @@
 								style="display: block; margin-bottom: 8px; font-weight: bold;">Tên
 								liên hệ</label> <input type="text" name="fullName"
 								th:value="${infoUser.getFullName}"
-								style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+								style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required="required">
 						</div>
 						<div class="info" style="margin-bottom: 20px;">
 							<label
 								style="display: block; margin-bottom: 8px; font-weight: bold;">Email</label>
 							<input type="email" name="email" th:value="${infoUser.getEmail}"
-								style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+								style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required="required">
 						</div>
 						<button type="submit" class="btn-confirm">Cập nhật</button>
 					</form>
