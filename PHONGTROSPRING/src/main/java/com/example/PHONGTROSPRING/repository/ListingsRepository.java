@@ -101,25 +101,10 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer>, Jp
 			+ "l.itemId, l.title, l.price, l.createdAt, "
 			+ "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, "
 			+ "l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, " + "l.postType, l.area) "
-			+ "FROM Listings l WHERE l.status = 'Đã duyệt' " + "ORDER BY l.postType DESC, l.roomType.roomTypeId DESC") // Thêm
-																														// sắp
-																														// xếp
-																														// theo
-																														// postType
-																														// DESC
+			+ "FROM Listings l WHERE l.status = 'Đã duyệt' " + "ORDER BY l.postType DESC, l.roomType.roomTypeId DESC") // Thêm sắp xếp theo postType
+
 	Page<ListingsResponse> getAllListingsApproved(Pageable pageable);
 
-	// Query lấy danh sách đã duyệt và sắp xếp theo thời gian mới nhất (dự phòng xếp
-	// theo RomType ưu tiền -> time đăng)
-//	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse(" +
-//	       "l.itemId, l.title, l.price, l.createdAt, " +
-//	       "l.roomType.roomTypeName, l.location_city.city, l.location_district.district, " +
-//	       "l.location_ward.ward, l.address, l.user.fullName, l.user.phoneNumber, " +
-//	       "l.postType, l.area) " +
-//	       "FROM Listings l WHERE l.status = 'Đã duyệt' " +
-//	       "ORDER BY l.postType DESC, l.createdAt DESC") // Thêm sắp xếp theo postType DESC
-//	Page<ListingsResponse> getAllListingsByNewest(Pageable pageable);
-//	
 
 	// Query lấy danh sách đã duyệt và sắp xếp theo thời gian mới nhất lấy tất cả
 	// cho trang home
@@ -153,32 +138,28 @@ public interface ListingsRepository extends JpaRepository<Listings, Integer>, Jp
 			@Param("maxPrice") BigDecimal maxPrice, @Param("minArea") BigDecimal minArea,
 			@Param("maxArea") BigDecimal maxArea);
 
-	/*
-	 * @Query( value =
-	 * "SELECT * FROM Listings WHERE price BETWEEN :minPrice AND :maxPrice" +
-	 * " AND area BETWEEN :minArea AND :maxArea " +
-	 * " AND (:roomType IS NULL OR room_type_id LIKE :roomType) " +
-	 * " AND (:city_id IS NULL OR city_id LIKE :city_id) " +
-	 * " AND (:district_id IS NULL OR district_id LIKE :district_id) " +
-	 * " AND (:ward_id IS NULL OR ward_id LIKE :ward_id) " + " ORDER BY price ASC",
-	 * nativeQuery = true ) List<Listings> findListingsByLAT(
-	 * 
-	 * @Param("minPrice") BigDecimal minPrice,
-	 * 
-	 * @Param("maxPrice") BigDecimal maxPrice,
-	 * 
-	 * @Param("minArea") BigDecimal minArea,
-	 * 
-	 * @Param("maxArea") BigDecimal maxArea,
-	 * 
-	 * @Param("roomType") String roomType,
-	 * 
-	 * @Param("city_id") String city_id,
-	 * 
-	 * @Param("district_id") String district_id,
-	 * 
-	 * @Param("ward_id") String ward_id );
-	 */
+	
+// Tú đã ở đây	
+	
+/*	  @Query( value =
+	  "SELECT * FROM Listings WHERE price BETWEEN :minPrice AND :maxPrice" +
+	  " AND area BETWEEN :minArea AND :maxArea " +
+	  " AND (:roomType IS NULL OR room_type_id LIKE :roomType) " +
+	  " AND (:city_id IS NULL OR city_id LIKE :city_id) " +
+	  " AND (:district_id IS NULL OR district_id LIKE :district_id) " +
+	  " AND (:ward_id IS NULL OR ward_id LIKE :ward_id) " + " ORDER BY price ASC",
+	  nativeQuery = true ) 
+	  List<Listings> findListingsByLAT(
+	  @Param("minPrice") BigDecimal minPrice,
+	  @Param("maxPrice") BigDecimal maxPrice,
+	  @Param("minArea") BigDecimal minArea,
+	  @Param("maxArea") BigDecimal maxArea,
+	  @Param("roomType") String roomType,
+	  @Param("city_id") String city_id,
+	  @Param("district_id") String district_id,
+	  @Param("ward_id") String ward_id );
+	 
+*/
 	@Query("SELECT new com.example.PHONGTROSPRING.response.ListingsResponse("
 			+ "   l.itemId, l.title, l.price, l.createdAt, l.roomType.roomTypeName, "
 			+ "   l.location_city.city, l.location_district.district, l.location_ward.ward, "

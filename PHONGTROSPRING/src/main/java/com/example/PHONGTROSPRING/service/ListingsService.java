@@ -107,30 +107,7 @@ public class ListingsService {
 		return listingRepository.findByUser(user, pageable);
 	}
 
-	/*
-	 * public void addSampleListings() {
-	 * 
-	 * // Chú ý: khi set id cho các user, location, roomtype thì lấy id trong sql vì
-	 * id // này là chuỗi và sinh ra ngẫu nhiên chứ không phải số User user = new
-	 * User(); user.setUserId("53c5fcc8-cd81-43ef-a911-6bf48473f7eb");
-	 * 
-	 * Locations location = new Locations(); location.setLocationId(1);
-	 * 
-	 * RoomTypes roomType = new RoomTypes(); roomType.setRoomTypeId(1);
-	 * 
-	 * Listings listing = new Listings();
-	 * 
-	 * listing.setUser(user); listing.setTitle("Phòng cho thuê gần hồ Hoàn Kiếm");
-	 * listing.setDescription("Phòng đẹp, có đầy đủ tiện nghi, gần trung tâm.");
-	 * listing.setPrice(new BigDecimal("3000000")); listing.setArea(new
-	 * BigDecimal("20.5")); listing.setLocation(location);
-	 * listing.setAddress("15 đường Lê Duẩn"); listing.setRoomType(roomType);
-	 * listing.setCreatedAt(); listing.setStatus("Chờ duyệt");
-	 * listing.setObject("Tất cả"); listing.setPostType(2);
-	 * listing.setExpiryDate(5); listing.setUpdatedAt();
-	 * 
-	 * listingRepository.save(listing); }
-	 */
+
 
 	public Listings getRoomById(int roomId) {
 		return listingRepository.findById(roomId).orElse(null);
@@ -165,21 +142,6 @@ public class ListingsService {
 
 		return imgFeaturedNew;
 	}
-
-	/*
-	 * public String date(LocalDateTime date) { LocalDateTime now =
-	 * LocalDateTime.now(); long timeSeconds = ChronoUnit.SECONDS.between(date,
-	 * now); long timeMinutes = ChronoUnit.MINUTES.between(date, now); long
-	 * timeHours = ChronoUnit.HOURS.between(date, now); long timeDays =
-	 * ChronoUnit.DAYS.between(date, now);
-	 * 
-	 * String dateTime = ""; if (timeSeconds <= 60) { dateTime = timeSeconds +
-	 * " giây trước"; } else if (timeMinutes <= 60) { dateTime = timeMinutes +
-	 * " phút trước"; } else if (timeHours <= 24) { dateTime = timeHours +
-	 * " giờ trước"; } else { dateTime = timeDays + " ngày trước";
-	 * 
-	 * } return base64Images; }
-	 */
 
 	public int getQuantityPost() {
 		return listingRepository.getQuantityPost();
@@ -291,24 +253,7 @@ public class ListingsService {
 	 */
 
 	// Tú làm tiềm kiếm nè
-	public List<Listings> getListingsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
-		return listingRepository.findListingsByPriceRange(minPrice, maxPrice);
-	}
 
-	/*
-	 * public List<Listings> getListingsByLAT( BigDecimal minPrice, BigDecimal
-	 * maxPrice, BigDecimal minArea, BigDecimal maxArea, String roomType, String
-	 * city_id, String district_id, String ward_id ) { // Xử lý giá trị null hoặc
-	 * rỗng String roomTypeFilter = (roomType == null || roomType.isEmpty()) ? "%" :
-	 * roomType; String cityIdFilter = (city_id == null || city_id.isEmpty()) ? "%"
-	 * : city_id; String districtIdFilter = (district_id == null ||
-	 * district_id.isEmpty()) ? "%" : district_id; String wardIdFilter = (ward_id ==
-	 * null || ward_id.isEmpty()) ? "%" : ward_id;
-	 * 
-	 * // Gọi repository return listingRepository.findListingsByLAT( minPrice,
-	 * maxPrice, minArea, maxArea, roomTypeFilter, cityIdFilter, districtIdFilter,
-	 * wardIdFilter ); }
-	 */
 	public Page<ListingsResponse> getListingsByLAT(BigDecimal minPrice, BigDecimal maxPrice, BigDecimal minArea,
 			BigDecimal maxArea, Integer roomType, Integer city_id, Integer district_id, Integer ward_id,
 			Pageable pageable) {

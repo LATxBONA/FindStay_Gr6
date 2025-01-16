@@ -3,12 +3,12 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="testautphongtro.testsearch">
+      <class name="LAT_AutoTest.SignIn">
         <methods>
-          <include name="init"/>
-          <include name="testsearchkhuvuc"/>
+          <include name="setup"/>
+          <include name="loginTest"/>
         </methods>
-      </class> <!-- testautphongtro.testsearch -->
+      </class> <!-- LAT_AutoTest.SignIn -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
