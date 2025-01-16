@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Login Page</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/css/login.css}">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/assets/js/header.js"></script>
+</head>
+<body>
+	<div th:replace="views/header-footer/header"></div>
+	<div class="Login">
+		<div class="form-login">
+			<h2>Đăng nhập</h2>
+			<div th:if=${loginfail}>
+				<p style="color: red" th:text="${loginfail}"></p>
+			</div>
+			<div th:if="${loginMessage}">
+				<p style="color: green;" th:text="${loginMessage}"></p>
+			</div>
+			<form th:action="@{/login}" method="post" th:object="${userlogin}">
+				<label for="username">Số điện thoại</label> <input type="text"
+					id="phoneNumber" name="phoneNumber"
+					placeholder="Nhập số điện thoại" th:field="*{phoneNumber}">
+				<span style="color: red" th:if="${#fields.hasErrors('phoneNumber')}"
+					th:errors="*{phoneNumber}"></span> <label for="password">Mật
+					khẩu:</label> <input type="password" id="password" name="password"
+					placeholder="Nhập mật khẩu" th:field="*{password}"> <span
+					style="color: red" th:if="${#fields.hasErrors('password')}"
+					th:errors="*{password}"></span>
+				<button type="submit">Login</button>
+			</form>
+			<!-- <div class="links">
+				<a>Quên mật khẩu?</a> <a th:href="@{/register}">Tạo tài khoản
+					mới</a>
+			</div> -->
+			<div class="links">
+				<a th:href="@{/register}">Tạo tài khoản mới</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

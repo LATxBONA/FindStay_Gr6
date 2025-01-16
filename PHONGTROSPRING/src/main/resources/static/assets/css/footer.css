@@ -1,0 +1,203 @@
+footer {
+	width: 100%;
+	padding: 1.5rem 10%;
+	margin-top: .5rem;
+	background-color: white;
+}
+
+.footer-menu, .footer-infor {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	padding-bottom: 1rem;
+}
+
+.footer-menu>ol, .footer-infor>ol {
+	list-style-type: none;
+}
+
+.footer-menu>ol>li:first-child, .footer-infor>ol>li:first-child,
+	.footer-company {
+	font-weight: 600;
+	font-size: 1.7vh;
+	margin-bottom: 1rem;
+}
+
+.footer-company {
+	margin-bottom: .7rem;
+}
+
+.footer-menu>ol>li:not(.footer-menu>ol>li:first-child), .footer-infor>ol>li:not(.footer-menu>ol>li:first-child)
+	{
+	margin-bottom: .5rem;
+}
+
+.footer-menu>ol>li>a, .footer-infor>ol>li>a {
+	font-size: 1.6vh;
+	text-decoration: none;
+	color: black;
+}
+
+.footer-menu>ol>li>a:hover, .footer-infor>ol>li>a:hover {
+	color: #1A6CCC;
+}
+
+.footer-system {
+	font-size: 1.6vh;
+	padding: 1rem 0;
+	border-top: 1px solid gray;
+	border-bottom: 1px solid gray;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.footer-system>p {
+	margin-bottom: 1rem;
+}
+
+.footer-system-image {
+	display: flex;
+	justify-content: center;
+	width: 60%;
+}
+
+.footer-system-image>img {
+	width: 20vh;
+	object-fit: contain;
+	margin: 0 1rem;
+	border-radius: 3px;
+}
+
+.footer-infor {
+	margin-top: 2rem;
+	border-bottom: 1px solid gray;
+}
+
+.footer-infor>ol:nth-child(3) {
+	width: 25%;
+}
+
+.footer-infor-image>img {
+	width: 58px;
+	height: 35px;
+	object-fit: cover;
+	margin-right: .5rem;
+	border-radius: 7px;
+}
+
+.footer-infor-image>img:first-child {
+	background-color: #a50064;
+	object-fit: contain;
+}
+
+.footer-infor-follow>a>img {
+	height: 35px;
+	object-fit: contain;
+}
+
+.footer-infor-company {
+	margin-top: 2rem;
+}
+
+.footer-infor-company>p:not(.footer-infor-company>p:first-child) {
+	font-size: 1.4vh;
+}
+
+.footer-numberphone {
+	color: #FF5723;
+}
+
+.footer-infor-company>img {
+	object-fit: contain;
+	height: 7vh;
+}
+
+.wrapper_footer_page {
+	background-color: white;
+	margin: 2rem 20rem;
+	padding: 1%;
+	line-height: 1.5rem;
+	border-radius: 10px;
+	box-shadow: 1px 5px 7px gray;
+}
+
+.namePage {
+	font-size: 1.8rem;
+	margin-top: 1rem;
+}
+
+.image {
+	width: 100%;
+	height: 5rem;
+}
+
+.image img, #hotrochunha>div>div:first-child>img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+strong {
+	font-weight: 600;
+}
+
+.kenhthongtin {
+	margin-top: 2rem;
+	text-align: end;
+	font-weight: 600;
+}
+
+#hotrochunha {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-bottom: 2rem;
+}
+
+#hotrochunha>div {
+	width: 80%;
+	height: 70vh;
+	display: flex;
+	align-items: center;
+	background-color: white;
+	border-radius: 10px;
+	box-shadow: 1px 5px 7px gray;
+}
+
+#hotrochunha>div>div {
+	width: 50%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+#hotrochunha>div>div:last-child {
+	height: 65% !important;
+}
+
+#hotrochunha>div>div:nth-child(2)>img {
+	width: 13%;
+	height: 13%;
+	object-fit: contain;
+}
+
+#hotrochunha>div>div:nth-child(2)>a{
+	text-align: center;
+	text-decoration: none;
+	width: 50%;
+	color: white;
+	background-color: #FF5723;
+	padding: 1.5% 0;
+	border-radius: 15px;
+}
+
+#hotrochunha>div>div:nth-child(2)>a:last-child{
+	background-color: #1A6CCC;
+}
+
+#hotrochunha .fa-solid, #hotrochunha .icon{
+	margin-right: .5rem;
+}

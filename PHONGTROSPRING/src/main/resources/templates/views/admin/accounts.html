@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Quản lý tài khoản</title>
+<link rel="stylesheet" type="text/css" href="/assets/css/admin.css">
+</head>
+<body>
+	<div class="container">
+		<h1>Quản lý tài khoản</h1>
+		<form th:action="@{/admin/accounts/search}" method="get" class="search-form"
+			th:object="${accountRequest}">
+			<select name="role">
+				<option value="Tìm kiếm" th:selected="${role == 'Tìm kiếm'}">Tìm kiếm</option>
+				<option value="Chủ trọ" th:selected="${role == 'Chủ trọ'}">Chủ trọ</option>
+				<option value="Quản trị viên" th:selected="${role == 'Quản trị viên'}">Quản trị viên</option>
+			</select>
+			<button type="submit">Lọc</button>
+			<a th:href="@{/admin/accounts}" class="button">Hiển thị tất cả</a>
+			<a th:href="@{/admin/accounts/new}" class="button">Tạo tài khoản mới</a>
+		</form>
+
+		
+		<table>
+			<thead>
+				<tr>
+					<th>Tên</th>
+					<th>Email</th>
+					<th>Ngày tạo</th>
+					<th>Số dư</th>
+					<th>Vai trò</th>
+					<th>Số điện thoại</th>
+					<th>Mật khẩu</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user: ${users}">
+					<td th:text="${user.fullName}"></td>
+					<td th:text="${user.email}"></td>
+					<td th:text="${user.createdAt}"></td>
+					<td th:text="${user.balance}"></td>
+					<td th:text="${user.role}"></td>
+					<td th:text="${user.phoneNumber}"></td>
+					<td th:text="${user.password}"></td>
+					<td>
+						<!-- Nút Sửa Tài Khoản -->
+						<a th:href="@{/admin/accounts/edit/{id}(id=${user.userId})}" class="button1 button-edit">Sửa</a>
+
+						<!-- Nút Xóa Tài Khoản -->
+						<form th:action="@{/admin/accounts/delete/{id}(id=${user.userId})}" method="post" onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài khoản này không?')">
+							<button type="submit" class="button1 button-delete">Xóa</button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

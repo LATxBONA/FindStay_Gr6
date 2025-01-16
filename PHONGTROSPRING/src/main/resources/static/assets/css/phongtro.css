@@ -1,0 +1,161 @@
+/* Cơ bản */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0px;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Container danh sách */
+.listing-container {
+    display: flex;
+    width:90%;
+    gap: 20px;
+	justify-content: center;
+}
+
+/* Định dạng danh sách các phòng trọ */
+.listing-array {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 10px;
+    margin-left: 320px; /* Khoảng cách bên phải */
+    align-items: flex-end; /* Đưa tất cả các phần tử con về phía bên phải */
+    justify-content: flex-start; /* Đảm bảo các phần tử con không bị kéo giãn theo chiều dọc */
+}
+
+/* Mỗi phòng trọ */
+.listing-item {
+	width: 100%;
+	height: 33vh;
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #FFF5EE;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Ảnh phòng */
+.listing-image {
+    position: relative;
+    width: 45%;
+    overflow: hidden;
+}
+
+.listing-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Chi tiết phòng */
+.listing-details {
+	margin-left: 30px;
+    padding: 15px;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.listing-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #EE2C2C;
+}
+
+.listing-meta {
+    font-size: 14px;
+/*     color: #666; */
+    line-height: 1.2; /* Giảm khoảng cách dòng */
+    margin: 0px ; 
+    color: black;
+}
+
+.mota{
+	font-size: 14px;
+	color: #666;
+	
+}
+
+.listing-actions {
+    margin-top: 15px;
+    margin-bottom: 25px;
+    display: flex;
+    gap: 10px;
+    margin-left: 125px;
+    
+}
+
+/* Nút hành động */
+.btn {
+    display: inline-block;
+    padding: 2px 9px;
+    text-align: center;
+    font-size: 14px;
+    color: white;
+    border-radius: 3px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-call {
+    background-color: #1A6CCC;
+    border-radius: 8px;
+}
+
+.btn-zalo {
+    background-color: rgba(0, 0, 0, 0);
+    border: 2px solid #1A6CCC;
+    color: #1A6CCC;
+    border-radius: 8px;
+    
+}
+
+
+/* Bộ lọc */
+.filters {
+    width:25%;
+    background: #f9f9f9; /* Màu nền cho bộ lọc */
+    border: 1px solid #ddd; /* Viền nhẹ */
+    padding: 15px; /* Khoảng cách bên trong */
+    border-radius: 5px; /* Bo góc */
+    right: 0;
+    background: #f9f9f9; /* Màu nền cho bộ lọc */
+}
+
+
+.filters h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #333;
+}
+
+.filters ul {
+    list-style: none; /* Xóa dấu đầu dòng */
+    padding: 0;
+}
+
+.filters ul li {
+    margin-bottom: 8px;
+}
+
+.filters ul li a {
+    text-decoration: none; /* Xóa gạch chân */
+    color: #007BFF; /* Màu xanh cho liên kết */
+    font-size: 14px;
+}
+
+.filters ul li a:hover {
+    text-decoration: underline; /* Hiệu ứng hover */
+}

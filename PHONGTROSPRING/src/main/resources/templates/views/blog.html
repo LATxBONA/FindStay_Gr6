@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/blog.css">
+    
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/media.css"><link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<script src="/assets/js/header.js"></script>
+</head>
+<body>
+	<div th:replace="views/header-footer/header"></div>
+<nav class="breadcrumb">
+    <a href="/">Trang chủ</a> &gt;
+    <a style="color: black" href="/blog">Tin tức</a>
+</nav>
+
+<h2 class="news-title">Tin tức thị trường, chia sẻ kinh nghiệm Bất động sản</h2>
+<div class="main-content">
+    <!-- Phần danh sách tin tức hiện tại -->
+    <div class="news-container">
+        <div class="news-list">
+            <div th:each="post : ${blogPosts}" class="news-item">
+            <a th:href="@{/blog/{id}(id=${post.postId})}" class="news-link">
+                <img src="../assets/images/penhouse.jpg" alt="News Image" class="news-image">
+                <div class="news-content">
+                    <h3 th:text="${post.title}" class="news-heading">Tiêu đề bài viết</h3>
+                    <p th:text="${post.message}" class="news-description">Nội dung tóm tắt</p>
+                </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phần sidebar bên phải -->
+    <div class="right-banner">
+        <div class="sidebar">
+            <!-- Danh mục cho thuê -->
+            <div class="category-section" >
+                <h3 style="color: #3a3a3a" class="section-title">Danh mục cho thuê</h3>
+                <ul class="category-list">
+                    <li><a href="/phongtro/toanquoc">> Cho thuê phòng trọ</a></li>
+                    <li><a href="/thuenha/toanquoc">> Cho thuê nhà nguyên căn</a></li>
+                    <li><a href="/thuecanho/toanquoc">> Cho thuê căn hộ</a></li>
+                    <li><a href="/thuematbang/toanquoc">> Cho thuê mặt bằng</a></li>
+                    <li><a href="/oghep/toanquoc">> Tìm người ở ghép</a></li>
+                </ul>
+            </div>
+
+            <!-- Tin mới đăng -->
+			<div class="recent-posts-section">
+			    <h3 style="color: #3a3a3a" class="section-title">Tin mới đăng</h3>
+			    <div class="recent-posts-list">
+			        <a class="recent-post-item" th:each="listing, i : ${listings}" th:if="${i.index < 3 }" th:href="@{/detailRoom/id={id}(id=${listing.itemId})}">
+			            <img  th:src="${listing.listings[0]}" alt="Ảnh phòng trọ" class="recent-post-image" />
+			            <div class="recent-post-content">
+			                <h4 class="recent-post-title" th:text="${listing.title}">Tiêu đề tin</h4>
+			                <p >
+			                <span class="recent-post-price" th:text="${listing.FormattedPrice}"></span>
+			                <label class="recent-post-price">/tháng</label>
+			                <span class="recent-post-time" th:text="${listing.RelativeTime}">Thời gian đăng</span>
+			                </p>
+			                
+			            </div>
+			        </a>
+			    </div>
+			</div>
+
+
+            <!-- Tin mới đăng -->
+        </div>
+    </div>
+</div>
+
+
+    	<div th:replace="views/header-footer/footer"></div>
+</body>
+<script>
+  // Hàm giới hạn số từ
+  function truncateText(text, maxWords) {
+    const words = text.split(' ');
+    return words.length > maxWords 
+      ? words.slice(0, maxWords).join(' ') + '  . . . ' 
+      : text;
+  }
+
+  // Áp dụng cho các mô tả
+  document.addEventListener("DOMContentLoaded", function () {
+    const descriptions = document.querySelectorAll(".news-description");
+
+    descriptions.forEach((descriptionElement) => {
+      const fullText = descriptionElement.textContent.trim();
+      const truncatedText = truncateText(fullText, 30); // Giới hạn 30 từ
+      descriptionElement.textContent = truncatedText;
+    });
+  });
+</script>
+</html>

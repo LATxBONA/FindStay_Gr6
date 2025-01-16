@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Nạp tiền vào tài khoản</title>
+<link rel="stylesheet" type="text/css" href="/assets/css/naptien.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/assets/js/header.js"></script>
+</head>
+<body>
+	<!-- Header (được tái sử dụng nếu bạn đã có th:replace cho header) -->
+	<header th:replace="views/header-footer/header"></header>
+
+	<div class="container">
+		<div class="left-column" th:replace="views/header-footer/left_menu"></div>
+
+		<!-- Nội dung nạp tiền -->
+		<div class="main-content">
+			<h2>Nạp tiền vào tài khoản</h2>
+			<!-- Thông báo ưu đãi -->
+			<div class="recharge-info">
+				<p>Nạp từ 50.000 đến dưới 1.000.000 tặng 10%</p>
+				<p>Nạp từ 1.000.000 đến dưới 2.000.000 tặng 20%</p>
+				<p>Nạp từ 2.000.000 trở lên tặng 25%</p>
+				<p>Tiền khuyến mãi sẽ tự đồng thêm vào số dư khi nạp thành công</p>
+			</div>
+
+			<!-- Lựa chọn phương thức nạp tiền -->
+			<h3>Mời bạn chọn phương thức nạp tiền</h3>
+			<div class="payment-methods1">
+				<div class="payment-option">
+					<img src="/assets/images/qrcode.png" alt="Chuyển khoản">
+					<button th:onclick="'window.location.href=\'' + @{/recharge2} + '\''">Chuyển khoản</button>
+
+				</div>
+				<div class="payment-option">
+					<img src="/assets/images/momo.png" alt="MoMo">
+					<button th:onclick="'window.location.href=\'' + @{/recharge2} + '\''">MoMo</button>
+				</div>
+				<div class="payment-option">
+					<img src="/assets/images/zalopay.webp" alt="Zalo Pay">
+					<button th:onclick="'window.location.href=\'' + @{/recharge2} + '\''">Zalo Pay</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="views/header-footer/footer"></div>
+</body>
+</html>

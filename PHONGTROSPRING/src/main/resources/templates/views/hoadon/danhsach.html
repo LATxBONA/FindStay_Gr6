@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Danh sách hóa đơn</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+</head>
+<body>
+	<div class="container mt-4">
+		<h2>Danh sách hóa đơn</h2>
+		<a href="/hoadon/them" class="btn btn-primary mb-3">Thêm hóa đơn
+			mới</a>
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Ngày tạo</th>
+					<th>Phòng trọ</th>
+					<th>Tổng tiền</th>
+					<th>Trạng thái</th>
+					<th>Thao tác</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="hoaDon : ${danhSachHoaDon}">
+					<td th:text="${hoaDon.id}"></td>
+					<td
+						th:text="${#temporals.format(hoaDon.ngayTaoHoaDon, 'dd/MM/yyyy HH:mm')}"></td>
+					<td th:text="${hoaDon.phongTro.tenPhong}"></td>
+					<td th:text="${hoaDon.tongTien} + ' VNĐ'"></td>
+					<td><span th:if="${hoaDon.daThanhToan}"
+						class="badge bg-success">Đã thanh toán</span> <span
+						th:unless="${hoaDon.daThanhToan}" class="badge bg-warning">Chưa
+							thanh toán</span></td>
+					<td><a th:if="${!hoaDon.daThanhToan}"
+						th:href="@{/hoadon/chitiet/{id}(id=${hoaDon.id})}"
+						class="btn btn-info btn-sm">Chi tiết</a> <a
+						th:if="${!hoaDon.daThanhToan}"
+						th:href="@{/hoadon/thanhtoan/{id}(id=${hoaDon.id})}"
+						class="btn btn-success btn-sm">Thanh toán</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Đăng ký</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/css/register.css}">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/assets/js/header.js"></script>
+</head>
+<body>
+	<div th:replace="views/header-footer/header"></div>
+	<div class="register">
+		<div class="register-container">
+			<h2>Đăng ký</h2>
+			<div th:if="${erros}">
+				<p style="color: red;" th:text="${erros}"></p>
+			</div>
+			<form th:action="@{/register}" method="post"
+				th:object="${userRegister}">
+				<div class="input-group">
+					<label for="name">Họ tên</label> <input type="text" id="name"
+						name="fullName" placeholder="Nhập họ tên" th:field="*{fullName}">
+					<span style="color: red" th:if="${#fields.hasErrors('fullName')}"
+						th:errors="*{fullName}"></span>
+				</div>
+				<div class="input-group">
+					<label for="phone">Số điện thoại</label> <input type="text"
+						id="phone" name="phoneNumber" placeholder="Nhập số điện thoại"
+						th:field="*{phoneNumber}"> <span style="color: red"
+						th:if="${#fields.hasErrors('phoneNumber')}"
+						th:errors="*{phoneNumber}"></span>
+				</div>
+				<div class="input-group">
+					<label for="password">Mật khẩu</label> <input type="password"
+						id="password" name="password" placeholder="Nhập mật khẩu"
+						th:field="*{password}"> <span style="color: red"
+						th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+				</div>
+				<div class="input-group">
+					<label for="confirm-password">Nhập lại mật khẩu</label> <input
+						type="password" id="confirm_password" name="confirmPass"
+						placeholder="Nhập lại mật khẩu" th:field="*{confirmPass}">
+					<span style="color: red"
+						th:if="${#fields.hasErrors('confirmPass')}"
+						th:errors="*{confirmPass}"></span>
+				</div>
+				<div class="group-role">
+					<label class="role-option"> <input type="radio"
+						value="Tìm kiếm" name="role" checked> <span>Tìm
+							Kiếm</span>
+					</label> <label class="role-option"> <input type="radio"
+						value="Chủ trọ" name="role"> <span>Chủ Trọ</span>
+
+					</label>
+				</div>
+				<button type="submit" class="register-btn">Đăng ký</button>
+
+				<p class="terms">
+					Bấm vào nút đăng ký tức là bạn đã đồng ý với <a href="#">quy
+						định sử dụng</a> của chúng tôi
+				</p>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

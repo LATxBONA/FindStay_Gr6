@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Nạp tiền vào tài khoản</title>
+<link rel="stylesheet" type="text/css" href="/assets/css/naptien.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/assets/js/naptien.js"></script>
+<script src="/assets/js/header.js"></script>
+</head>
+<body>
+	<!-- Header (được tái sử dụng nếu bạn đã có th:replace cho header) -->
+	<header th:replace="views/header-footer/header"></header>
+
+	<div class="container">
+		<div class="left-column" th:replace="views/header-footer/left_menu"></div>
+
+		<div class="payment-methods3">
+			<div class="confirmation-message">
+				<form th:action="@{/recharge4}" method="post">
+					<div class="qr-and-info">
+						<div class="qr-code">
+							<img src="/assets/images/qrcode.png" alt="Quét và ting ting nhé">
+						</div>
+						<div class="info">
+							<h2>Thực hiện chuyển khoản</h2>
+							<p>
+								Số tiền: <span class="amount" th:text="${amount}"></span> VND
+							</p>
+							<input type="hidden" name="amount" th:value="${amount}" />
+							<div class="bank-info">
+								<span>Chủ tài khoản:
+									<p>Nguyễn Văn Thuận</p>
+								</span> <span>Ngân hàng:
+									<p>BIDV</p>
+								</span> <span>Chi nhánh:
+									<p>Bình Định</p>
+								</span>
+							</div>
+							<button class="btn-confirm">Xác nhận đã chuyển khoản</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div th:replace="views/header-footer/footer"></div>
+</body>
+</html>

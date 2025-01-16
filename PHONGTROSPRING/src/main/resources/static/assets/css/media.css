@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+/* Khi chiều rộng cửa sổ <= 1280px và chiều cao cửa sổ >= 585px */
+@media ( max-width : 1280px) and (min-height: 585px) {
+	header {
+		height: 11vh !important;
+		font-size: 2.5vh !important;
+	}
+	header>div>a {
+		white-space: nowrap;
+	}
+	header>div>a>i {
+		font-size: 4vh !important;
+	}
+	header>div:nth-child(5)>a {
+		width: 65% !important;
+		padding: 8% 0 !important;
+	}
+	.menu-option {
+		height: 7vh !important;
+	}
+	.menu-option>li {
+		padding: 0 !important;
+	}
+	.option button {
+		padding: 8% 0 !important;
+		width: 13vh !important;
+	}
+	.option li {
+		margin-right: 2% !important;
+	}
+	.footer-menu>ol>li:first-child, .footer-infor>ol>li:first-child,
+		.footer-company {
+		font-size: 2.5vh !important;
+	}
+	.footer-menu>ol>li>a, .footer-infor>ol>li>a, .footer-system>p {
+		font-size: 2.2vh !important;;
+	}
+	.footer-infor-company>p:not(.footer-infor-company>p:first-child) {
+		font-size: 1.8vh !important
+	}
+	#popup {
+		height: 18% !important;
+	}
+	#popup>div:first-child {
+		height: 80px !important;
+	}
+	#popup>div:last-child>p {
+		font-size: 2.3vh;
+        white-space: nowrap;
+	}
+	
+	.wrapper_footer_page{
+		width: 142vh;
+		margin: 2rem 13.5rem !important;
+	}
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .froup-item {
+        flex: 1 1 100%;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    button {
+        width: 100%;
+    }
+}
+
+@media ( min-width : 1535px) and (max-height: 863px) {
+	#popup{
+		height: 20% !important;
+	}
+}

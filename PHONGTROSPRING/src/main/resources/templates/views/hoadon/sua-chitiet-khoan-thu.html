@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sửa khoản thu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Sửa khoản thu</h2>
+        <form th:action="@{/chitiet-hoadon/sua}" 
+              th:object="${chiTietHoaDon}" method="post" id="khoanThuForm">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{hoaDon.id}" />
+            
+            <div class="mb-3">
+                <label for="tenKhoanThu" class="form-label">Tên khoản thu</label>
+                <select class="form-select" id="tenKhoanThu" th:field="*{tenKhoanThu}" onchange="toggleMeterReadings()">
+                    <option value="Tiền điện">Tiền điện</option>
+                    <option value="Tiền nước">Tiền nước</option>
+                    <option value="Tiền Internet">Tiền Internet</option>
+                    <option value="Tiền vệ sinh">Tiền vệ sinh</option>
+                    <option value="Tiền gửi xe">Tiền gửi xe</option>
+                    <option value="Khác">Khác</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="donGia" class="form-label">Đơn giá (VNĐ)</label>
+                <input type="number" class="form-control" id="donGia" th:field="*{donGia}" 
+                       min="0" required>
+            </div>
+
+            <div id="meterReadings" style="display: none;">
+                <div class="mb-3">
+                    <label for="chiSoDau" class="form-label">Chỉ số đầu</label>
+                    <input type="number" class="form-control" id="chiSoDau" th:field="*{chiSoDau}" 
+                           min="0" step="0.1">
+                </div>
+                <div class="mb-3">
+                    <label for="chiSoCuoi" class="form-label">Chỉ số cuối</label>
+                    <input type="number" class="form-control" id="chiSoCuoi" th:field="*{chiSoCuoi}" 
+                           min="0" step="0.1">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Lưu</button>
+            <a th:href="@{/hoadon/chitiet/{id}(id=${chiTietHoaDon.hoaDon.id})}" class="btn btn-secondary">Quay lại</a>
+        </form>
+    </div>
+
+    <script>
+        function toggleMeterReadings() {
+            const tenKhoanThu = document.getElementById('tenKhoanThu').value.toLowerCase();
+            const meterReadings = document.getElementById('meterReadings');
+            const chiSoDau = document.getElementById('chiSoDau');
+            const chiSoCuoi = document.getElementById('chiSoCuoi');
+
+            if (tenKhoanThu.includes('điện') || tenKhoanThu.includes('nước')) {
+                meterReadings.style.display = 'block';
+                chiSoDau.required = true;
+                chiSoCuoi.required = true;
+            } else {
+                meterReadings.style.display = 'none';
+                chiSoDau.required = false;
+                chiSoCuoi.required = false;
+                chiSoDau.value = '0';
+                chiSoCuoi.value = '0';
+            }
+        }
+
+        // Call on page load
+        document.addEventListener('DOMContentLoaded', toggleMeterReadings);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

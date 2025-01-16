@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quản lý tin</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- <script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+	
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+ -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/naptien.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/quanlytin.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/naptien.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<script src="/assets/js/header.js"></script>
+<script src="/assets/js/quanlytin.js"></script>
+
+
+</head>
+<body>
+	<div th:replace="views/header-footer/header"></div>
+	<div class="container">
+		<div class="left-column" th:replace="views/header-footer/left_menu"></div>
+		<div style="display: flex; flex-direction: column; width: 73%">
+			<div style="display: flex; justify-content: center;">
+				<h2>Quản lý tin đăng</h2>
+			</div>
+			<div class="boder"></div>
+			<div th:if="${successMessage}" style="color: green; margin-top: 15px">
+				<span th:text="${successMessage}"></span>
+			</div>
+			<div th:if="${errorMessage}" style="color: red; margin-top: 15px">
+				<span th:text="${errorMessage}"></span>
+			</div>
+			<form th:action="@{/quanlytin}" method="get" class="search_form">
+				<div>
+					<input type="text" placeholder="Tìm theo tiêu đề"
+						class="search" name="valuesearch" id="searchtext"
+						onchange="this.form.submit()">
+				</div>
+				<div>
+					<select class="search" name="valueloaitin" id="searchloaitin"
+						onchange="this.form.submit()">
+						<option value="">Lọc theo loại tin</option>
+						<option value="0">Tin miễn phí</option>
+						<option value="1">Tin thường</option>
+						<option value="2">Tin VIP 3</option>
+						<option value="3">Tin VIP 2</option>
+						<option value="4">Tin VIP 1</option>
+						<option value="5">Tin VIP nổi bật</option>
+					</select>
+				</div>
+				<div>
+					<select class="search" name="valuetrangthai" id="searchtrangthai"
+						onchange="this.form.submit()">
+						<option value="">Lọc theo trạng thái</option>
+						<option value="Đã duyệt">Đã duyệt</option>
+						<option value="Chờ duyệt">Chờ duyệt</option>
+						<option value="Ẩn tin">Tin ẩn</option>
+					</select>
+				</div>
+			</form>
+			<div class="main-contents">
+				<table>
+					<tr>
+						<th>Mã tin</th>
+						<th>Tiêu đề</th>
+						<th>Giá</th>
+						<th>Ngày bắt đầu</th>
+						<th>Ngày hết hạn</th>
+						<th>Trạng thái</th>
+						<th>Actions</th>
+					</tr>
+					<tr th:each="listing : ${listtingsss}">
+						<td th:text="${listing.itemId}"></td>
+						<td th:text="${listing.title}"></td>
+						<td th:text="${listing.price}"></td>
+						<td th:text="${listing.createdAt}"></td>
+						<td th:text="${listing.expiryDate}"></td>
+						<td th:text="${listing.status}"></td>
+						<td>
+<!-- 							<div th:if="${listing.status} == 'Ẩn tin'">
+								<div class="btn">
+									<a th:href="@{/quanlytin/danglai/{id}(id=${listing.itemId})}"
+										th:onclick="'return confirm(\'Bạn có chắc chắn muốn đăng lại tin?\')'"><button>Đăng
+											lại</button></a>
+								</div>
+							</div> -->
+<!-- 							<div th:if="${listing.status} != 'Ẩn tin'"> -->	
+							<div class="btn">
+									<a th:href="@{quanlytin/delete/{id}(id=${listing.itemId})}"><button>Xóa tin</button></a>
+								</div>
+								<div class="btn">
+									<a><button id="gia_han_tin" type="button"
+											class="btn-primary gia_han_tin" th:attr="data_item=${listing.itemId}" >Gia hạn tin</button></a>
+								</div>
+<!-- 								<div class="btn">
+									<a th:href="@{/quanlytin/hide/{id}(id=${listing.itemId})}"
+										th:onclick="'return confirm(\'Bạn có chắc chắn muốn ẩn tin?\')'"><button>Ẩn
+											tin</button></a>
+								</div> -->
+								<div class="btn" th:if="${listing.roomType.roomTypeName} == 'Phòng trọ' ">
+									<a th:href="@{/phong/{id}(id=${listing.itemId})}"
+										><button>Quản lí phòng</button></a>
+								</div>
+							<!-- </div> -->
+
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<div class="pagination">
+				<a th:if="${listtingsss.hasPrevious()}"
+					th:href="@{/quanlytin(page=${listtingsss.number - 1},valuesearch=${valuesearch}, valueloaitin=${valueloaitin}, valuetrangthai=${valuetrangthai})}">«
+					Previous</a> <span>Page <span
+					th:text="${listtingsss.number + 1}">1</span> of <span
+					th:text="${listtingsss.totalPages}">1</span>
+				</span> <a th:if="${listtingsss.hasNext()}"
+					th:href="@{/quanlytin(page=${listtingsss.number + 1},valuesearch=${valuesearch}, valueloaitin=${valueloaitin}, valuetrangthai=${valuetrangthai})}">Next
+					»</a>
+			</div>
+			
+			
+			
+			<div id="model_menu" class="model">
+				<div id="model">
+					<button id="btn_close_model" class="button_close form_button_close">X</button>
+					<p id="msg_menu">Chọn thời gian gia hạn thêm</p>
+					<div>
+						<label for="goitime">Gói thời gian: </label>
+						<div style="display: flex; justify-content: left; width: 23vh">
+							<select name="goitime" id="goitime" onchange="loadTime()"
+								required>
+								<option disabled selected>Chọn gói thời gian</option>
+								<option value="ngay">Đăng theo ngày</option>
+								<option value="tuan">Đăng theo tuần</option>
+								<option value="thang">Đăng theo tháng</option>
+							</select>
+						</div>
+					</div>
+					<div>
+						<label for="songay">Thời gian: </label>
+						<div style="display: flex; justify-content: left; width: 23vh">
+							<select name="songay" id="songay" required>
+								<option value="">Chọn thời gian</option>
+							</select>
+						</div>
+					</div>
+					<div style="display: flex; justify-content: center">
+						<button id="btn_giahan_submit" class="form_button">Gia hạn</button>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</body>
+
+</html>

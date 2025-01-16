@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Quản lý tin đăng</title>
+<link rel="stylesheet" type="text/css" href="/assets/css/admin.css">
+</head>
+<body>
+	<div class="container">
+		<h1>Quản lý tin đăng</h1>
+
+		<form th:action="@{/admin/listings/search}" method="get" class="search-form">
+			<select name="status">
+				<option value="Chờ duyệt" th:selected="${status == 'Chờ duyệt'}">Chờ duyệt</option>
+				<option value="Đã duyệt" th:selected="${status == 'Đã duyệt'}">Đã duyệt</option>
+				<option value="Ẩn tin" th:selected="${status == 'Ẩn tin'}">Ẩn tin</option>
+			</select>
+			<button type="submit">Lọc</button>	
+			<a th:href="@{/admin/listings}" class="button">Hiển thị tất cả</a>	
+		</form>
+
+		<table>
+			<thead>
+				<tr>
+					<th>ID Bài Đăng</th>
+					<th>Tên người dùng</th>
+					<th>Tiêu đề</th>
+					<th>Giá</th>
+					<th>Mô tả</th>
+					<th>Ngày tạo</th>
+					<th>Loại phòng</th>
+					<th>Tỉnh</th>
+					<th>Thành phố, quận, huyện</th>
+					<th>Xã phường</th>
+					<th>Số nhà</th>
+					<th>Số điện thoại</th>
+					<th>Loại tin</th>
+					<th>Diện tích</th>
+					<th>Trạng thái</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="listing : ${listings}">
+					<td th:text="${listing.itemId}"></td>
+					<td th:text="${listing.user.fullName}"></td>
+					<td th:text="${listing.title}"></td>
+					<td th:text="${listing.price}"></td>
+					<td th:text="${listing.description}"></td>
+					<td th:text="${listing.createdAt}"></td>
+					<td th:text="${listing.roomType.roomTypeName}"></td>
+					<td th:text="${listing.location_city.city}"></td>
+					<td th:text="${listing.location_district.district}"></td>
+					<td th:text="${listing.location_ward.ward}"></td>
+					<td th:text="${listing.address}"></td>
+					<td th:text="${listing.user.phoneNumber}"></td>
+					<td th:text="${listing.postType}"></td>
+					<td th:text="${listing.area}"></td>
+					<td th:text="${listing.status}"></td>
+					<td>
+						<form th:action="@{/admin/listings/update}" method="post">
+							<input type="hidden" name="itemId"
+								th:value="${listing.itemId}"> 
+							<select name="newStatus">
+								<option value="Chờ duyệt"
+									th:selected="${listing.status == 'Chờ duyệt'}">Chờ duyệt</option>
+								<option value="Đã duyệt"
+									th:selected="${listing.status == 'Đã duyệt'}">Đã duyệt</option>
+								<option value="Ẩn tin"
+									th:selected="${listing.status == 'Ẩn tin'}">Ẩn tin</option>
+							</select>
+							
+							<button type="submit">Cập nhật</button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div th:if="${listings != null && listings.hasContent()}">
+			<div class="pagination">
+				<a th:if="${listings.hasPrevious()}" th:href="@{/admin/listings(page=${listings.number - 1})}">« Previous</a>
+				<span>Page <span th:text="${listings.number + 1}"></span> of <span th:text="${listings.totalPages}"></span></span>
+				<a th:if="${listings.hasNext()}" th:href="@{/admin/listings(page=${listings.number + 1})}">Next »</a>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

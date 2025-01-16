@@ -1,0 +1,168 @@
+@charset "UTF-8";
+
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+		"Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
+		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+		"Noto Color Emoji";
+}
+
+body{
+	background-color: whitesmoke;
+}
+
+#content {
+	width: 100%;
+	padding: 1% 2%;
+	display: flex;
+	justify-content: center;
+}
+
+#wrapper-page {
+	width: 65%;
+	margin-right: 1%;
+}
+
+#wrapper-menu {
+	width: 20%;
+}
+
+#wrapper-page, #menu-price, #menu-area, #menu-category {
+	border-radius: 15px;
+	padding: 1%;
+	border: 1px solid #EBEBEB;
+	box-shadow: 1px 5px 7px #EBEBEB;
+}
+
+#wrapper-page {
+	padding: 1% 0;
+}
+
+h4 {
+	padding-left: 1%;
+}
+
+.option {
+	display: flex;
+	list-style-type: none;
+	margin: 1% 1% 2% 0;
+	padding-left: 1%;
+}
+
+.option li {
+	margin-right: 1%;
+	display: flex;
+	align-items: center;
+}
+
+.option button {
+	border: none;
+	padding: 5% 0;
+	width: 8vh;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.active {
+	text-decoration: underline;
+	font-weight: bold;
+	background-color: #EBEBEB;
+}
+
+.item {
+	width: 100%;
+	height: 35vh;
+	display: flex;
+	padding: 1%;
+	background-color: #fff9f3;
+	border-bottom: 1px solid #D64646;
+}
+
+.item_image {
+	width: 30%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.item_image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 3px;
+}
+
+.item_infor {
+	width: 70%;
+	padding-left: 1%;
+	padding-right: 2%;
+}
+
+.item_infor_title {
+	color: #D64646;
+	text-transform: uppercase;
+	font-weight: bold;
+	margin-bottom: 2%;
+}
+
+.item_infor_price {
+	color: green;
+}
+
+.item_infor_location_time {
+	margin-bottom: 2%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.item_infor_location, .item_infor_time, .item_infor_desciption {
+	color: gray;
+	font-size: 13px;
+}
+
+.item_infor_user_numberphone {
+	display: flex;
+	justify-content: space-between;
+}
+
+.item_infor_user {
+	color: gray;
+	font-size: 15px;
+}
+
+.item_infor_desciption {
+	margin-bottom: 2%;
+}
+
+.item_infor_sms {
+	background-color: #1A6CCC;
+	color: white;
+	font-size: 14px;
+	padding: 2% 1%;
+	width: 23vh;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	border-radius: 7px;
+}
+
+.item_infor_numberphone {
+	display: flex;
+}
+
+.item_infor_numberphone>div:nth-child(2) {
+	margin-left: 5%;
+	width: 15vh;
+}
+
+.item_infor_zalo {
+	text-decoration: none;
+	color: #1A6CCC;
+	font-size: 14px;
+	border: 1px solid #1A6CCC;
+	padding: 3% 4%;
+	border-radius: 7px;
+}

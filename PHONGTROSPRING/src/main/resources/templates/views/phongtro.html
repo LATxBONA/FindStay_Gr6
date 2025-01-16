@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danh Sách Phòng Trọ</title>
+<link rel="stylesheet" type="text/css" href="assets/css/phongtro.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+</head>
+<body>
+	<div th:replace="views/header-footer/header"></div>
+	<h1>Danh Sách Phòng Trọ</h1>
+
+	<!-- Kiểm tra nếu danh sách trống -->
+	<div th:if="${listings.size() == 0}">
+		<p>Hiện tại không có phòng trọ nào.</p>
+	</div>
+
+
+	<!-- Hiển thị danh sách phòng -->
+	<div class="listing-container" th:if="${listings.size() > 0}">
+		<div class="listing-array">
+			<div class="listing-item" th:each="listing : ${listings}">
+				<!-- Hình ảnh -->
+				<!-- 			<div class="listing-image" th:each="url : ${listing.listings}"> -->
+				<div class="listing-image">
+					<img th:src="${listing.listings.get(0)}" alt="Ảnh phòng trọ" />
+				</div>
+
+				<!-- Chi tiết phòng trọ -->
+				<div class="listing-details">
+					<h2 class="listing-title" th:text="${listing.title}">Tiêu đề
+						phòng trọ</h2>
+					<p class="listing-meta">
+						<span style="font-size: 20px; color: #00CD00; font-weight: bold;"
+							th:text="${listing.FormattedPrice}">0</span>
+						<trong style="font-size:20px; color: #00CD00; font-weight: bold;">/tháng</trong>
+						<span style="margin-left: 15px" th:text="${listing.area}">0</span>
+						m²
+					</p>
+					<p class="listing-meta">
+						<span th:text="${listing.address}">Địa chỉ phòng</span> <span
+							style="color: #666; margin-left: 70px; position: absolute;"
+							th:text="${listing.relativeTime}">Ngày đăng</span>
+					</p>
+					<!-- <p class="listing-meta">
+                    <strong>Đối tượng:</strong> <span th:text="${listing.object}">Đối tượng</span>
+                </p>   -->
+					<p class="mota">
+						<span th:text="${listing.description}"></span>
+					</p>
+					<div class="listing-actions">
+						<!-- <a th:href="tel:${listing.phone}" class="btn btn-call">Gọi <span th:text="${listing.phone}">Số điện thoại</span></a> -->
+						<a class="btn btn-call">Gọi <span>Số điện thoại</span></a>
+						<!--  <a th:href="${listing.zaloLink}" class="btn btn-zalo">Nhắn Zalo</a> -->
+						<a class="btn btn-zalo">Nhắn Zalo</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="filters">
+			<!-- Xem theo giá -->
+			<div class="filter-section">
+				<h3>Xem theo giá</h3>
+				<ul>
+					<li><a href="?price=under-1">Dưới 1 triệu</a></li>
+					<li><a href="?price=1-2">Từ 1 - 2 triệu</a></li>
+					<li><a href="?price=2-3">Từ 2 - 3 triệu</a></li>
+					<li><a href="?price=3-5">Từ 3 - 5 triệu</a></li>
+					<li><a href="?price=5-7">Từ 5 - 7 triệu</a></li>
+					<li><a href="?price=7-10">Từ 7 - 10 triệu</a></li>
+					<li><a href="?price=10-15">Từ 10 - 15 triệu</a></li>
+					<li><a href="?price=above-15">Trên 15 triệu</a></li>
+				</ul>
+			</div>
+
+			<!-- Xem theo diện tích -->
+			<div class="filter-section">
+				<h3>Xem theo diện tích</h3>
+				<ul>
+					<li><a href="?area=under-20">Dưới 20 m²</a></li>
+					<li><a href="?area=20-30">Từ 20 - 30 m²</a></li>
+					<li><a href="?area=30-50">Từ 30 - 50 m²</a></li>
+					<li><a href="?area=50-70">Từ 50 - 70 m²</a></li>
+					<li><a href="?area=70-90">Từ 70 - 90 m²</a></li>
+					<li><a href="?area=above-90">Trên 90 m²</a></li>
+				</ul>
+			</div>
+
+			<!-- Danh mục cho thuê -->
+			<div class="filter-section">
+				<h3>Danh mục cho thuê</h3>
+				<ul>
+					<li><a href="?category=apartment">Căn hộ</a></li>
+					<li><a href="?category=house">Nhà nguyên căn</a></li>
+					<li><a href="?category=office">Mặt bằng</a></li>
+					<li><a href="?category=office">Tìm người ở ghép</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div th:replace="views/header-footer/footer"></div>
+</body>
+<script>
+  // Hàm giới hạn số từ
+  function truncateText(text, maxWords) {
+    const words = text.split(' ');
+    return words.length > maxWords 
+      ? words.slice(0, maxWords).join(' ') + '  . . . ' 
+      : text;
+  }
+
+  // Áp dụng cho các mô tả
+  document.addEventListener("DOMContentLoaded", function () {
+    const descriptions = document.querySelectorAll(".mota span");
+
+    descriptions.forEach((descriptionElement) => {
+      const fullText = descriptionElement.textContent.trim();
+      const truncatedText = truncateText(fullText, 30); // Giới hạn 30 từ
+      descriptionElement.textContent = truncatedText;
+    });
+  });
+</script>
+
+</html>

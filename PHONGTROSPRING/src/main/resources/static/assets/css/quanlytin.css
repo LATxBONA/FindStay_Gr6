@@ -1,0 +1,159 @@
+
+.model{
+	position: absolute;
+	opacity: 0;
+	z-index: -100;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, .4);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#model{
+	width: auto;
+	height: auto;
+	background-color: whitesmoke;
+	text-align: end;
+	border-radius: 7px;
+	box-shadow: 3px 3px 9px -5px black;
+	padding-bottom: 5px;
+}
+
+#model>div{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 1rem 1rem;
+}
+
+#model>div>label{
+	display: block;
+	width: 20vh;
+	text-align: left;
+}
+
+#model>div>input{
+	outline: none;
+	border: none;
+	height: 5vh;
+	border-bottom: 1px solid black;
+	background-color: whitesmoke;
+}
+
+
+
+.form_button_close{
+	cursor: pointer;
+	border: none;
+	width: 25px;
+	height: 25px;
+	color: white;
+	background-color: #D64646;
+	border-top-right-radius: 7px;
+}
+
+
+.show_model{
+	opacity: 1 !important;
+	z-index: 100 !important;
+}
+
+
+
+.search_form{
+	display: flex;
+	margin-top: 30px;
+	margin-bottom: 20px;
+}
+.search_form div{
+/* 	margin-right: 10%; */
+	margin-left:10px;
+	
+}
+.search{
+	width: 100%;
+	height: 100%;
+}
+.main-contents{
+	width:99%;
+}
+.main-contents table {
+  border-collapse: collapse;
+  margin: 0px 10px;
+  width:100%;
+}
+
+.main-contents th,
+.main-contents td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.main-contents th {
+  background-color: #f0f0f0;
+}
+.btn{
+	display: flex;
+	flex-direction: row;
+}
+.btn a button:hover {
+	background-color: #0056b3;
+}
+
+.btn a button {
+	padding: 6px 12px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	background-color: #007bff;
+	color: white;
+	margin: .5px 0;
+	transition: background-color 0.3s;
+}
+/* Định dạng popup */
+.popup {
+    display: none; /* Ẩn mặc định */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+/* Nội dung của popup */
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    border-radius: 10px;
+}
+
+/* Nút đóng */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 20px;
+}
+
+/* Hiển thị popup khi nhấn link */
+.popup:target {
+    display: block;
+}
+#giahansubmit{
+	color: red;
+}

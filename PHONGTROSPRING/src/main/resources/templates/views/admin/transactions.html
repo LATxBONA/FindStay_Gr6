@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Quản lý giao dịch</title>
+	<link rel="stylesheet" type="text/css" href="/assets/css/admin.css">
+</head>
+<body>
+	<div class="container">
+		<h1>Quản lý giao dịch</h1>
+				
+		<form th:action="@{/admin/transactions/search}" method="get" class="search-form" th:object="${transactionsRequest}">
+			<select name="status">
+				<option value="Thành công" th:selected="${status == 'Thành công'}">Thành công</option>
+				<option value="Thất bại" th:selected="${status == 'Thất bại'}">Thất bại</option>
+				<option value="Đang xử lý" th:selected="${status == 'Đang xử lý'}">Đang xử lý</option>
+			</select>
+			<button type="submit">Lọc</button>	
+			<a th:href="@{/admin/transactions}" class="button">Hiển thị tất cả</a>	
+		</form>
+
+		<table>
+		
+			<thead>
+				<tr>
+					<th>Người dùng</th>
+					<th>Số tiền</th>
+					<th>Ngày giao dịch</th>
+					<th>Trạng thái</th>
+					<th>Hành động</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="transaction : ${transactions}">
+					<td th:text="${transaction.user.fullName}"></td>
+					<td th:text="${transaction.amount}"></td>
+					<td th:text="${transaction.transactionDate}"></td>
+					<td th:text="${transaction.status}"></td>
+					<td>
+						<form th:action="@{/admin/transactions/update}" method="post">
+							<input type="hidden" name="transactionId"
+								th:value="${transaction.transactionId}"> <select
+								name="newStatus">
+								<option value="Thành công"
+									th:selected="${transaction.status == 'Thành công'}">Thành
+									công</option>
+								<option value="Thất bại"
+									th:selected="${transaction.status == 'Thất bại'}">Thất
+									bại</option>
+								<option value="Đang xử lý"
+									th:selected="${transaction.status == 'Đang xử lý'}">Đang
+									xử lý</option>
+							</select>
+							
+							<button type="submit">Cập nhật</button>
+						</form>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+</body>
+</html>

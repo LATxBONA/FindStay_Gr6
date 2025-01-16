@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Trang chủ</title>
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/home.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/MenuRight.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/assets/js/ListRoomSearchFromFooter.js"></script>
+<script src="/assets/js/header.js"></script>
+<!-- <script src="/assets/js/addLocation.js"></script> -->
+</head>
+<body>
+	<div th:replace="views/header-footer/header"></div>
+	<div th:replace="views/search"></div>
+	<div class="warpper_search_from_footer">
+		<div class="wrapper_search_context">
+			<div class="wrapper_search_part_1">
+				<div>
+					<div class="header">
+						<h1 style="display: flex; justify-content: center; margin: 15px">Tìm
+							kiếm chỗ thuê ưng ý</h1>
+						<p>Kênh thông tin Phòng trọ số 1 Việt Nam - Website đăng tin
+							cho thuê phòng trọ, nhà nguyên căn, căn hộ, ở ghép nhanh, hiệu
+							quả cao với 999.999+ tin đăng và 9.999.999 lượt xem mỗi tháng</p>
+					</div>
+				</div>
+				<div class="hot-areas">
+					<h2	style="display: flex; align-items: center; justify-content: center; margin: 15px">Khu vực nổi bật</h2>
+					<div style="display: flex; justify-content: center;">
+						<div class="area-cards">
+						
+							<div class="area-card">
+							<a href="/phongtro/HCM">
+								<img src="/assets/images/HCM.jpg" /> 
+								<span>Phòng trọ Hồ Chí Minh</span>
+							</a>
+							</div>
+											
+							<div class="area-card">
+							<a href="/phongtro/HN">
+								<img src="/assets/images/HaNoi.jpg" /> 
+								<span>Phòng trọ Hà Nội</span>
+							</a>
+							</div>
+						
+							<div class="area-card">
+							<a href="/phongtro/BD">
+								<img src="/assets/images/BD.jpg" /> 
+								<span>Phòng trọ Bình Định</span>
+							</a>
+							</div>
+						
+						</div>
+					</div>
+				</div>
+				<h2 th:text="${'Tổng ' + totalPosts + ' kết quả'}"></h2>
+				<ol class="menu_dexuat_moidang">
+					<li>Sắp Xếp: <a id="mac-dinh"
+						th:href="@{/(orderby='mac-dinh')}"
+						th:class="${orderby == 'mac-dinh'} ? 'active' : ''">Mặc định</a>
+					</li>
+					<li><a id="moi-dang" th:href="@{/(orderby='moi-dang')}"
+						th:class="${orderby == 'moi-dang'} ? 'active' : ''">Mới đăng</a></li>
+				</ol>
+				<div style="display: flex;">
+					<div class="wrapper_list_search">
+						<a class="item_room" th:each="item : ${list_room}" th:href="@{/detailRoom/id={id}(id=${item.itemId})}"> 
+						<span class="item_room_image"> 
+						<img class="img" th:src="'data:image/*;base64,' + ${item.imageUrl}" th:alt="'Ảnh của '+${item.itemId}"> 
+						
+						<span th:each="favorite : ${list_favorite}"> 
+							<span th:if="${item.itemId == favorite}"> 
+								<img class="item_room_favorite_2" alt="" src="https://phongtro123.com/images/bi-heart-fill.svg">
+							</span> 
+							</span>							
+							<img th:attr="itemId=${item.itemId}" class="item_room_favorite_1" alt="" src="https://phongtro123.com/images/bi-heart.svg">		
+						</span> 
+						
+						<span class="item_room_infor"> 
+						<span> 
+						<span th:if="${item.postType > 1}" th:each="i : ${#numbers.sequence(1, item.postType)}"> 
+									<img class="img-star" src="/assets/images/bi-star-fill-yellow.svg">
+								</span> 
+								<span style="font-weight: 600; font-size: 3vh;" th:class="'wrapper_infor_title vip' + ${item.postType}" th:text="${item.title}"></span>
+							</span> <span class="item_room_price_area_location"> 
+							<span style="font-weight: 600; color: #22C785;" th:text="${item.changePrice()}"></span> 
+							<span th:text="${item.area}+'m&sup2;'"></span> 
+									<span th:text="${item.location_district +','+ item.location_city}"></span>
+							</span> 
+							<span class="item_room_time"> <span
+									th:text="${item.changeDate()}"></span>
+							</span> 
+							<span class="item_room_text"> <span
+									th:text="${item.title +' '+ item.location_district + ', '+ item.location_city + '. Diện tích ' + item.area +'m&sup2;.' + ' Giá ' + item.changePrice() + '...'}"></span>
+							</span> 
+							<span class="item_room_name_phone"> 
+							<span> 
+							<i style="font-size: 5vh;" class="fa-solid fa-circle-user"></i> 
+										<span th:text="${item.user_name}"></span>
+								</span> 
+								<span>
+										<button class="btn-phone" th:text="'Gọi: '+${item.phone}">
+										</button>
+										<button class="btn-zalo" th:attr="data-phone=${item.phone}">Nhắn Zalo</button>
+								</span>
+							</span>
+						</span>
+						</a>
+					</div>
+					<div class="wrapper_search_part_2">
+						<div th:replace="views/MenuRight"></div>
+					</div>
+				</div>
+				<!-- Phần phân trang -->
+				<div class="wrapper_btnPage">
+					<span th:if="${page > 1}"> <a class="btn_page"
+						th:href="@{/(orderby=${orderby},page=${page - 1})}"> <i
+							class="fas fa-angle-left"></i> Trang trước
+					</a>
+					</span>
+
+					<!-- Số trang -->
+					<span th:if="${totalPage > 1}"> <span
+						th:each="i : ${#numbers.sequence(prePage, nextPage)}"> <a
+							th:class="${i == page} ? 'btn_page active_btnPage' : 'btn_page'"
+							th:href="@{/(orderby=${orderby},page=${i})}" th:text="${i}">
+						</a>
+					</span>
+					</span>
+
+					<!-- Nút trang sau -->
+					<span th:if="${page < totalPage}"> <a class="btn_page"
+						th:href="@{/(orderby=${orderby},page=${page + 1})}"> Trang sau
+							<i class="fas fa-angle-right"></i>
+					</a>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:replace="views/hotrochunhadangtin"></div>
+	<div th:replace="views/header-footer/footer"></div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+@charset "UTF-8";
+
+.register {
+	padding: 1rem 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.register-container {
+	background-color: #eee7e1;
+	padding: 20px;
+	border-radius: 10px;
+	width: 320px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.register-container h2 {
+	text-align: center;
+	color: #333;
+	margin-bottom: 20px;
+}
+
+.input-group {
+	margin-bottom: 15px;
+}
+
+.input-group label {
+	font-size: 14px;
+	color: #333;
+	margin-bottom: 5px;
+	display: block;
+}
+
+.input-group input {
+	width: 100%;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	background-color: #cdefff;
+	outline: none;
+	font-size: 14px;
+}
+
+.input-group input:focus {
+	border-color: #7cbff0;
+}
+
+.register-btn {
+	width: 100%;
+	margin-top: 10px;
+	padding: 10px;
+	background-color: #91c8f6;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	cursor: pointer;
+	font-size: 16px;
+	transition: background-color 0.3s;
+}
+
+.register-btn:hover {
+	background-color: #6aa8f3;
+}
+
+.terms {
+	text-align: center;
+	font-size: 12px;
+	color: #333;
+	margin-top: 10px;
+}
+
+.group-role {
+	padding: 10px;
+	margin: 20px;
+}
+
+.terms a {
+	color: #333;
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+.terms a:hover {
+	color: #6aa8f3;
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng giá dịch vụ</title>
+    <link rel="stylesheet" th:href="@{/assets/css/bgdv.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+	<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="/assets/js/header.js"></script>
+</head>
+
+<body>
+	<div th:replace="views/header-footer/header"></div>
+    <div class="pricing-container">
+        <h1 class="pricing-title">Bảng giá tin đăng</h1>
+        <p class="pricing-subtitle">Áp dụng từ 31/05/2024</p>
+        <table class="pricing-table">
+            <thead>
+                <tr>
+                    <th> </th>
+                    <th class="highlight red">Tin VIP Nổi Bật </br>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </th>
+                    <th class="highlight pink">Tin VIP 1 </br>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </th>
+                    <th class="highlight orange">Tin VIP 2 </br>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </th>
+                    <th class="highlight blue">Tin VIP 3 </br>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </th>
+                    <th class="highlight default">Tin thường</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Giá ngày</td>
+                    <td>50.000₫<br><small>(Tối thiểu 3 ngày)</small></td>
+                    <td>30.000₫<br><small>(Tối thiểu 3 ngày)</small></td>
+                    <td>20.000₫<br><small>(Tối thiểu 3 ngày)</small></td>
+                    <td>10.000₫<br><small>(Tối thiểu 3 ngày)</small></td>
+                    <td>2.000₫<br><small>(Tối thiểu 5 ngày)</small></td>
+                </tr>
+                <tr>
+                    <td>Giá tuần (7 ngày)</td>
+                    <td>315.000₫</td>
+                    <td>190.000₫</td>
+                    <td>133.000₫</td>
+                    <td>63.000₫</td>
+                    <td>12.000₫</td>
+                </tr>
+                <tr>
+                    <td>Giá tháng (30 ngày)</td>
+                    <td><del>1.500.000₫</del><br><span class="discount">1.200.000₫</span><br>Giảm 20%</td>
+                    <td><del>900.000₫</del><br><span class="discount">800.000₫</span><br>Giảm 11%</td>
+                    <td><del>600.000₫</del><br><span class="discount">540.000₫</span><br>Giảm 10%</td>
+                    <td><del>300.000₫</del><br><span class="discount">240.000₫</span><br>Giảm 20%</td>
+                    <td><del>60.000₫</del><br><span class="discount">48.000₫</span><br>Giảm 20%</td>
+                </tr>
+                <tr>
+                    <td>Giá đẩy tin</td>
+                    <td>5.000₫</td>
+                    <td>3.000₫</td>
+                    <td>2.000₫</td>
+                    <td>2.000₫</td>
+                    <td>2.000₫</td>
+                </tr>
+                <tr>
+                    <td>Màu sắc tiêu đề</td>
+                    <td class="color red">MÀU ĐỎ, IN HOA</td>
+                    <td class="color pink">MÀU HỒNG, IN HOA</td>
+                    <td class="color orange">MÀU CAM, IN HOA</td>
+                    <td class="color blue">MÀU XANH, IN HOA</td>
+                    <td class="macdinh">Màu mặc định, viết thường</td>
+                </tr>
+                <tr>
+                    <td>Kích thước tin</td>
+                    <td>Rất lớn</td>
+                    <td>Lớn</td>
+                    <td>Trung bình</td>
+                    <td>Trung bình</td>
+                    <td>Nhỏ</td>
+                </tr>
+                <tr>
+                    <td>Tự động duyệt (*)</td>
+                    <td><i class="fa-solid fa-circle-check"></i></td>
+                    <td><i class="fa-solid fa-circle-check"></i></td>
+                    <td><i class="fa-solid fa-circle-check"></i></td>
+                    <td><i class="fa-solid fa-circle-check"></i></td>
+                    <td><i class="fa-solid fa-circle-check" style=" color: #CCCCCC;"></i></td>
+                </tr>
+                <tr>
+                    <td>Hiển thị nút gọi điện</td>
+                    <td><i class="fa-solid fa-circle-check"></i></td>
+                    <td><i class="fa-solid fa-circle-check"></i></td>
+                    <td><i class="fa-solid fa-circle-check" style=" color: #CCCCCC;"></i></td>
+                    <td><i class="fa-solid fa-circle-check" style=" color: #CCCCCC;"></i></td>
+                    <td><i class="fa-solid fa-circle-check" style=" color: #CCCCCC;"></i></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button onclick="scrollToDemo('vipnoibat')" class="demo-btn" >Xem demo</button></td>
+                    <td><button onclick="scrollToDemo('vip1')" class="demo-btn" >Xem demo</button></td>
+                    <td><button onclick="scrollToDemo('vip2')" class="demo-btn" >Xem demo</button></td>
+                    <td><button onclick="scrollToDemo('vip3')" class="demo-btn" >Xem demo</button></td>
+                    <td><button onclick="scrollToDemo('tinthuong')" class="demo-btn" >Xem demo</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="note">(*) Các tin VIP sẽ được hiển thị ngay sau khi khách hàng đăng tin mà không cần chờ kiểm duyệt nội dung.</p>
+    </div>
+
+ <div class="demo-tindang">
+    <h1>Minh họa tin đăng</h1>
+    
+    <div class="VIPnoibat" id="vipnoibat">
+        <h2>Tin VIP nổi bật
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        </h2>
+        <p><span style="font-weight: bold; color:#e13427">TIÊU ĐỀ IN HOA MÀU ĐỎ</span>, gắn biểu tượng 5 ngôi sao màu vàng và hiển thị to và nhiều hình hơn các tin khác. Nằm trên tất cả các tin khác, được hưởng nhiều ưu tiên và hiệu quả giao dịch cao nhất.</p>
+        <p>Đồng thời xuất hiện đầu tiên ở mục tin nổi bật xuyên suốt khu vực chuyên mục đó</p>
+        <div>
+            <img alt="Demo Tin VIP Nổi Bật Desktop" src="/assets/images/demo_tindang/demo-vipnoibat.jpg" width="600" height="345">
+            <img alt="Demo Tin VIP Nổi Bật Mobile" src="/assets/images/demo_tindang/demo-vipnoibat-mobile.jpg" width="173" height="351">
+        </div>
+    </div>
+
+    <div class="Vip1" id="vip1">
+        <h2>Tin VIP 1
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        </h2>
+        <p><span style="font-weight: bold; color: #de178d">TIÊU ĐỀ IN HOA MÀU HỒNG</span>, gắn biểu tượng 4 ngôi sao màu vàng ở tiêu đề tin đăng. Hiển thị sau tin VIP Nổi Bật và trên các tin khác.</p>
+        <div>
+            <img alt="Demo Tin VIP 1 Desktop" src="/assets/images/demo_tindang/demo-vip1.jpg" width="600" height="345">
+            <img alt="Demo Tin VIP 1 Mobile" src="/assets/images/demo_tindang/demo-vip1-mobile.jpg" width="173" height="351">
+        </div>
+    </div>
+
+    <div class="Vip2" id="vip2">
+        <h2>Tin VIP 2
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        </h2>
+        <p><span style="font-weight: bold; color: #ff9745">TIÊU ĐỀ IN HOA MÀU CAM</span>, gắn biểu tượng 3 ngôi sao màu vàng ở tiêu đề tin đăng. Hiển thị sau tin VIP 1 và trên các tin khác.</p>
+        <div>
+            <img alt="Demo Tin VIP 2 Desktop" src="/assets/images/demo_tindang/demo-vip2.jpg" width="600" height="345">
+            <img alt="Demo Tin VIP 2 Mobile" src="/assets/images/demo_tindang/demo-vip2-mobile.jpg" width="173" height="351">
+        </div>
+    </div>
+
+    <div class="Vip3" id="vip3">
+        <h2>Tin VIP 3
+        <i class="fa-solid fa-star"></i>
+        <i class="fa-solid fa-star"></i>
+        </h2>
+        <p><span style="font-weight: bold; color: #4d90fe">TIÊU ĐỀ IN HOA MÀU XANH</span>, gắn biểu tượng 2 ngôi sao màu vàng ở tiêu đề tin đăng. Hiển thị sau tin VIP 2 và trên các tin khác.</p>
+        <div>
+            <img alt="Demo Tin VIP 3 Desktop" src="/assets/images/demo_tindang/demo-vip3.jpg" width="600" height="345">
+            <img alt="Demo Tin VIP 3 Mobile" src="/assets/images/demo_tindang/demo-vip3-mobile.jpg" width="173" height="351">
+        </div>
+    </div>
+
+    <div class="tinthuong" id="tinthuong">
+        <h2>Tin thường</h2>
+        <p><span style="font-weight: bold; color: #000">TIÊU ĐỀ IN THƯỜNG</span>, các tin đăng sẽ không có dấu sao và sẽ được hiển thị sau các tin VIP.</p>
+        <div>
+            <img alt="Demo Tin Thường Desktop" src="/assets/images/demo_tindang/demo-tinthuong.jpg" width="600" height="345">
+            <img alt="Demo Tin Thường Mobile" src="/assets/images/demo_tindang/demo-tinthuong-mobile.jpg" width="173" height="351">
+        </div>
+    </div>
+</div>
+
+<div id="backtop" >
+<i class="fa-solid fa-chevron-up"></i>
+</div>
+	<div th:replace="views/header-footer/footer"></div>
+</body>
+    <script>
+        // Hiện nút backtop khi cuộn xuống
+        window.onscroll = function() {
+            const backtop = document.getElementById('backtop');
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                backtop.style.display = "flex"; // Hiện nút
+            } else {
+                backtop.style.display = "none"; // Ẩn nút
+            }
+        };
+
+        // Cuộn lên đầu trang khi nhấn nút
+        document.getElementById('backtop').addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+        <script>
+        function scrollToDemo(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' }); // Cuộn mượt đến phần tử
+                history.pushState(null, '', window.location.pathname); // Loại bỏ #id khỏi URL
+            }
+        }
+    </script>
+</html>

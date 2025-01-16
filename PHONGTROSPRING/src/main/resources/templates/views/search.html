@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tìm kiếm Phòng Trọ</title>
+
+<!-- Link CSS -->
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/search.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- Thanh tìm kiếm -->
+    <div class="filter-section">
+<!--         <h3>Tìm kiếm</h3> -->
+        
+        								<!-- Tìm kiếm theo loại phòng -->
+		<div class="filter-item">
+		    <!-- <h4>Chọn loại phòng</h4> -->
+		    <select id="roomTypeSelect">
+		        <option value="" disabled  selected>Chọn loại phòng</option>
+		        <option value="1">Phòng trọ</option>
+		        <option value="2">Nhà nguyên căn</option>
+		        <option value="3">Căn hộ</option>
+		        <option value="4">Mặt bằng</option>
+		        <option value="5">Tìm người ở ghép</option>
+		    </select>
+		</div>
+        
+		        						<!-- Tìm kiếm khu vực -->
+		        						
+		<div class="filter-item">
+		    <!-- <h4>Khu vực:</h4> -->
+		    <input id="locationInput" type="text" placeholder="Chọn khu vực" readonly>
+		</div>
+
+
+<!-- 		<div class="filter-item">
+		    <h4>Tỉnh/Thành phố:</h4>
+		    <select id="CitySelect">
+		        <option value="" disabled selected>-- Chọn tỉnh/thành phố --</option>
+		        <option value="1">Tỉnh Bình Định</option>
+		        <option value="2">TP Hồ Chí Minh</option>
+		        <option value="3">Hà Nội</option>
+		    </select>
+		</div>
+		<div class="filter-item">
+		    <h4>Quận/Huyện:</h4>
+		    <select id="DistrictSelect" disabled>
+		        <option value="" disabled selected>-- Chọn quận/huyện --</option>
+		    </select>
+		</div>
+		<div class="filter-item">
+		    <h4>Phường/Xã:</h4>
+		    <select id="WardSelect" disabled>
+		        <option value="" disabled selected>-- Chọn phường/xã --</option>
+		    </select>
+		</div> -->
+        
+        
+        								<!-- Tìm kiếm theo giá -->
+        <div class="filter-item">
+            <!-- <h4>Tìm kiếm theo giá</h4> -->
+            <input id="priceInput" type="text" placeholder="Chọn khoảng giá" readonly>
+<!--             <span id="selectedPriceRange">Chưa chọn</span> -->
+        </div>
+
+        								<!-- Tìm kiếm theo diện tích -->
+		<div class="filter-item">
+		   <!--  <h4>Tìm kiếm theo diện tích</h4> -->
+		    <input id="areaInput" type="text" placeholder="Chọn khoảng diện tích" readonly>
+		</div>
+
+        
+        
+        <!-- Nút Tìm kiếm -->
+        <div>
+        
+            <button  id="searchButton"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</button>
+        </div>
+    </div>
+
+
+
+		<!-- Modal chọn khu vực -->
+		<div id="locationModal" class="modal">
+		    <div class="modal-content">
+		        <span class="close" id="closeLocationModalButton">&times;</span>
+		        <h3>Chọn khu vực</h3>
+		
+		        <div id="cityList">
+		            <h4>Tỉnh/Thành phố:</h4>
+		            <select id="CitySelect">
+		                <option value="" disabled selected>-- Chọn tỉnh/thành phố --</option>
+		                <option value="1">Tỉnh Bình Định</option>
+		                <option value="2">TP Hồ Chí Minh</option>
+		                <option value="3">Hà Nội</option>
+		            </select>
+		        </div>
+		
+		        <div id="districtList" style="margin-top: 15px;">
+		            <h4>Quận/Huyện:</h4>
+		            <select id="DistrictSelect" disabled>
+		                <option value="" disabled selected>-- Chọn quận/huyện --</option>
+		            </select>
+		        </div>
+		
+		        <div id="wardList" style="margin-top: 15px;">
+		            <h4>Phường/Xã:</h4>
+		            <select id="WardSelect" disabled>
+		                <option value="" disabled selected>-- Chọn phường/xã --</option>
+		            </select>
+		        </div>
+		
+		        <button id="applyLocation" style="margin-top: 15px;">Áp dụng</button>
+		    </div>
+		</div>
+
+
+    <!-- Modal chọn giá -->
+    <div id="priceModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closePriceModalButton">&times;</span>
+            <h3>Chọn khoảng giá</h3>
+            <form id="priceForm">
+				<div class="price-options">
+				    <label><input type="radio" name="priceRange" value="0-1000000"> Dưới 1 triệu</label>
+				    <label><input type="radio" name="priceRange" value="1000000-2000000"> 1 - 2 triệu</label>
+				    <label><input type="radio" name="priceRange" value="2000000-3000000"> 2 - 3 triệu</label>
+				    <label><input type="radio" name="priceRange" value="3000000-5000000"> 3 - 5 triệu</label>
+				    <label><input type="radio" name="priceRange" value="5000000-7000000"> 5 - 7 triệu</label>
+				    <label><input type="radio" name="priceRange" value="7000000-10000000"> 7 - 10 triệu</label>
+				    <label><input type="radio" name="priceRange" value="10000000-15000000"> 10 - 15 triệu</label>
+				    <label><input type="radio" name="priceRange" value="15000000-9999999999"> trên 15 triệu</label>
+				</div>
+
+                <br>
+                <button type="button" id="applyPrice">Áp dụng</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal chọn diện tích -->
+    <div id="areaModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeAreaModalButton">&times;</span>
+            <h3>Chọn khoảng diện tích</h3>
+            <form id="areaForm">
+            <div class="price-options">
+                <label><input type="radio" name="areaRange" value="0-20"> Dưới 20m²</label>
+                <label><input type="radio" name="areaRange" value="20-30"> 20 - 30m²</label>
+                <label><input type="radio" name="areaRange" value="30-50"> 30 - 50m²</label>
+                <label><input type="radio" name="areaRange" value="50-70"> 50 - 70m²</label>
+                <label><input type="radio" name="areaRange" value="70-90"> 70 - 90m²</label>
+                <label><input type="radio" name="areaRange" value="90-999999"> Trên 90m²</label>
+             </div>
+                <br>
+                <button type="button" id="applyArea">Áp dụng</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- JavaScript -->
+<script type="text/javascript">
+    // Khởi tạo các biến toàn cục
+    let minPrice = null,
+        maxPrice = null,
+        minArea = null,
+        maxArea = null,
+        roomType = null,
+        city_id = null,
+        district_id = null,
+        ward_id = null;
+
+    // Modal xử lý
+    const priceModal = document.getElementById("priceModal");
+    const areaModal = document.getElementById("areaModal");
+
+    
+
+ // Mở modal khi bấm vào input
+    document.getElementById("priceInput").onclick = () => priceModal.style.display = "block";
+    document.getElementById("closePriceModalButton").onclick = () => priceModal.style.display = "none";
+
+    // Xử lý chọn giá
+    document.getElementById("applyPrice").onclick = function () {
+        const selected = document.querySelector('input[name="priceRange"]:checked');
+        if (selected) {
+            [minPrice, maxPrice] = selected.value.split('-').map(Number);
+            document.getElementById("priceInput").value = selected.nextSibling.textContent.trim();
+        }
+        priceModal.style.display = "none";
+    };
+
+
+		    // Xử lý chọn diện tích
+		// Mở modal khi bấm vào input
+		document.getElementById("areaInput").onclick = () => areaModal.style.display = "block";
+		document.getElementById("closeAreaModalButton").onclick = () => areaModal.style.display = "none";
+		// Xử lý chọn diện tích
+		document.getElementById("applyArea").onclick = function () {
+		    const selected = document.querySelector('input[name="areaRange"]:checked');
+		    if (selected) {
+		        [minArea, maxArea] = selected.value.split('-').map(Number);
+		        document.getElementById("areaInput").value = selected.nextSibling.textContent.trim();
+		    }
+		    areaModal.style.display = "none";
+		};
+
+
+    // Xử lý khi chọn loại phòng
+    document.getElementById("roomTypeSelect").onchange = function () {
+        roomType = this.value; // Cập nhật loại phòng
+    };
+    
+    //Xử lý modal khu vực
+// Mở modal khi bấm vào input
+const locationModal = document.getElementById("locationModal");
+document.getElementById("locationInput").onclick = () => locationModal.style.display = "block";
+document.getElementById("closeLocationModalButton").onclick = () => locationModal.style.display = "none";
+
+    
+
+    // Xử lý khi chọn thành phố
+    document.getElementById("CitySelect").onchange = async function () {
+        city_id = this.value; // Cập nhật giá trị city_id
+        const districtSelect = document.getElementById("DistrictSelect");
+        const wardSelect = document.getElementById("WardSelect");
+
+        // Reset các dropdown
+        districtSelect.innerHTML = '<option value="" disabled selected>-- Chọn quận/huyện --</option>';
+        wardSelect.innerHTML = '<option value="" disabled selected>-- Chọn phường/xã --</option>';
+        wardSelect.disabled = true;
+
+        if (city_id) {
+            const response = await fetch(`/getDistrictsByCity/${city_id}`);
+            const districts = await response.json();
+
+            districts.forEach(district => {
+                const option = document.createElement("option");
+                option.value = district.district_id;
+                option.textContent = district.district;
+                districtSelect.appendChild(option);
+            });
+
+            districtSelect.disabled = false;
+        }
+    };
+
+    // Xử lý khi chọn quận/huyện
+    document.getElementById("DistrictSelect").onchange = async function () {
+        district_id = this.value; // Cập nhật giá trị district_id
+        const wardSelect = document.getElementById("WardSelect");
+
+        // Reset danh sách phường/xã
+        wardSelect.innerHTML = '<option value="" disabled selected>-- Chọn phường/xã --</option>';
+
+        if (district_id) {
+            const response = await fetch(`/getWardsByDistrict/${district_id}`);
+            const wards = await response.json();
+
+            wards.forEach(ward => {
+                const option = document.createElement("option");
+                option.value = ward.ward_id;
+                option.textContent = ward.ward;
+                wardSelect.appendChild(option);
+            });
+
+            wardSelect.disabled = false;
+        }
+    };
+
+    // Xử lý khi chọn phường/xã
+    document.getElementById("WardSelect").onchange = function () {
+        ward_id = this.value; // Cập nhật giá trị ward_id
+    };
+    
+ // Áp dụng khu vực
+    document.getElementById("applyLocation").onclick = function () {
+        const selectedLocationText = [
+            city_id ? document.getElementById("CitySelect").selectedOptions[0].text : null,
+            district_id ? document.getElementById("DistrictSelect").selectedOptions[0].text : null,
+            ward_id ? document.getElementById("WardSelect").selectedOptions[0].text : null
+        ].filter(Boolean).join(", ");
+
+        document.getElementById("locationInput").value = selectedLocationText || "Chưa chọn";
+        locationModal.style.display = "none";
+    };
+
+    // Xử lý nút tìm kiếm
+    document.getElementById("searchButton").onclick = function () {
+        const url = new URL(window.location.origin + '/search');
+        if (minPrice !== null) url.searchParams.set('minPrice', minPrice);
+        if (maxPrice !== null) url.searchParams.set('maxPrice', maxPrice);
+        if (minArea !== null) url.searchParams.set('minArea', minArea);
+        if (maxArea !== null) url.searchParams.set('maxArea', maxArea);
+        if (roomType) url.searchParams.set('roomType', roomType);
+        if (city_id) url.searchParams.set('city_id', city_id);
+        if (district_id) url.searchParams.set('district_id', district_id);
+        if (ward_id) url.searchParams.set('ward_id', ward_id);
+
+        console.log("Generated URL:", url.toString()); // Debug URL
+        window.location.href = url.toString();
+    };
+</script>
+
+</body>
+</html>

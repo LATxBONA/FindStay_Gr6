@@ -1,0 +1,331 @@
+/* Container chứa bảng giá */
+.pricing-container {
+	text-align: center;
+	padding: 20px;
+}
+
+/* Tiêu đề bảng giá */
+.pricing-title {
+	font-size: 2rem;
+	margin-bottom: 5px;
+}
+
+/* Phụ đề bảng giá */
+.pricing-subtitle {
+	font-size: 1rem;
+	color: #666;
+}
+
+/* Cấu hình bảng giá */
+.pricing-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+/* Định dạng các ô trong bảng */
+.pricing-table th, .pricing-table td {
+	border: 1px solid #ddd;
+	padding: 15px;
+	text-align: center;
+}
+
+/* Định dạng tiêu đề bảng */
+.pricing-table thead th {
+	background-color: #f4f4f4;
+	font-weight: bold;
+}
+
+/* Định dạng các ô có màu nền khác biệt cho các tin VIP */
+.highlight {
+	color: white;
+	font-weight: bold;
+}
+
+.highlight.red {
+	background-color: #e13427;
+	color: white;
+}
+
+.highlight.pink {
+	background-color: #de178d;
+	color: white;
+}
+
+.highlight.orange {
+	background-color: #ff6600;
+	color: white;
+}
+
+.highlight.blue {
+	background-color: #3763e0;
+	color: white;
+}
+
+.highlight.default {
+	background-color: #055699;
+	color: white;
+}
+
+/* Định dạng màu sắc tiêu đề cho từng tin VIP */
+.color {
+	font-weight: bold;
+	text-transform: uppercase;
+	color: inherit;
+}
+
+.color.red {
+	color: #e13427; /* Màu đỏ cho chữ */
+}
+
+.color.pink {
+	color: #de178d; /* Màu hồng cho chữ */
+}
+
+.color.orange {
+	color: #ff6600; /* Màu cam cho chữ */
+}
+
+.color.blue {
+	color: #3763e0; /* Màu xanh cho chữ */
+}
+
+.macdinh {
+	color: #055699;
+}
+/* Định dạng cho phần giảm giá */
+.discount {
+	color: #27ae60;
+	font-weight: bold;
+}
+
+/* Định dạng nút demo */
+.demo-btn {
+	background-color: #3498db;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 15px;
+	cursor: pointer;
+	font-size: 1rem;
+}
+
+.demo-btn:hover {
+	background-color: #1d6fa5;
+}
+
+/* Ghi chú */
+.note {
+	font-size: 0.9rem;
+	color: #666;
+	margin-top: 10px;
+}
+
+.fa-star {
+	color: yellow;
+}
+
+.fa-circle-check {
+	color: green;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+/* Cải tiến cho phần minh họa tin đăng */
+.demo-tindang {
+	margin-top: 30px;
+	padding: 20px;
+}
+
+/* Cải tiến cho từng tin đăng */
+.demo-tindang>div {
+	margin-bottom: 40px;
+	padding: 20px;
+	border-radius: 8px;
+	background-color: #fff;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.demo-tindang h2 {
+	font-size: 1.5rem;
+	color: #333;
+	margin-bottom: 15px;
+}
+
+.demo-tindang p {
+	font-size: 1rem;
+	line-height: 1.6;
+	color: #555;
+	margin-bottom: 15px;
+}
+
+/* Bố cục hình ảnh: Sử dụng Flexbox để căn chỉnh */
+.demo-tindang img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 8px;
+	transition: transform 0.3s ease-in-out;
+}
+
+.demo-tindang img:hover {
+	transform: scale(1.05);
+}
+
+/* Cải tiến cho phần mô tả demo và nút Xem demo */
+.demo-btn {
+	background-color: #3498db;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	padding: 10px 15px;
+	cursor: pointer;
+	font-size: 1rem;
+	text-decoration: none;
+	display: inline-block;
+	margin-top: 15px;
+}
+
+.demo-btn:hover {
+	background-color: #1d6fa5;
+}
+
+/* Tạo một layout grid cho các tin đăng, giúp chúng có bố cục đẹp */
+.demo-tindang>div {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+/* Phần đầu tiên (tin VIP nổi bật) */
+.VIPnoibat, .Vip1, .Vip2, .Vip3, .Tinthuong {
+	background-color: #f7f7f7;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s ease;
+}
+
+.VIPnoibat:hover, .Vip1:hover, .Vip2:hover, .Vip3:hover, .Tinthuong:hover
+	{
+	transform: translateY(-10px);
+}
+
+/* Hiệu ứng cho từng tin đăng khi hover */
+.VIPnoibat img, .Vip1 img, .Vip2 img, .Vip3 img, .Tinthuong img {
+	margin-top: 20px;
+	max-width: 100%;
+	border-radius: 8px;
+}
+
+.VIPnoibat {
+	background-color: #e13427;
+	color: white;
+}
+
+.Vip1 {
+	background-color: #de178d;
+	color: white;
+}
+
+.Vip2 {
+	background-color: #ff6600;
+	color: white;
+}
+
+.Vip3 {
+	background-color: #3763e0;
+	color: white;
+}
+
+.Tinthuong {
+	background-color: #055699;
+	color: white;
+}
+
+/* Phần demo: Cải tiến nút Xem demo */
+.demo-btn {
+	margin-top: 20px;
+	padding: 10px 15px;
+	background-color: #3498db;
+	color: white;
+	border-radius: 5px;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.demo-btn:hover {
+	background-color: #1d6fa5;
+}
+
+/* Cải tiến cho phần minh họa tin đăng */
+.demo-tindang {
+	padding: 20px;
+	background-color: #fff;
+	margin-top: 20px;
+	width: 850px; /* Bạn có thể thay đổi giá trị này nếu cần */
+	max-width: 90%;
+	/* Đảm bảo không vượt quá 90% chiều rộng của màn hình */
+	margin-left: auto; /* Căn giữa */
+	margin-right: auto; /* Căn giữa */
+}
+
+.demo-tindang h1 {
+	font-size: 2rem;
+	color: #333;
+	margin-bottom: 20px;
+}
+
+.demo-tindang h2 {
+	font-size: 1.5rem;
+	color: #333;
+	margin-bottom: 10px;
+	text-align: left; /* Căn trái tiêu đề */
+}
+
+.demo-tindang p {
+	font-size: 1rem;
+	line-height: 1.6;
+	margin-bottom: 15px;
+	color: #555;
+	text-align: left; /* Căn trái tiêu đề */
+}
+
+.demo-tindang div {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.demo-tindang img {
+	max-width: 100%;
+	height: auto;
+}
+
+@media screen and (max-width: 768px) {
+	.demo-tindang div {
+		flex-direction: column;
+		align-items: center;
+	}
+	.demo-tindang img {
+		width: 90%;
+		margin-bottom: 10px;
+	}
+}
+
+#backtop {
+	width: 50px;
+	height: 50px;
+	background: tomato;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	position: fixed;
+	bottom: 40px;
+	right: 20px;
+	display: none; /* Ẩn nút khi bắt đầu */
+}

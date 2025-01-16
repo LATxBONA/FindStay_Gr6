@@ -1,0 +1,472 @@
+/* Reset mặc định cho các phần tử */
+/* * {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: Arial, sans-serif;
+}
+
+body {
+	background-color: #f5f5f5;
+	color: #333;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+} */
+
+/* Container chính */
+.container {
+	display: flex;
+	gap: 20px;
+	background-color: #fff;
+	width: 100%;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fff;
+}
+
+.fa-4x {
+	font-size: 3em !important;
+}
+
+/* Breadcrumb */
+.container p {
+	font-size: 14px;
+	color: #777;
+	margin-bottom: 5px;
+}
+
+/* Cấu trúc lại container để chứa sidebar và user-info trong cùng một cột */
+.left-column {
+	display: flex;
+	flex-direction: column;
+	width: 25%; /* Chiếm 25% chiều rộng của container */
+	margin-right: 20px;
+}
+
+/* Sidebar menu */
+.sidebar {
+	width: 100%;
+}
+
+.user-info button {
+	display: block;
+	width: 100px;
+	padding: 10px;
+	margin-bottom: 10px;
+	margin-right: 20px;
+	background-color: #ffff00;
+	color: #000000;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.user-info button:hover {
+	background-color: #dbdb00;
+}
+
+.user-info button.btn-post {
+	background-color: #dc3545;
+	margin-left: 10px;
+}
+
+.user-info button.btn-post:hover {
+	background-color: #c10000;
+}
+
+.sidebar ul {
+	list-style: none;
+}
+
+.sidebar ul li {
+	margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+	text-decoration: none;
+	color: #000000;
+	font-size: 16px;
+	display: flex;
+	align-items: center;
+}
+
+.sidebar ul li a:hover {
+	color: #0056b3;
+	font-weight: bold;
+}
+
+/* Thêm icon trước các thẻ <a> */
+.sidebar .menu li a::before {
+	content: ''; /* Nội dung ban đầu là rỗng */
+	display: inline-block;
+	font-family: 'Font Awesome 6 Free'; /* Sử dụng Font Awesome */
+	font-weight: 900;
+	/* Đảm bảo sử dụng phiên bản Solid của Font Awesome */
+	margin-right: 10px; /* Khoảng cách giữa icon và văn bản */
+	color: #000000; /* Màu sắc của icon */
+}
+
+/* Tùy chỉnh icon theo mục đích */
+.sidebar .menu li:nth-child(1) a::before {
+	content: '\f015'; /* Icon quản lý tin đăng (home icon) */
+}
+
+.sidebar .menu li:nth-child(2) a::before {
+	content: '\f044'; /* Icon sửa thông tin (edit icon) */
+}
+
+.sidebar .menu li:nth-child(3) a::before {
+	content: '\f09d'; /* Icon nạp tiền (credit card icon) */
+}
+
+.sidebar .menu li:nth-child(4) a::before {
+	content: '\f1da'; /* Icon lịch sử nạp tiền (history icon) */
+}
+
+.sidebar .menu li:nth-child(5) a::before {
+	content: '\f1da'; /* Icon lịch sử thanh toán (file icon) */
+}
+
+.sidebar .menu li:nth-child(6) a::before {
+	content: '\f3e3'; /* Icon bảng giá dịch vụ (pricing icon) */
+}
+
+.sidebar .menu li:nth-child(7) a::before {
+	content: '\f2f5'; /* Icon liên hệ (phone icon) */
+}
+
+/* Thông tin người dùng */
+.user-info {
+	flex-direction: column;
+	display: flex;
+	align-items: center;
+	margin-top: 20px; /* Thêm khoảng cách giữa sidebar và user-info */
+	padding: 20px;
+	border-radius: 10px;
+	display: flex;
+}
+
+.user-info2 {
+	display: flex;
+}
+
+.user-avatar {
+	margin-right: 20px;
+}
+
+.user-avatar i {
+	color: #000000;
+}
+
+.user-details p {
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.btn2 {
+	display: flex;
+	padding: 10px;
+}
+
+.support-info {
+	width: 70%;
+	text-align: center;	
+	font-size: 14px;
+	background-color: #d1d87e;
+	font-weight: bold; 
+}
+
+/* Main Content */
+.main-content {
+	float: right;
+	width: 70%; /* Chiếm 70% chiều rộng của container */
+}
+
+.main-content h2 {
+	margin-bottom: 20px;
+	font-size: 24px;
+	color: #343a40;
+}
+
+.recharge-info {
+	background-color: #d4edda;
+	border-left: 5px solid #d4edda;
+	padding: 15px;
+	margin-bottom: 20px;
+	border-radius: 5px;
+}
+
+/* Phương thức nạp tiền */
+.payment-methods1 {
+	display: flex;
+	flex-direction: row; /* Sắp xếp nội dung theo cột */
+	justify-content: space-between;
+	margin-top: 20px;
+}
+
+.payment-methods2 {
+	display: flex;
+	flex-direction: column; /* Sắp xếp nội dung theo cột */
+	justify-content: space-between;
+	margin-top: 20px;
+}
+
+
+.payment-option {
+	width: 30%;
+	background-color: #e6e6e6;
+	align-items: center;
+	padding: 20px;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: transform 0.3s;
+	display: flex; /* Sử dụng flexbox để căn chỉnh nội dung */
+	flex-direction: column; /* Sắp xếp nội dung theo cột */
+	height: 200px; /* Hoặc đặt chiều cao cố định nếu cần */
+	justify-content: space-between; /* Tạo khoảng cách giữa ảnh và button */
+}
+
+.payment-option:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.payment-option img {
+	width: 80px;
+	height: 80px;
+	margin-bottom: 10px;
+	object-fit: cover; /* Giữ ảnh luôn cân đối */
+	flex-shrink: 0; /* Đảm bảo hình ảnh không bị co lại */
+}
+
+.payment-option button {
+	font-weight: bold;
+	background-color: #c0c0c0;
+	color: #000000;
+	border: none;
+	padding: 10px;
+	border-radius: 5px;
+	cursor: pointer;
+	width: 100%; /* Chiều rộng chiếm toàn bộ của .payment-option */
+	height: 30%; /* Chiều cao bằng 30% của .payment-option */
+	margin-top: auto; /* Đẩy button xuống đáy */
+}
+
+.payment-option button:hover {
+	background-color: #808080;
+}
+
+.payment-methods .quick-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.quick-options label {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.input-amount {
+    width: 50%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.btn-recharge-submit {
+    background-color: #1A6CCC;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    width:30%;
+}
+
+.recharge-note {
+    background-color: #ffacac;
+    border: 1px solid #f5c2c2;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+.note-title {
+    font-weight: bold;
+    color: red;
+    margin-bottom: 5px;
+}
+
+/* Tổng thể cấu trúc */
+.payment-methods3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9; /* Màu nền nhạt */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+/* Bố cục QR và thông tin */
+.qr-and-info {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px; /* Khoảng cách giữa QR và thông tin */
+}
+
+/* QR code */
+.qr-code img {
+    width: 150px; /* Chiều rộng QR */
+    height: 150px; /* Chiều cao QR */
+    object-fit: cover; /* Giữ tỉ lệ hình ảnh */
+    border: 2px solid #ddd; /* Viền nhẹ xung quanh QR */
+    border-radius: 8px; /* Bo góc QR */
+}
+
+/* Thông tin bên phải */
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px; /* Khoảng cách giữa các dòng thông tin */
+}
+
+/* Số tiền màu xanh */
+.amount {
+    color: #28a745; /* Màu xanh lá */
+    font-weight: bold;
+    font-size: 18px; /* Kích thước chữ lớn hơn */
+}
+
+
+.info h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.info p {
+    font-size: 16px;
+    color: #555;
+    margin: 0;
+}
+
+.bank-info span {
+    display: flex; /* Sử dụng flexbox để nội dung cùng nằm trên một dòng */
+    flex-wrap: nowrap; /* Đảm bảo nội dung không xuống hàng */
+    gap: 10px; /* Khoảng cách giữa các mục */
+}
+
+.bank-info p {
+    font-weight: bold;
+    color: #222;
+}
+
+/* Nút xác nhận */
+.btn-confirm {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #0080ff; /* Màu xanh */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-confirm:hover {
+    background-color: #45a049; /* Màu xanh đậm hơn khi hover */
+}
+
+
+.recharge_history {
+    margin: 20px auto;
+    width: 80%;
+    text-align: center;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    overflow-x: auto;
+}
+
+.recharge_history h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.recharge_history table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.recharge_history th, 
+.recharge_history td {
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.recharge_history th {
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.recharge_history tbody tr:nth-child(odd) {
+    background-color: #f4f4f4;
+}
+
+.recharge_history tbody tr:nth-child(even) {
+    background-color: #fff;
+}
+
+.recharge_history td {
+    font-size: 14px;
+    color: #555;
+}
+
+.recharge_history td:nth-child(2) {
+    color: #28a745; /* Màu xanh cho cột số tiền */
+    font-weight: bold;
+}
+
+.recharge_history tbody tr:hover {
+    background-color: #e8f0fe;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.recharge_history td:nth-child(4) {
+    font-weight: bold;
+}
+
+/* Màu sắc theo trạng thái */
+.status.success {
+    color: #28a745; /* Màu xanh */
+    font-weight: bold;
+}
+
+.status.pending {
+    color: #ffc107; /* Màu vàng */
+    font-weight: bold;
+}
+
+.status.failed {
+    color: #dc3545; /* Màu đỏ */
+    font-weight: bold;
+}
+

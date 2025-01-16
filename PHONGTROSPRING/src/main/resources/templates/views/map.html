@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trang chủ</title>
+<link rel="stylesheet" href="/assets/css/search_map.css"></link>
+<link rel="stylesheet"
+	href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-routing-machine/3.2.12/leaflet-routing-machine.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/assets/js/search_map.js"></script>
+</head>
+<body>
+	<div id="container">
+		<div id="wrapper_map">
+			<div>
+				<div style="max-height: 100vh; overflow: auto">
+					<h3 style="font-weight: 600; font-size: 2.8vh">Chọn lọc theo:</h3>
+					<div id="rooms" class="form_search" style="border-top: 1.5px solid #e7e7e7;">
+						<p>Loại phòng<p>
+						<div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="room" value="1" id="radio_phongtro">
+								<label for="radio_phongtro">Phòng trọ</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="room" value="2" id="radio_nhanguyencan">
+								<label for="radio_nhanguyencan">Nhà nguyên căn</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="room" value="3" id="radio_canho">
+								<label for="radio_canho">Căn hộ</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="room" value="4" id="radio_matbang">
+								<label for="radio_matbang">Mặt bằng</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="room" value="5" id="radio_oghep">
+								<label for="radio_oghep">Ở ghép</label>
+							</div>
+						</div>
+					</div>
+					<div id="feature" class="form_search">
+						<p>Tiện nghi<p>
+						<div>
+							<div class="margin-top-bottom">
+								<input type="checkbox" name="feature" value="fullFurniture" id="checkbox_noithat">
+								<label for="checkbox_noithat">Đầy đủ nội thất</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="checkbox" name="feature" value="washingMachine" id="checkbox_maygiat">
+								<label for="checkbox_maygiat">Có máy giặt</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="checkbox" name="feature" value="freeTime" id="checkbox_giogiac">
+								<label for="checkbox_giogiac">Giờ giấc tự do</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="checkbox" name="feature" value="attic" id="checkbox_gac">
+								<label for="checkbox_gac">Có gác</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="checkbox" name="feature" value="refrigerator" id="checkbox_tulanh">
+								<label for="checkbox_tulanh">Có tủ lạnh</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="checkbox" name="feature" value="protection" id="checkbox_baove">
+								<label for="checkbox_baove">Có bảo vệ</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="checkbox" name="feature" value="kitchenShelves" id="checkbox_kebep">
+								<label for="checkbox_kebep">Có kệ bếp</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="checkbox" name="feature" value="elevator" id="checkbox_thangmay">
+								<label for="checkbox_thangmay">Có thang máy</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="checkbox" name="feature" value="parkingBasement" id="checkbox_ham">
+								<label for="checkbox_ham">Có hầm để xe</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="checkbox" name="feature" value="airConditioning" id="checkbox_maylanh">
+								<label for="checkbox_maylanh">Có máy lạnh</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="checkbox" name="feature" value="commonOwner" id="checkbox_chu">
+								<label for="checkbox_chu">Không chung chủ</label>
+							</div>
+						</div>
+					</div>
+					<div id="price" class="form_search">
+						<p>Giá<p>
+						<div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="price" value="-1_1000000" id="radio_1">
+								<label for="radio_1">Dưới 1 triệu</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="price" value="1000000_2000000" id="radio_2">
+								<label for="radio_2">Từ 1 - 2 triệu</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="price" value="2000000_3000000" id="radio_3">
+								<label for="radio_3">Từ 2 - 3 triệu</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="price" value="3000000_5000000" id="radio_4">
+								<label for="radio_4">Từ 3 - 5 triệu</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="price" value="5000000_7000000" id="radio_5">
+								<label for="radio_5">Từ 5 - 7 triệu</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="price" value="7000000_10000000" id="radio_6">
+								<label for="radio_6">Từ 7 - 10 triệu</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="price" value="10000000_15000000" id="radio_7">
+								<label for="radio_7">Từ 10 - 15 triệu</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="price" value="15000000_999000000" id="radio_8">
+								<label for="radio_8">Trên 15 triệu</label>
+							</div>
+						</div>
+					</div>
+					<div id="price" class="form_search">
+						<p>Diện tích<p>
+						<div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="area" value="-1_20" id="radio_area_1">
+								<label for="radio_area_1">Dưới 20m&#178;</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="area" value="20_30" id="radio_area_2">
+								<label for="radio_area_2">Từ 20 - 30m&#178;</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="area" value="30_50" id="radio_area_3">
+								<label for="radio_area_3">Từ 30 - 50m&#178;</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="area" value="50_70" id="radio_area_4">
+								<label for="radio_area_4">Từ 50 - 70m&#178;</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="area" value="70_90" id="radio_area_5">
+								<label for="radio_area_5">Từ 70 - 90m&#178;</label>
+							</div>
+							<div class="margin-top-bottom">
+								<input type="radio" name="area" value="90_999" id="radio_area_6">
+								<label for="radio_area_6">Trên 90m&#178;</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="map"></div>
+		</div>
+	</div>
+	<div id="mapTypeSelector">
+		<button style="display: none;" id="btn_default" class="btn_change_layer default"><img src="https://didongmoi.com.vn/data/cms-image/cai-google-maps-mac-dinh/huong-dan-cai-dat-google-maps-mac-dinh-cho-iphone-va-android-11.jpg"></button>
+		<button id="btn_satellite" class="btn_change_layer satellite"><img src="https://www.xtsmart.vn/vnt_upload/news/11_2023/google-maps-ve-tinh-xtsmart.jpg"></button>
+	</div>
+</body>
+</html>

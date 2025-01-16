@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sách Phòng</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/danhsachphong.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header-section">
+            <h1>Danh Sách Phòng</h1>
+            <button class="btn btn-add" onclick="openAddModal()">Thêm Phòng Mới</button>
+        </div>
+         <!-- Thông báo -->
+        <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+        <div class="rooms-grid">
+            <div th:each="room : ${rooms}" class="room-card">
+                <div class="room-header">
+                    <h3 th:text="${room.tenPhong}">Tên Phòng</h3>
+                    <p th:text="${room.status}">Trạng thái</p>
+                </div>
+                
+                <div class="room-actions">
+                    <a th:href="@{'/phong/' + ${room.id} + '/chi-tiet'}" class="btn btn-details">Chi tiết</a>
+                   <a th:href="@{/hoadon/danhsach/{id}(id=${room.id})}" 
+					   class="btn btn-edit">
+					   Xem hóa đơn
+					</a>
+                    <button class="btn btn-delete" 
+                            th:data-id="${room.id}"
+                            onclick="openDeleteModal(this)">Xóa</button>
+                </div>
+            </div>
+        </div>
+
+		<!-- Modal thêm mới -->
+        <div id="addModal" class="modal">
+            <div class="modal-content">
+                <h3>Thêm Phòng Mới</h3>
+                <form th:action="@{/phong/add/{id}(id=${listingId})}" th:object="${newRoom}" method="post" id="addForm">
+                	<input type="hidden" th:field="*{listings.itemId}">
+                    <div>
+                        <label>Tên Phòng:</label>
+                        <input type="text" th:field="*{tenPhong}" required 
+                               class="form-control" id="newTenPhong">
+                        
+                    </div>
+                    <div>
+                        <label>Status:</label>
+                        <select th:field="*{status}" required class="form-control">
+                            <option value="Trống">Trống</option>
+                            <option value="Có người">Có người</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" onclick="closeAddModal()" class="btn btn-secondary">Hủy</button>
+                        <button type="submit" class="btn btn-primary" id="addSubmitBtn">Thêm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+	
+        <!-- Modal xác nhận xóa -->
+        <div id="deleteModal" class="modal">
+            <div class="modal-content">
+                <h3>Xác nhận xóa</h3>
+                <p>Bạn có chắc muốn xóa phòng này?</p>
+                <form id="deleteForm" method="post">
+                    <button type="button" onclick="closeModal()">Hủy</button>
+                    <button type="submit">Xóa</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal chỉnh sửa -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <h3>Chỉnh sửa phòng</h3>
+                <form id="editForm" method="post">
+                    <div>
+                        <label>Tên Phòng:</label>
+                        <input type="text" id="tenPhong" name="tenPhong" required>
+                        <p id="error" style="color: red; display: none;">Tên phòng đã tồn tại!</p>
+                    </div>
+                    <div>
+                        <label>Trạng thái:</label>
+                        <select id="status" name="status" required>
+                            <option value="Trống">Trống</option>
+                            <option value="Có người">Có người</option>
+                        </select>
+                    </div>
+                    <button type="button" onclick="closeModal()">Hủy</button>
+                    <button type="submit" id="submitBtn">Lưu</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+ // Get listing ID from URL
+    function getListingIdFromURL() {
+        const pathArray = window.location.pathname.split('/');
+        return pathArray[pathArray.length - 1];
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentListingId = getListingIdFromURL();
+        let currentId;
+
+        // Modal thêm mới
+        function openAddModal() {
+            document.getElementById('addModal').style.display = 'flex';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('addSubmitBtn').disabled = false;
+            
+            // Set action form theo listing ID
+            const form = document.getElementById('addForm');
+            form.action = `/phong/add/${currentListingId}`;
+        }
+
+        // Validate tên phòng khi thêm mới
+        document.getElementById('tenPhong').addEventListener('input', function() {
+            const newName = this.value.trim().toLowerCase();
+            // Chỉ lấy các phòng trong listing hiện tại
+            const rooms = document.querySelectorAll(`[data-listing-id='${currentListingId}'] .btn-edit`);
+            let isDuplicate = false;
+
+            rooms.forEach(function(room) {
+                if (room.getAttribute('data-ten').toLowerCase() === newName) {
+                    isDuplicate = true;
+                }
+            });
+
+            document.getElementById('error').style.display = isDuplicate ? 'block' : 'none';
+            document.getElementById('addSubmitBtn').disabled = isDuplicate;
+        });
+
+        // Modal sửa
+        function openEditModal(button) {
+            currentId = button.getAttribute('data-id');
+            const ten = button.getAttribute('data-ten');
+            const status = button.getAttribute('data-status');
+            const listingId = button.closest('.room-card').getAttribute('data-listing-id');
+            
+            document.getElementById('editModal').style.display = 'flex';
+            document.getElementById('editForm').action = `/phong/${currentId}/edit`;
+            document.getElementById('tenPhong').value = ten;
+            document.getElementById('status').value = status;
+            
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('submitBtn').disabled = false;
+        }
+
+
+        // Modal xóa
+        function openDeleteModal(button) {
+            const id = button.getAttribute('data-id');
+            document.getElementById('deleteModal').style.display = 'flex';
+            document.getElementById('deleteForm').action = `/phong/${id}/delete`;
+        }
+
+        // Đóng modal
+        function closeModal() {
+            document.getElementById('addModal').style.display = 'none';
+            document.getElementById('editModal').style.display = 'none';
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        // Click outside to close
+        window.onclick = function(event) {
+            if (event.target.className === 'modal') {
+                closeModal();
+            }
+        }
+
+        // Export functions cho global scope
+        window.openAddModal = openAddModal;
+        window.openEditModal = openEditModal;
+        window.openDeleteModal = openDeleteModal;
+        window.closeModal = closeModal;
+    });
+    </script>
+</body>
+</html>

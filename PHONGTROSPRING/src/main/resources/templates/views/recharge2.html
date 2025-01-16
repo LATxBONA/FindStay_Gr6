@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Nạp tiền vào tài khoản</title>
+<link rel="stylesheet" type="text/css" href="/assets/css/naptien.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/assets/js/naptien.js"></script>
+<script src="/assets/js/header.js"></script>
+
+</head>
+<body>
+	<!-- Header (được tái sử dụng nếu bạn đã có th:replace cho header) -->
+	<header th:replace="views/header-footer/header"></header>
+
+	<div class="container">
+		<div class="left-column" th:replace="views/header-footer/left_menu"></div>
+
+		<!-- Nội dung nạp tiền -->
+		<div class="main-content">
+			<h2>Nạp tiền vào tài khoản</h2>
+			<!-- Thông báo ưu đãi -->
+			<div class="recharge-info">
+				<p>Nạp từ 50.000 đến dưới 1.000.000 tặng 10%</p>
+				<p>Nạp từ 1.000.000 đến dưới 2.000.000 tặng 20%</p>
+				<p>Nạp từ 2.000.000 trở lên tặng 25%</p>
+				<p>Tiền khuyến mãi sẽ tự đồng thêm vào số dư khi nạp thành công</p>
+			</div>
+
+			<h2>Chọn số tiền cần nạp</h2>
+			<div class="payment-methods2">
+				<form th:action="@{/recharge3}" method="post" th:object="${rechargeRequest}">
+					<p>Chọn nhanh số tiền cần nạp</p>
+					<div class="quick-options">
+							<label><input type="radio" name="amount" value="50000">50.000 đ</label> 
+							<label><input type="radio" name="amount" value="100000"> 100.000 đ</label> 
+							<label><input type="radio" name="amount" value="200000"> 200.000 đ</label> 
+							<label><input type="radio" name="amount" value="500000"> 500.000 đ</label> 
+							<label><input type="radio" name="amount" value="1000000"> 1.000.000 đ</label> 
+							<label><input type="radio" name="amount" value="2000000"> 2.000.000 đ</label> 
+							<label><input type="radio" name="amount" value="5000000"> 5.000.000 đ</label>
+					</div>
+					<p>Hoặc nhập số tiền cần nạp</p>
+					<input type="number" name="amount" placeholder="Nhập số tiền cần nạp" class="input-amount"  th:field="*{amount}" value="${rechargeRequest.amount}">
+
+					<button type="submit" class="btn-recharge-submit">Nạp</button>
+					<div th:if=${rechargefail}>
+						<p style="color: red" th:text="${rechargefail}"></p>
+					</div>
+					
+				</form>
+			</div>
+
+
+			<!-- Lưu ý -->
+			<div class="recharge-note">
+				<p class="note-title">Lưu ý quan trọng:</p>
+				<p>
+					Trong quá trình thanh toán, bạn vui lòng <b>KHÔNG ĐÓNG TRÌNH
+						DUYỆT</b>.
+				</p>
+				<p>
+					Nếu gặp khó khăn trong quá trình thanh toán, xin liên hệ <b>0384756773</b>
+					để chúng tôi hỗ trợ bạn.
+				</p>
+			</div>
+		</div>
+	</div>
+	<div th:replace="views/header-footer/footer"></div>
+</body>
+</html>

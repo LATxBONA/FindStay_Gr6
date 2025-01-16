@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kết Quả Tìm Kiếm</title>
+<link rel="stylesheet" type="text/css" href="assets/css/phongtro.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/ListRoomSearchFromFooter.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/MenuRight.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/header.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/media.css">
+<link rel="stylesheet" type="text/css" href="/assets/css/kq_search.css">
+<script src="/assets/js/header.js"></script>
+
+</head>
+<body>
+    <div th:replace="views/header-footer/header"></div>
+
+    <h1>Kết Quả Tìm Kiếm</h1>
+
+    <!-- Kiểm tra nếu không có kết quả -->
+    <div th:if="${list_room.size()==0}">
+        <p>Không tìm thấy phòng trọ nào phù hợp.</p>
+    </div>
+    <div class="warpper_search_from_footer">
+	<div class="wrapper_search_context">
+	<div class="wrapper_search_part_1">
+
+	<!-- Phần header của tìm kiếm -->
+	
+    <!-- Hiển thị danh sách kết quả -->
+    <div class="wrapper_list_search" th:if="${list_room.size()>0}">
+					<a class="item_room" th:each="item : ${list_room}" th:href="@{/detailRoom/id={id}(id=${item.itemId})}">
+						<span class="item_room_image">
+							<img th:src="'data:image/*;base64,' + ${item.imageUrl}"	th:alt="'Ảnh của '+${item.itemId}">
+							<span th:each="favorite : ${list_favorite}">
+								<span th:if="${item.itemId == favorite}">
+									<img class="item_room_favorite_2" alt="" src="https://phongtro123.com/images/bi-heart-fill.svg">
+								</span>
+								<img class="item_room_favorite_1" alt="" src="https://phongtro123.com/images/bi-heart.svg">
+							</span>
+						</span>
+						<span class="item_room_infor">
+							<span>
+								<span th:if="${item.postType > 1}" th:each="i : ${#numbers.sequence(1, item.postType)}"> 
+								<img class="img-star" src="/assets/images/bi-star-fill-yellow.svg">
+								</span>
+								<span style="font-weight: 600; font-size: 3vh;" th:class="'wrapper_infor_title vip' + ${item.postType}" th:text="${item.title}"></span>								
+							</span>
+							<span class="item_room_price_area_location">
+								<span style="font-weight: 600; color: #22C785;" th:text="${item.changePrice()}"></span>
+								<span th:text="${item.area}+'m&sup2;'"></span>
+								<span th:text="${item.location_district +','+ item.location_city}"></span>
+							</span>
+							<span class="item_room_time">
+								<span th:text="${item.changeDate()}"></span>
+							</span>
+							<span class="item_room_text">
+								<span th:text="${item.title +' '+ item.location_district + ', '+ item.location_city + '. Diện tích ' + item.area +'m&sup2;.' + ' Giá ' + item.changePrice() + '...'}"></span>
+							</span>
+							<span class="item_room_name_phone">
+								<span>
+									<i style="font-size: 5vh;" class="fa-solid fa-circle-user"></i>
+									<span th:text="${item.user_name}"></span>
+								</span>
+								<span>
+									<button class="btn-phone" th:text="'Gọi: '+${item.phone}"></button>
+									<button class="btn-zalo" th:attr="data-phone=${item.phone}">Nhắn Zalo</button>									
+								</span>
+							</span>
+						</span>
+					</a>
+				</div>
+				
+				<!-- Phân trang -->
+				
+<!-- Phân trang -->
+<!-- <div class="pagination">
+    Nút Trang Trước
+    <button id="prevPage" class="btn_page" 
+        th:disabled="${isFirstPage}" 
+        th:class="${isFirstPage} ? 'disabled' : ''">Trang Trước</button>
+
+    Các số trang
+    <span>
+        <a href="javascript:void(0);" class="page-link btn_page" th:each="i : ${#numbers.sequence(1, totalPage)}" 
+           th:href="'?page=' + ${i - 1}" 
+           th:text="${i}" 
+           th:class="${i - 1 == page} ? 'active' : ''">
+        </a>
+    </span>
+
+    Nút Trang Sau
+    <button id="nextPage" class="btn_page" 
+        th:disabled="${isLastPage}" 
+        th:class="${isLastPage} ? 'disabled' : ''">Trang Sau</button>
+</div>
+ -->
+
+				
+				<!-- <div class="wrapper_btnPage">
+					<span th:if="${page > 0}">
+						<a class="btn_page" th:href="'?page=' + ${page}">Trang trước</a>	
+					</span>
+					
+					<span th:if="${totalPage > 1}">
+						<span th:each="i : ${#numbers.sequence(prePage, nextPage)}">
+							<a th:class="${i == page} ? 'btn_page active_btnPage' : 'btn_page'"  th:href="'?page=' + ${i + 1}" th:text="${i + 1}"></a>
+						</span>
+					</span>
+					
+					<span th:if="${page < totalPage - 1}">
+						<a class="btn_page" th:href="'?page=' + ${page + 2}">Trang sau</a>	
+					</span> 
+				</div> -->
+				
+				</div>
+			<!-- 	Menuright   -->
+			<div class="wrapper_search_part_2">
+				<div th:replace="views/MenuRight"></div>
+			</div>
+			</div>
+		</div>
+	<div th:replace="views/hotrochunhadangtin"></div>
+    <div th:replace="views/header-footer/footer"></div>
+</body>
+<script>
+    // Hàm lấy giá trị tham số từ URL
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Hàm tạo URL với tham số mới
+    function updateQueryParam(param, value) {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set(param, value); // Cập nhật hoặc thêm tham số
+        return window.location.pathname + "?" + urlParams.toString();
+    }
+
+    // Thêm sự kiện cho các nút phân trang
+    document.addEventListener("DOMContentLoaded", function () {
+        const prevButton = document.getElementById("prevPage");
+        const nextButton = document.getElementById("nextPage");
+        const pageLinks = document.querySelectorAll(".page-link");
+
+        if (prevButton) {
+            prevButton.addEventListener("click", function () {
+                const currentPage = parseInt(getQueryParam("page")) || 0;
+                if (currentPage > 0) {
+                    window.location.href = updateQueryParam("page", currentPage - 1);
+                }
+            });
+        }
+
+        if (nextButton) {
+            nextButton.addEventListener("click", function () {
+                const currentPage = parseInt(getQueryParam("page")) || 0;
+                window.location.href = updateQueryParam("page", currentPage + 1);
+            });
+        }
+
+        pageLinks.forEach(link => {
+            link.addEventListener("click", function () {
+                const page = this.dataset.page;
+                window.location.href = updateQueryParam("page", page);
+            });
+        });
+    });
+</script>
+
+</html>

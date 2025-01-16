@@ -1,0 +1,91 @@
+/* Reset CSS */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	height: 100%;
+	width:100%;
+	overflow: hidden;
+}
+
+.d-flex{
+	 display: flex; /* Kích hoạt flexbox */
+    flex-direction: row; /* Sắp xếp theo chiều ngang (default là row) */
+    justify-content: space-between; /* Khoảng cách giữa các phần tử */
+}
+/* Sidebar CSS */
+nav {
+	width: 250px;
+	background-color: #333;
+	color: #fff;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	justify-content: flex-start;
+	height: 100vh;
+    position: fixed;
+}
+
+nav h2 {
+	text-align: center;
+	margin-bottom: 20px;
+	font-size: 24px;
+}
+
+nav ul {
+	list-style: none;
+}
+
+nav .nav-item {
+	margin-bottom: 10px;
+}
+
+nav .nav-link {
+	text-decoration: none;
+	color: #fff;
+	padding: 10px 15px;
+	display: block;
+	border-radius: 5px;
+	transition: background-color 0.3s, color 0.3s;
+	
+}
+
+nav .nav-link:hover {
+	background-color: #575757;
+	color: #fff;
+}
+
+nav .nav-link.active {
+    background-color: #1a73e8; /* Màu xanh nhấn mạnh */
+    color: #ffffff;
+    font-weight: bold; /* In đậm */
+    border-left: 4px solid #ffffff; /* Đường nhấn bên trái */
+    padding-left: 11px; /* Đẩy chữ sang phải để bù đường nhấn */
+}
+
+nav .btn-danger {
+	 display: block;
+    margin: 20px auto 0; /* Căn giữa */
+    width: 90%; /* Độ rộng vừa phải */
+    background-color: #e74c3c; /* Màu đỏ */
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+     text-decoration: none; /* Loại bỏ gạch chân */
+}
+
+nav .btn-danger:hover {
+	background-color: #c9302c;
+}
+
+/* Main Content CSS */
+.flex-grow-1 {
+	flex-grow: 1;
+}
