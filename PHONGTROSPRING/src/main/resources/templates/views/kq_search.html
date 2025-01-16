@@ -77,13 +77,13 @@
 				<!-- Phân trang -->
 				
 <!-- Phân trang -->
-<div class="pagination">
-    <!-- Nút Trang Trước -->
+<!-- <div class="pagination">
+    Nút Trang Trước
     <button id="prevPage" class="btn_page" 
         th:disabled="${isFirstPage}" 
         th:class="${isFirstPage} ? 'disabled' : ''">Trang Trước</button>
 
-    <!-- Các số trang -->
+    Các số trang
     <span>
         <a href="javascript:void(0);" class="page-link btn_page" th:each="i : ${#numbers.sequence(1, totalPage)}" 
            th:href="'?page=' + ${i - 1}" 
@@ -92,12 +92,12 @@
         </a>
     </span>
 
-    <!-- Nút Trang Sau -->
+    Nút Trang Sau
     <button id="nextPage" class="btn_page" 
         th:disabled="${isLastPage}" 
         th:class="${isLastPage} ? 'disabled' : ''">Trang Sau</button>
 </div>
-
+ -->
 
 				
 				<!-- <div class="wrapper_btnPage">

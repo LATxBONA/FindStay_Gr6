@@ -170,6 +170,7 @@ ul {
 	cursor: pointer;
 	background-color: #007bff;
 	color: white;
+	margin: .5px 0;
 	transition: background-color 0.3s;
 }
 /* Định dạng popup */

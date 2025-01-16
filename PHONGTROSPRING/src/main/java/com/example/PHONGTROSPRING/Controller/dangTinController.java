@@ -145,9 +145,7 @@ import jakarta.websocket.Session;
 @Controller
 public class dangTinController {
 
-	/*
-	 * @Autowired private LocationService LocationService;
-	 */
+
 	@Autowired
 	private RoomTypesService RoomTypesService;
 	@Autowired
@@ -199,32 +197,7 @@ public class dangTinController {
 		
 	}
 
-	/*
-	 * @GetMapping("/getanh/{id}") public String getanh(@PathVariable String id,
-	 * Model model) { byte[] imageBytes = ServicePostNew.getanh(id); String
-	 * base64Image = "data:image/png;base64," +
-	 * Base64.getEncoder().encodeToString(imageBytes);
-	 * model.addAttribute("base64Image", base64Image); return "views/html";
-	 * 
-	 * }
-	 */
-
-	/*
-	 * @GetMapping("/thanhtoantin") public String thanhtoantin() { return
-	 * "views/thanhtoantin"; }
-	 */
-	/*
-	 * @PostMapping("/successdangtin") public String sucessdangtin(@ModelAttribute
-	 * RequestThanhToan requesttt, HttpSession session) {
-	 * 
-	 * RequestPostNew requestpn = (RequestPostNew)
-	 * session.getAttribute("requestpost");
-	 * //System.out.println("tin tin tin tin tin tin tin"+requestpn.getUrlAnh());
-	 * ServicePostNew.postNew(requestpn, requesttt);
-	 * 
-	 * return "views/dangtin"; }
-	 */
-
+	
 	@GetMapping("/dataget/{goithoigian}")
 	@ResponseBody
 	public List<RequestTime> getthoigian(@PathVariable("goithoigian") String goithoigian) {

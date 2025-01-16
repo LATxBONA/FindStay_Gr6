@@ -199,40 +199,7 @@ public class ListingsController {
 		return "views/search"; // Tên file Thymeleaf để render danh sách
 	}
 
-	/*
-	 * @GetMapping("/search") public String searchByCriteria(
-	 * 
-	 * @RequestParam(value = "minPrice", required = false, defaultValue = "0")
-	 * BigDecimal minPrice,
-	 * 
-	 * @RequestParam(value = "maxPrice", required = false, defaultValue =
-	 * "999999999") BigDecimal maxPrice,
-	 * 
-	 * @RequestParam(value = "minArea", required = false, defaultValue = "0")
-	 * BigDecimal minArea,
-	 * 
-	 * @RequestParam(value = "maxArea", required = false, defaultValue =
-	 * "999999999") BigDecimal maxArea,
-	 * 
-	 * @RequestParam(value = "roomType", required = false) String roomType,
-	 * 
-	 * @RequestParam(value = "city_id", required = false) String city_id,
-	 * 
-	 * @RequestParam(value = "district_id", required = false) String district_id,
-	 * 
-	 * @RequestParam(value = "ward_id", required = false) String ward_id, Model
-	 * model) { // Lấy danh sách dựa trên tiêu chí List<Listings> listings =
-	 * listingsService.getListingsByLAT(minPrice, maxPrice, minArea, maxArea,
-	 * roomType, city_id, district_id, ward_id); model.addAttribute("listings",
-	 * listings);
-	 * 
-	 * // Ghi log để kiểm tra System.out.println("Search params: minPrice=" +
-	 * minPrice + ", maxPrice=" + maxPrice + ", minArea=" + minArea + ", maxArea=" +
-	 * maxArea + ", roomType=" + roomType + ", city_id=" + city_id +
-	 * ", district_id=" + district_id + ", ward_id=" + ward_id);
-	 * 
-	 * return "views/kq_search"; // Render kết quả tìm kiếm trong file Thymeleaf }
-	 */
+
 	@GetMapping("/search")
 	public String searchByCriteria(
 	        @RequestParam(value = "minPrice", required = false, defaultValue = "0") BigDecimal minPrice,
@@ -255,7 +222,7 @@ public class ListingsController {
 	    // Lấy danh sách dựa trên tiêu chí
 	    Page<ListingsResponse> listing = listingsService.getListingsByLAT(
 	            minPrice, maxPrice, minArea, maxArea, roomType, city_id, district_id, ward_id,
-	            PageRequest.of(page, 3) // PageRequest.of(page, size)
+	            PageRequest.of(page, 10) // PageRequest.of(page, size)
 	    );
 
 	    // Lấy danh sách phòng trọ và set ảnh
